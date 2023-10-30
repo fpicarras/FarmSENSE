@@ -1,6 +1,6 @@
 # FarmSENSE
 
-FarmSENSE is an innovative sensor system designed to monitor and optimize agricultural conditions and crop status in real-time. This project aims to provide valuable insights for farmers, enabling data-driven decision-making and increased efficiency in agricultural operations.
+FarmSENSE, "Farm Sensor System for Environmental and Crop Evaluation", is an innovative sensor system designed to monitor and optimize agricultural conditions and crop status in real-time. This project aims to provide valuable insights for farmers, enabling data-driven decision-making and increased efficiency in agricultural operations.
 
 ## Features
 
