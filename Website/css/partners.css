@@ -1,0 +1,45 @@
+.cont {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%; /* Define a largura do contêiner como 100% da largura da tela */
+
+}
+
+
+.r {
+  display: flex;
+  margin-bottom: 20px;
+  margin-left: 3%;
+  flex-wrap: wrap; /* Permite que as imagens se movam para a próxima linha quando não houver espaço suficiente */
+  justify-content: space-between; /* Distribui o espaço entre as imagens ao longo do contêiner */
+}
+
+.r:last-child {
+  margin-bottom: 0;
+}
+
+.image-cont {
+  margin-right: 3%; /* Adiciona mais espaço à direita de cada imagem */
+  margin-bottom: 2%; /* Define a margem inferior entre as imagens como 2% da altura do contêiner */
+  box-sizing: border-box; /* Mantém o padding e a borda dentro da largura especificada */
+}
+
+.image-cont:last-child {
+  margin-right: 0; /* Remove a margem direita da última imagem */
+}
+
+.image-cont img {
+  max-width: 250px; /* Aumenta ligeiramente o tamanho das imagens */
+  opacity: 0.5; /* Define a opacidade inicial */
+  transition: opacity 0.4s ease; /* Transição suave da opacidade */
+}
+
+.image-cont img:hover {
+  opacity: 1; /* Define a opacidade quando o cursor passa por cima */
+}
+
+.image-cont {
+  display: inline-block; /* Faz com que os contêineres se comportem como blocos */
+  margin-right: 10px; /* Adiciona um espaçamento entre as imagens */
+  margin-bottom: 10px; /* Adiciona um espaçamento entre as linhas de imagens */
+}

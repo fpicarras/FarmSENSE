@@ -1,0 +1,15 @@
+.info_contacts {
+
+    color: #ffffff;
+}
+
+.info_contacts a {
+    color: #111; /* Cor branca */
+    text-decoration: none; /* Remove sublinhado padrão dos links */
+    transition: color 0.3s ease; /* Adiciona uma transição suave para a mudança de cor */
+  }
+  
+  .info_contacts a:hover {
+    color: #9acd32; /* Cor quando o cursor passa por cima */
+  }
+  
