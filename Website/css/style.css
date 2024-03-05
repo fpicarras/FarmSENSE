@@ -950,4 +950,26 @@ a:focus {
 .footer_section p a {
   color: inherit;
 }
+
+.btn_box {
+  text-align: center;
+}
+
+button {
+  background-color: #455a1b;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: transform 0.3s, box-shadow 0.3s; /* Adiciona a transição do box-shadow */
+  border-radius: 8px; /* Adiciona bordas arredondadas */
+}
+
+button:hover {
+  transform: scale(1.1); /* Ajusta a escala quando o cursor passa sobre o botão */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* Adiciona um efeito de sombra 3D */
+}
+
+
 /*# sourceMappingURL=style.css.map */
