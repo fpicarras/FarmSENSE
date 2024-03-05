@@ -2,14 +2,13 @@
   max-width: 1200px;
   margin: 0 auto;
   width: 100%; /* Define a largura do contêiner como 100% da largura da tela */
-
 }
-
 
 .r {
   display: flex;
   margin-bottom: 20px;
   margin-left: 3%;
+  margin-right: 3%;
   flex-wrap: wrap; /* Permite que as imagens se movam para a próxima linha quando não houver espaço suficiente */
   justify-content: space-between; /* Distribui o espaço entre as imagens ao longo do contêiner */
 }
@@ -42,4 +41,18 @@
   display: inline-block; /* Faz com que os contêineres se comportem como blocos */
   margin-right: 10px; /* Adiciona um espaçamento entre as imagens */
   margin-bottom: 10px; /* Adiciona um espaçamento entre as linhas de imagens */
+}
+
+/* Media queries para diferentes tamanhos de tela */
+@media screen and (max-width: 768px) {
+  .r {
+    margin-left: 0; /* Remove a margem esquerda das imagens quando a tela for estreita */
+    justify-content: center; /* Centraliza as imagens quando a tela for estreita */
+  }
+  
+  .image-cont {
+    margin-right: 0; /* Remove a margem direita das imagens quando a tela for estreita */
+    margin-bottom: 20px; /* Aumenta a margem inferior entre as imagens quando a tela for estreita */
+    text-align: center; /* Centraliza as imagens quando a tela for estreita */
+  }
 }
