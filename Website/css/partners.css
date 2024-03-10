@@ -5,10 +5,10 @@
 }
 
 .r {
-  display: flex;
+
   margin-bottom: 20px;
-  margin-left: 3%;
-  margin-right: 3%;
+  margin-left: 2%;
+  margin-right: 2%;
   flex-wrap: wrap; /* Permite que as imagens se movam para a próxima linha quando não houver espaço suficiente */
   justify-content: space-between; /* Distribui o espaço entre as imagens ao longo do contêiner */
 }
@@ -18,15 +18,19 @@
 }
 
 .image-cont {
-  margin-right: 3%; /* Adiciona mais espaço à direita de cada imagem */
+  margin-right: 10%; /* Adiciona mais espaço à direita de cada imagem */
+  margin-left: 10%; /* Adiciona mais espaço à direita de cada imagem */
   margin-bottom: 2%; /* Define a margem inferior entre as imagens como 2% da altura do contêiner */
   box-sizing: border-box; /* Mantém o padding e a borda dentro da largura especificada */
+}
+
+.image-cont:first-child {
+  margin-left: 0; /* Remove a margem esquerda da primeira imagem */
 }
 
 .image-cont:last-child {
   margin-right: 0; /* Remove a margem direita da última imagem */
 }
-
 .image-cont img {
   max-width: 250px; /* Aumenta ligeiramente o tamanho das imagens */
   opacity: 0.5; /* Define a opacidade inicial */

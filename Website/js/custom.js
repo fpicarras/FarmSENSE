@@ -115,3 +115,4 @@ function expandirCaixa(idCaixa) {
 
     document.body.appendChild(novaCaixa);
 }
+

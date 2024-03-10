@@ -2,6 +2,18 @@
 <html>
 
 <head>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BH7YE2D4B2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-BH7YE2D4B2');
+  </script>
+
+
   <!-- Basic -->
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -68,6 +80,9 @@
                   <a class="nav-link" href="service.html">Project</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="blog.html">Blog</a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link" href="about.html">About</a>
                 </li>
                 <li class="nav-item">
@@ -87,9 +102,9 @@
     <!-- end header section -->
     <!-- about section -->
 
-    <section class="about_section layout_padding-bottom" style="margin-top: 70px;">
+    <section class="about_section layout_padding-bottom" style="margin-top: 60px;">
       <div class="container">
-        <div class="heading_container">
+        <div class="heading_container" style="margin-bottom: -20px;">
           <h2>
             <a href="about.html"><span>About</span></a> Us
           </h2>
@@ -125,12 +140,12 @@
               </div>
             </div>
           </div>
-        </div>        
+        </div>
       </div>
-    </section>
+    </section>   
 
     <section class="about_section layout_padding-bottom">
-      <div class="container">
+      <div class="container" style="margin-top: -35px;">
         <div class="row">
           <div class="col-md-6">
             <div class="detail-box">
@@ -143,21 +158,22 @@
           </div>
         </div>
       </div>
-      <div class="container" style="margin-top: 3%; margin-bottom: 0;">
+      <div class="container" style="margin-top: 35px; margin-bottom: 0;">
         <!-- Aumenta ligeiramente o espaço abaixo de "Us" -->
         <div class="linha">
           <div class="caixa" style="width: 180px; height: 220px; margin-right: 20px;">
             <!-- Diminui ligeiramente o tamanho das caixas e aumenta o espaçamento -->
             <div class="caixa-front" onclick="expandirCaixa('minhaCaixa')" id="minhaCaixa" 
             data-texto-completo="Filipe's expertise lies in hardware and software intricacies within our project. He leads device design, assembly, and sensor testing, ensuring optimal performance. His role extends to configuring microcontrollers, establishing wireless networks, and managing crop databases. Filipe's technical prowess and attention to detail are indispensable, driving efficiency and innovation in our project's hardware and software domains.">
-              <img src="images/Filipe.jpeg" alt="Imagem 1" width="100px" style="margin-top: 20px;">
+              <img src="images/Filipe.jpeg" alt="Imagem 1" width="100px" style="margin-top: 20px; border-radius: 5px;">
               <p style="font-size: 14px; margin-top: 17px;"><b>Filipe Piçarra</b></p>
               <p style="margin-top: -3px;">
-                <a href="https://www.linkedin.com/seu_perfil" target="_blank" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="fab fa-linkedin"></i></a>
+                <a href="http://linkedin.com/in/filipepicarra" target="_blank" onclick="event.stopPropagation();" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="fab fa-linkedin"></i></a>
 
-                <a href="mailto:filipepicarra@tecnico.ulisboa.pt" target="_blank" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="far fa-envelope"></i></a>
-                
-                <a href="https://github.com/fpicarras" target="_blank" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="fab fa-github"></i></a>                
+                <a href="mailto:filipepicarra@tecnico.ulisboa.pt" target="_blank" onclick="event.stopPropagation();" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="far fa-envelope"></i></a>
+
+                <a href="https://github.com/fpicarras" target="_blank" onclick="event.stopPropagation();" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="fab fa-github"></i></a>
+
             </p>
               <!-- Reduz o tamanho da fonte para que caiba em uma linha -->
             </div>
@@ -166,14 +182,14 @@
             <!-- Diminui ligeiramente o tamanho das caixas e aumenta o espaçamento -->
             <div class="caixa-front" onclick="expandirCaixa('minhaCaixa1')" id="minhaCaixa1"
             data-texto-completo="Francisco is the communication focal point in our project, managing reports, coordinating with external partners, and overseeing field tests. He also lends his creative touch to design websites, videos, and posters. His role ensures seamless communication and adds visual appeal to our project's endeavors, making him an indispensable asset to our team.">
-              <img src="images/Francisco.jpeg" alt="Imagem 2" width="100px" style="margin-top: 20px;">   <!-- Dimensões 1000 alt e 900 larg -->
+              <img src="images/Francisco.jpeg" alt="Imagem 2" width="100px" style="margin-top: 20px; border-radius: 5px;">   <!-- Dimensões 1000 alt e 900 larg -->
               <p style="font-size: 14px; margin-top: 17px;"><b>Francisco Apolinário</b></p>
               <p style="margin-top: -3px;">
-                <a href="https://www.linkedin.com/in/francisco-apolinário" target="_blank" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.linkedin.com/in/francisco-apolinário" target="_blank" onclick="event.stopPropagation();" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="fab fa-linkedin"></i></a>
 
-                <a href="mailto:francisco.apolinario@tecnico.ulisboa.pt" target="_blank" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="far fa-envelope"></i></a>
-                
-                <a href="https://github.com/Fapolinario23" target="_blank" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="fab fa-github"></i></a>                
+                <a href="mailto:francisco.apolinario@tecnico.ulisboa.pt" target="_blank" onclick="event.stopPropagation();" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="far fa-envelope"></i></a>
+
+                <a href="https://github.com/Fapolinario23" target="_blank" onclick="event.stopPropagation();" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="fab fa-github"></i></a>
             </p>
               <!-- Reduz o tamanho da fonte para que caiba em uma linha -->
             </div>
@@ -182,15 +198,16 @@
             <!-- Diminui ligeiramente o tamanho das caixas e aumenta o espaçamento -->
             <div class="caixa-front" onclick="expandirCaixa('minhaCaixa2')" id="minhaCaixa2"
             data-texto-completo="Guilherme heads the subdivision of hardware dedicated to ensuring efficient power sources for our devices round the clock. His primary responsibilities involve overseeing solar panels, batteries, and conducting comprehensive studies to ensure sensor autonomy. Guilherme's role is pivotal in guaranteeing uninterrupted functionality, enabling our devices to operate effectively day and night. His expertise in managing power sources is instrumental in the success of our project, ensuring seamless operations and data collection.">
-              <img src="images/icon.png" alt="Imagem 3" width="100px" style="margin-top: 20px;">
+              <img src="images/Guilherme.jpeg" alt="Imagem 3" width="100px" style="margin-top: 20px; border-radius: 5px;">
               <p style="font-size: 14px; margin-top: 17px;"><b>Guilherme Barros</b></p>
               <p style="margin-top: -3px;">
-                <a href="https://www.linkedin.com/seu_perfil" target="_blank" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="fab fa-linkedin"></i></a>
+                <!--<a href="https://www.linkedin.com/seu_perfil" target="_blank" onclick="event.stopPropagation();" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="fab fa-linkedin"></i></a>
+                -->
+                <a href="mailto:guilherme.barros@tecnico.ulisboa.pt" target="_blank" onclick="event.stopPropagation();" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="far fa-envelope"></i></a>
 
-                <a href="mailto:seu_email@example.com" target="_blank" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="far fa-envelope"></i></a>
+                <a href="https://github.com/GuilhermeLBarros" target="_blank" onclick="event.stopPropagation();" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="fab fa-github"></i></a>
                 
-                <a href="https://github.com/seu_usuario" target="_blank" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="fab fa-github"></i></a>                
-            </p>
+              </p>
               <!-- Reduz o tamanho da fonte para que caiba em uma linha -->
             </div>
           </div>
@@ -198,13 +215,13 @@
             <!-- Diminui ligeiramente o tamanho das caixas e aumenta o espaçamento -->
             <div class="caixa-front" onclick="expandirCaixa('minhaCaixa3')" id="minhaCaixa3" 
             data-texto-completo="Hugo is primarily responsible for developing software for internodal communication in our project. He ensures seamless data transmission between nodes through optimized protocols. Additionally, Hugo actively engages with mentors and advisors to communicate project progress and gather valuable feedback. His dual role as a software developer and communicator enhances collaboration and aligns our efforts with project goals.">
-              <img src="images/Hugo.jpg" alt="Imagem 4" width="100px" style="margin-top: 20px;">
+              <img src="images/Hugo.jpg" alt="Imagem 4" width="100px" style="margin-top: 20px; border-radius: 5px;">
               <p style="font-size: 14px; margin-top: 17px;"><b>Hugo Dezerto</b></p>
               <p style="margin-top: -3px;">
-                <a href="mailto:hugo.dezerto@tecnico.ulisboa.pt" target="_blank" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="far fa-envelope"></i></a>
-                
-                <a href="https://github.com/hdezerto" target="_blank" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="fab fa-github"></i></a>                
-            </p>
+                <a href="mailto:hugo.dezerto@tecnico.ulisboa.pt" target="_blank" onclick="event.stopPropagation();" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="far fa-envelope"></i></a>
+
+                <a href="https://github.com/hdezerto" target="_blank" onclick="event.stopPropagation();" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="fab fa-github"></i></a>
+              </p>
               <!-- Reduz o tamanho da fonte para que caiba em uma linha -->
             </div>
           </div>
@@ -212,13 +229,14 @@
             <!-- Diminui ligeiramente o tamanho das caixas e aumenta o espaçamento -->
             <div class="caixa-front" onclick="expandirCaixa('minhaCaixa4')" id="minhaCaixa4"
             data-texto-completo="Matilde spearheads the hardware aspect of our project, overseeing device design, assembly, and sensor testing. She also manages hardware acquisition and ensures efficient energy management. Matilde's expertise ensures our hardware systems are reliable and effective, laying a strong foundation for project success.">
-              <img src="images/Matilde.jpg" alt="Imagem 5" width="100px" style="margin-top: 20px;">
+              <img src="images/Matilde.jpg" alt="Imagem 5" width="100px" style="margin-top: 20px; border-radius: 5px;">
               <p style="font-size: 14px; margin-top: 17px;"><b>Matilde Sardinha</b></p>
               <p style="margin-top: -3px;">
-                <a href="mailto:matilde.sardinha@tecnico.ulisboa.pt" target="_blank" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="far fa-envelope"></i></a>
-                
-                <a href="https://github.com/matildesardinha" target="_blank" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="fab fa-github"></i></a>                
-            </p>
+
+                <a href="mailto:matilde.sardinha@tecnico.ulisboa.pt" target="_blank" onclick="event.stopPropagation();" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="far fa-envelope"></i></a>
+
+                <a href="https://github.com/matildesardinha" target="_blank" onclick="event.stopPropagation();" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="fab fa-github"></i></a>
+              </p>
               <!-- Reduz o tamanho da fonte para que caiba em uma linha -->
             </div>
           </div>
@@ -226,15 +244,15 @@
             <!-- Diminui ligeiramente o tamanho das caixas e aumenta o espaçamento -->
             <div class="caixa-front" onclick="expandirCaixa('minhaCaixa5')" id="minhaCaixa5" 
             data-texto-completo="Nuno is a key member of our team, focusing on the software subdivision dedicated to computer vision. He leads the integration of computer vision algorithms to recognize crop growth stages and extract relevant data. Nuno's expertise in this area ensures the accurate and efficient analysis of visual information, empowering our project with valuable insights into crop development.">
-              <img src="images/icon.png" alt="Imagem 6" width="100px" style="margin-top: 20px;">
+              <img src="images/Nuno.png" alt="Imagem 6" width="100px" style="margin-top: 25px; border-radius: 5px;">
               <p style="font-size: 14px; margin-top: 17px;"><b>Nuno Abreu</b></p>
               <p style="margin-top: -3px;">
-                <a href="https://www.linkedin.com/seu_perfil" target="_blank" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="fab fa-linkedin"></i></a>
+                <!--<a href="https://www.linkedin.com/seu_perfil" target="_blank" onclick="event.stopPropagation();" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="fab fa-linkedin"></i></a>
+                -->
+                <a href="mailto:nuno.g.tribolet.de.abreu@tecnico.ulisboa.pt " target="_blank" onclick="event.stopPropagation();" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="far fa-envelope"></i></a>
 
-                <a href="mailto:seu_email@example.com" target="_blank" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="far fa-envelope"></i></a>
-                
-                <a href="https://github.com/seu_usuario" target="_blank" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="fab fa-github"></i></a>                
-            </p>
+                <a href="https://github.com/WoneBone" target="_blank" onclick="event.stopPropagation();" style="color: #455a1b; margin-left: 5px; margin-right: 5px; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#23242a';" onmouseout="this.style.color='#455a1b';"><i class="fab fa-github"></i></a>
+                </p>
               <!-- Reduz o tamanho da fonte para que caiba em uma linha -->
             </div>
           </div>
