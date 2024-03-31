@@ -94,6 +94,43 @@
       </header>
       <!-- end contact section -->
 
+      <button onclick="topFunction()" id="myBtn" title="Go to top" style="display: none;">
+        <span class="vertical" style="font-size: 24px;"><strong>&uarr;</strong></span>
+    </button>
+    
+    <script>
+        let mybutton = document.getElementById("myBtn");
+        let lastScrollTop = 0;
+    
+        window.addEventListener("scroll", function() {
+            let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+    
+            if (currentScroll > lastScrollTop) {
+                // Scroll para baixo
+                mybutton.style.display = "block";
+            } else {
+                // Scroll para cima
+                if (currentScroll <= 20) { // Mostra o botão apenas se a rolagem for significativa
+                    mybutton.style.display = "none";
+                }
+            }
+            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Para casos de scroll para cima no topo da página
+        });
+    
+        function topFunction() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            mybutton.style.display = "none"; // Oculta o botão após clicar
+        }
+    
+        // Exibir o botão quando a página é carregada
+        window.onload = function() {
+            mybutton.style.display = "none";
+        };
+    </script>
+
       <section class="service_section layout_padding" style="margin-top: -2%;">
         <div class="container">
           <div class="heading_container" style="margin-bottom: 3%;">
@@ -102,7 +139,7 @@
             </h2>
           </div>
           <div class="row" style="width: 122%;">
-            <!--<div class="blog_post col-md-3">
+            <div class="blog_post col-md-3">
               <div class="blog_image">
                 <img src="images/week7.jpg" alt="Blog Image 7">
               </div>
@@ -112,7 +149,7 @@
                 <a><button onclick="window.location.href='blog/week7.html'"
                   style="background-color: #455a1b; color: white; border: none; padding: 8px 16px; cursor: pointer; font-size: 14px;">Read More</a>
               </div>
-            </div>-->
+            </div>
 
             <div class="blog_post col-md-3">
               <div class="blog_image">

@@ -108,6 +108,43 @@
             </div>
           </header>
 
+          <button onclick="topFunction()" id="myBtn" title="Go to top" style="display: none;">
+            <span class="vertical" style="font-size: 24px;"><strong>&uarr;</strong></span>
+        </button>
+        
+        <script>
+            let mybutton = document.getElementById("myBtn");
+            let lastScrollTop = 0;
+        
+            window.addEventListener("scroll", function() {
+                let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        
+                if (currentScroll > lastScrollTop) {
+                    // Scroll para baixo
+                    mybutton.style.display = "block";
+                } else {
+                    // Scroll para cima
+                    if (currentScroll <= 20) { // Mostra o botão apenas se a rolagem for significativa
+                        mybutton.style.display = "none";
+                    }
+                }
+                lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Para casos de scroll para cima no topo da página
+            });
+        
+            function topFunction() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+                mybutton.style.display = "none"; // Oculta o botão após clicar
+            }
+        
+            // Exibir o botão quando a página é carregada
+            window.onload = function() {
+                mybutton.style.display = "none";
+            };
+        </script>
+
         <section class="service_section layout_padding" style="margin-top: -30px;">
             <div class="service_container">
                 <div class="container ">
@@ -137,7 +174,10 @@
                 <video class="video-container" controls loop autoplay muted style="height: 50%; width: 50%; text-align: center; border: 2px solid #000; border-radius: 5px;">
                     <source src="../videos/week7.webm" type="video/webm" style="width: 100%;">
                 </video>                
-            </div>                   
+            </div>  
+            <div style="text-align:justify; margin-bottom: 50px;">
+              <p>We also realized that the code used for object detection was not flexible enough to switch between models. Consequently, we began rewriting the computer vision code to address this issue.</p>
+            </div>                 
               <button onclick="goBack()" class="btn-box"
                   style="background-color: #455a1b; color: white; border: none; padding: 8px 16px; cursor: pointer; font-size: 14px; margin-top: -5%;">
                   See Less
