@@ -146,6 +146,42 @@
       </div>
     </section>
     
+    <button onclick="topFunction()" id="myBtn" title="Go to top" style="display: none;">
+      <span class="vertical" style="font-size: 24px;"><strong>&uarr;</strong></span>
+  </button>
+  
+  <script>
+      let mybutton = document.getElementById("myBtn");
+      let lastScrollTop = 0;
+  
+      window.addEventListener("scroll", function() {
+          let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+  
+          if (currentScroll > lastScrollTop) {
+              // Scroll para baixo
+              mybutton.style.display = "block";
+          } else {
+              // Scroll para cima
+              if (currentScroll <= 20) { // Mostra o botão apenas se a rolagem for significativa
+                  mybutton.style.display = "none";
+              }
+          }
+          lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Para casos de scroll para cima no topo da página
+      });
+  
+      function topFunction() {
+          window.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+          });
+          mybutton.style.display = "none"; // Oculta o botão após clicar
+      }
+  
+      // Exibir o botão quando a página é carregada
+      window.onload = function() {
+          mybutton.style.display = "none";
+      };
+  </script>
   
     <section class="service_section layout_padding" style="margin-top: -180px;">
       <div class="service_container">
@@ -308,7 +344,7 @@
                         </button>
                         </div>
                         <div class="time">
-                            <h4> 8<sup>th</sup> March 2024</h4>
+                            <h4> 13<sup>th</sup> February 2024</h4>
                         </div>
                     </div>
                 </li>
@@ -324,7 +360,7 @@
                             </button>
                         </div>
                         <div class="time">
-                            <h4> ??<sup>th</sup> February 2024</h4>
+                            <h4> 26<sup>th</sup> March 2024</h4>
                         </div>
                     </div>
                 </li>-->
