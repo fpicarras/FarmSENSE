@@ -1,6 +1,6 @@
 
 
-# Central node (Linux or Windows machine)
+# Central node (Linux or Windows machine) for Python 3.11
 # Code for BLE client
 
 
