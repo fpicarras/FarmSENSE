@@ -50,18 +50,6 @@
       }
     </script>
 
-    <style>
-        /* Define hover effect */
-        .video-container {
-            transition: transform 0.3s ease; /* Smooth transition */
-        }
-
-        .video-container:hover {
-            transform: scale(1.1); /* Increase scale on hover */
-        }
-    </style>
-  
-
 </head>
 
 <body>
@@ -164,17 +152,18 @@
             <div class="container">
               <div style="margin-bottom: 50px; display: flex; justify-content: center;">
                 <div class="img-box" style="height: 70%; width: 70%; text-align: center;">
-                    <img src="../images/week7.jpg" alt="" style="border-radius: 5px; margin: auto; width: 96.5%;">
+                    <img src="../images/week7.jpeg" alt="" style="border-radius: 5px; margin: auto; width: 96.5%;">
                 </div>
               </div>
               <div style="text-align:justify; margin-bottom: 50px;">
                   <p>This week, we established a server to host the database responsible for storing client data. With the server set up, we began simulating data using additional sensors. The primary objective was to construct a framework enabling us to effortlessly store this data through a straightforward HTTP post request, while simultaneously determining the necessary content for these data packets.</p>
               </div>
               <div style="margin-bottom: 50px; display: flex; justify-content: center;">
-                <video class="video-container" controls loop autoplay muted style="height: 50%; width: 50%; text-align: center; border: 2px solid #000; border-radius: 5px;">
+                <video class="" controls loop autoplay muted style="height: 50%; width: 50%; text-align: center; border: 2px solid #000; border-radius: 5px;">
                     <source src="../videos/week7.webm" type="video/webm" style="width: 100%;">
-                </video>                
+                </video> 
             </div>  
+          
             <div style="text-align:justify; margin-bottom: 50px;">
               <p>We also realized that the code used for object detection was not flexible enough to switch between models. Consequently, we began rewriting the computer vision code to address this issue.</p>
             </div>                 
