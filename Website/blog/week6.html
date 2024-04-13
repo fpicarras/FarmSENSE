@@ -157,9 +157,10 @@
                 </div>
               </div>
               <div style="text-align:justify; margin-bottom: 50px;">
-                  <p>In the past week, we have made significant progress in developing a terminal interface for users to access their sensor data. We have successfully created an API capable of registering new users, facilitating logins, and making HTTP requests to retrieve specific node data. This API eliminates the need to directly communicate with the nodes in the field, which will be particularly advantageous as we continue to enhance the user interface.</p>
+                  <p>This week, we established a server to host the database responsible for storing client data. With the server set up, we began simulating data using additional sensors. The primary objective was to construct a framework enabling us to effortlessly store this data through a straightforward HTTP post request, while simultaneously determining the necessary content for these data packets.</p>
                   <p>Simultaneously, we've chosen Flask and Bootstrap for our web app development. We're currently focused on crafting a user-friendly interface using these tools, aiming for both functionality and aesthetics.</p>
-              </div>
+                  <p>During the week, we also came to the realization that swapping out BLE for LoRa grants us a substantially wider reach, on the order of 10 km. Consequently, we made a strategic shift towards utilizing LoRa technology.</p>
+                </div>
               <button onclick="goBack()" class="btn-box"
                   style="background-color: #455a1b; color: white; border: none; padding: 8px 16px; cursor: pointer; font-size: 14px; margin-top: -5%;">
                   See Less
