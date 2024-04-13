@@ -152,28 +152,39 @@
             <div class="row">
               <div class="col-md-6" style="margin-bottom: 30px;">
                 <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
-                  <img src="../images/VsCode.png" alt="" style="border-radius: 5px ">
+                  <img src="../images/database.png" alt="" style="border-radius: 5px ">
                 </div>
               </div>
               <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
                 <p>
-                  Our project's journey initiated with the development of a website template using HTML, CSS, and JavaScript. This process not only laid the groundwork for our digital presence but also immersed us in the essentials of web development.
+                  We've developed a comprehensive system comprising three Python scripts: server.py, sensor.py, and client.py, tailored for monitoring agricultural conditions utilizing sensors. The server, built on Flask, serves as the central hub for receiving and storing sensor data. It employs SQLite for efficient data management, ensuring seamless storage in a database. Our server is hosted on a dedicated machine, accessible via an open port, facilitating data transmission and viewing for authorized users.
                 </p>
-                <p>
-                  Creating the website proved enlightening and challenging. HTML structured our content, CSS breathed life into the design, and JavaScript added dynamic functionality, enhancing user experience.
-              </p>                </div>
+              </div>
               <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
                 <p>
-                  As we navigated through coding and styling, we embraced the intricacies of front-end design, from basics to advanced features. The template, refined through iterations, embodies our project's vision.
+                  To ensure secure access, we've implemented basic level authentication, requiring a username and password for user authentication. This feature enhances data privacy and restricts access to authorized personnel only, safeguarding sensitive agricultural data.
               </p>
               <p>
-                  This journey taught us the transformative power of web development. Our website is a testament to dedication, creativity, and a passion for innovation. As we move forward, we carry the lessons learned during the creation of our digital cornerstone.
-              </p>              </div>
+                In preparation for hardware integration, we've developed simulation scripts to mimic sensor data generation. This allows us to validate system functionality and performance while awaiting the arrival of physical sensors. Through simulated data, we can effectively test system behavior and fine-tune functionalities, ensuring smooth operation upon hardware deployment.              </p>              </div>
+                <style>
+                  video {
+                    position: relative; 
+                    z-index: 1;  
+                    transition: transform 0.3s ease;
+                  }
+
+                  video:hover {
+                      transform: scale(1.1);
+                  }
+              </style>
+              
               <div class="col-md-6" style="margin-bottom: 30px;">
-                <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
-                  <img src="../images/Site.png" alt="" style="border-radius: 5px;">
-                </div>
-              </div>
+                  <div class="img-box" style="width: 90%; height: 90%; margin-left: 5%;">
+                      <video width="100%" height="100%" alt="" controls loop autoplay muted style="border-radius: 5px; ">
+                          <source src="../videos/week7.webm" type="video/webm">
+                      </video>
+                  </div>
+              </div>                          
             </div>
             <div style="margin-top: 30px;">
             <button onclick="goBack()" class="btn-box"

@@ -534,6 +534,7 @@ a:focus {
 
 .about_section .img-box {
   position: relative;
+  z-index: 1;
 }
 
 .about_section .img-box::before,
@@ -544,7 +545,6 @@ a:focus {
   width: 45px;
   height: 70%;
   background-color: #455a1b;
-  z-index: 3;
 }
 
 .about_section .img-box::before {
@@ -555,7 +555,7 @@ a:focus {
 
 .about_section .img-box::after {
   right: 0;
-  z-index: 1;
+  z-index: 0;
   transform: translate(50%, -50%);
 }
 
