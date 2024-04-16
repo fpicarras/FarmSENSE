@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        {% block head %}
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        {% block styles %}
+            <!-- Bootstrap CSS -->
+            {{ bootstrap.load_css() }}
+        {% endblock %}
+        <title>SECA</title>
+        {% endblock %}
+
+    </head>
+    <body>
+        <!-- Your page content -->
+        {% block content %}
+        <form action="" method="post">
+            <button type="submit"  name ="sub_button" value="node1" class="btn btn-primary btn-lg btn-block">Node 1</button>
+            <button type="submit"  name ="sub_button" value="node2" class="btn btn-secondary btn-lg btn-block">Node 2</button>
+            <button type="submit"  name ="sub_button" value="node3" class="btn btn-success btn-lg btn-block">Node 3</button>
+            <button type="submit"  name ="sub_button" value="tomato" class="btn btn-danger btn-lg btn-block">Tomato</button>
+        </form>    
+        {% endblock %}
+
+        {% block scripts %}
+            <!-- Optional JavaScript -->
+            {{ bootstrap.load_js() }}
+        {% endblock %}
+    </body>
+</html>
+
+
