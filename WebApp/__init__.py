@@ -13,9 +13,9 @@ app.secret_key = "hello"
 app.permanent_session_lifetime = timedelta(minutes=5)
 
 
-#@app.route('/')
-#def home():
-#    return render_template('index.html')
+@app.route('/')
+def home():
+    return redirect(url_for("login_user"))
 
 @app.route("/login", methods=["POST", "GET"])
 def login_user():
@@ -66,7 +66,7 @@ def logout():
 
 if __name__ == '__main__':
     app.debug = True
-    app.run()
+    app.run(host='0.0.0.0', port=5001)
 
 
 
