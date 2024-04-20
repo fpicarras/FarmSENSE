@@ -49,6 +49,17 @@
           window.history.back();
       }
     </script>
+
+    <style>
+        /* Define hover effect */
+        .video-container {
+            transition: transform 0.3s ease; /* Smooth transition */
+        }
+
+        .video-container:hover {
+            transform: scale(1.1); /* Increase scale on hover */
+        }
+    </style>
   
 
 </head>
@@ -143,7 +154,7 @@
                         </h2>
                     </div>
                     <div class="heading_container" style="margin-bottom: -5%;">
-                      <h5>3<sup>rd</sup> Mar. - 9<sup>th</sup> Mar.</h5>
+                      <h5>14<sup>th</sup> Apr. - 20<sup>th</sup> Apr.</h5>
                     </div>
                 </div>
             </div>
@@ -153,43 +164,19 @@
             <div class="container">
               <div style="margin-bottom: 50px; display: flex; justify-content: center;">
                 <div class="img-box" style="height: 70%; width: 70%; text-align: center;">
-                    <img src="../images/week4.jpeg" alt="" style="border-radius: 5px; margin: auto; width: 96.5%;">
+                    <img src="../images/week10.jpeg" alt="" style="border-radius: 5px; margin: auto; width: 96.5%;">
                 </div>
               </div>
               <div style="text-align:justify; margin-bottom: 50px;">
-                  <p>During this fourth week, we encountered some challenges in material procurement, prompting us to adapt our task planning to ensure effective project commencement. As a result, we strategically revised our task allocation and scheduling to expedite the project's development phase.</p>
-                  <p style="text-align: right;"><em>(Filipe Piçarra, Francisco Apolinário, Guilherme Barros, Hugo Dezerto, Matilde Sardinha, Nuno Abreu)</em></p>
-                  <!-- Elaborar aquando da resposta do Hugo -->
-                  <p>Throughout the week, our team focused on pushing forward with the prototype. We started by connecting with databases and researching the best computer vision algorithms. But the real breakthrough came in how our nodes communicated with each other. We tackled internodal communication head-on, developing a basic version of mesh communication code. This allowed our network nodes to talk to each other more effectively. Plus, we made sure to incorporate gateway nodes into the mix, which acted as central points for data exchange.</p>
-                  <p style="text-align: right;"><em>(Filipe Piçarra, Nuno Abreu, Hugo Dezerto)</em></p>
-                  <p>We also made calculations related to the energy management of the main node and the auxiliary ones, taking into account the equipment chosen to be used, in order to observe its reliability. </p>
+                  <p>During this week, and taking into account the changes made to the nodes' power supply, due to the change in approach to this issue, new calculations were made relating to their energy management. It was decided that the auxiliary nodes would be powered by batteries, achieving a battery life of around 3 months at a reasonable price. As for the main node, as it needs to be switched on all the time and has a higher energy consumption, and bearing in mind that the LoRa communication used has a range of around 10 kilometres, the best option would be to have it directly connected to the grid, which in small and medium-sized plantations seems like a good option.</p>
                   <p style="text-align: right;"><em>(Guilherme Barros)</em></p>
-                  <p>This week, we also met with our partners to discuss priorities for our prototype. During our meeting with Torriba's representative, we focused on prioritizing disease detection for our prototype. We discussed utilizing computer vision to identify diseases like Alternaria and Mildew, enabling prompt farmer notifications. Integrating intelligent irrigation systems, powered by moisture sensors, emerged as crucial for efficient water distribution and disease prevention. Light sensors were highlighted for pinpointing areas prone to Mildew, aiding targeted preventive measures. Although harvest point identification was considered, we collectively decided to prioritize disease detection and irrigation management. Future expansions may include a weather forecasting system for precise decision-making. Both software and hardware components can be updated for adaptability and scalability.</p>
-              </div>
-              <div style="display: flex; justify-content: center;">
-                <!-- Primeira imagem -->
-                <div style="margin-right: 70px;">
-                    <figure>
-                        <img src="../images/alternariose.jpg" alt="Image depicting Alternaria disease" style="width:100%; max-width:400px; border-radius: 5px;">
-                        <figcaption style="text-align: center; font-style: italic; margin-top: 10px;">Image depicting Alternaria disease</figcaption>
-                    </figure>
-                </div>
-                <!-- Segunda imagem -->
-                <div>
-                    <figure>
-                        <img src="../images/mildio.jpg" alt="Image depicting Alternaria disease" style="width:100%; max-width:400px; border-radius: 5px;">
-                        <figcaption style="text-align: center; font-style: italic; margin-top: 10px;">Image depicting Mildew disease</figcaption>
-                    </figure>
-                </div>
-            </div>            
-            <p style="text-align: right;"><em>(Francisco Apolinário)</em></p>           
+                </div>       
               <button onclick="goBack()" class="btn-box"
                   style="background-color: #455a1b; color: white; border: none; padding: 8px 16px; cursor: pointer; font-size: 14px; margin-top: -5%;">
                   Read Less
               </button>
             </div>
         </section>
-
 
         <!-- footer section -->
         <section class="footer_section">
