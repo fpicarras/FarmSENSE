@@ -24,22 +24,45 @@
     }
 
     .btn-default {
-      background-color: #455a1b;
-      color: #f0f0f0;
+      background-color: #f0f0f0;
+      color: #455a1b;
+      font-weight: bold;
       transition: 0.3s;
     }
 
     .btn-default:hover {
-      color: #f0f0f0;
+      color: #455a1b;
+      font-weight: bold;
       transform: scale(1.1);
     }
 
+    .btn-default2 {
+      background-color: #455a1b;
+      color: #f0f0f0;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .btn-default2:hover {
+      color: #f0f0f0;
+      font-weight: bold;
+      transform: scale(1.1);
+    }
     .form-control {
       width: 400px;
     }
 
     .error {
-      color: red;
+        margin: 0 auto;
+        justify-content: center;
+        text-align: center; 
+        margin-top: 15px;
+        width: 150px;
+        height: 25px;
+        border-radius: 3px;
+        font-weight: bold;
+        background-color: #a70707;
+        color: #f0f0f0
     }
     
     .overlay {
@@ -54,7 +77,7 @@
 
     body:before {
       content: "";
-      background: url('images/login.jpg') no-repeat center center fixed;
+      background: url({{url_for('static', filename='login.jpg')}}) no-repeat center center fixed;
       background-size: cover;
       position: fixed;
       top: 0;
@@ -69,6 +92,8 @@
   <div class="overlay"></div>
   <div class="container">
     <h1><b>Please Login</b></h1>
+    {% extends "layout.html" %}
+    {% block body %}
     <br>
     <form action="" method="post" style="margin: 0 auto; width: 400px;">
       <input type="text" class="form-control" placeholder="Username" name="username" value="{{ request.form.username }}">
@@ -76,10 +101,14 @@
       <input type="password" class="form-control" placeholder="Password" name="password" value="{{ request.form.password }}">
       <br>
       <input class="btn btn-default" type="submit" value="Login">
-    </form>    
+    </form>  
+    <div style="margin-top: 20px;">
+      <button onclick="window.location.href = '/register'; " class=" btn btn-default2">Register</button>
+    </div>  
     {% if error %}
       <p class="error"><strong>Error:</strong> {{ error }}</p>
     {% endif %}
+    {% endblock %}
   </div>
 </body>
 </html>

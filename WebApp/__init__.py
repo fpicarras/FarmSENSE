@@ -1,7 +1,7 @@
 import io, base64
 import matplotlib.pyplot as plt
 from flask_bootstrap import Bootstrap4
-from flask import Flask, render_template,redirect, url_for, request, session
+from flask import Flask, render_template,redirect, url_for, request, session, flash
 
 from datetime import timedelta
 import client
@@ -29,7 +29,8 @@ def login_user():
             session["user"]=user_id
             return redirect(url_for("user"))
         else:
-            return redirect(url_for("login"))
+            flash ("Login error")
+            return redirect(url_for("login_user"))
 
     else:
         if "user" in session:
@@ -63,10 +64,27 @@ def logout():
 	session.pop("user", None)
 	return redirect(url_for("login"))
 
+@app.route("/register", methods=["POST", "GET"])
+def register_u():
+    if request.method == "POST":
+        session.permanent = True
+        user = request.form["username"]
+        password = request.form["password"]
+
+        user_id= client.register_user(user, password)
+        if user_id:
+            session["user"]=user_id
+            return redirect(url_for("user"))
+        else:
+            flash ("Registing error")
+            return redirect(url_for("register_u"))
+
+    else:
+        if "user" in session:
+            return redirect(url_for("user"))
+
+        return render_template("register.html")
 
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0', port=5001)
-
-
-
