@@ -1,6 +1,24 @@
 
 // ESP32 auxiliary node
-// LoRa communication
+// Communication: LoRa
+// Purpose: Send sensor data to the main node
+
+// ATENÇÃO: retirar código do serial monitor quando não estiver ligado a PC, senão não funciona
+
+
+/*
+Wiring (RFM95 <-> Seeed Studio XIAO ESP32S3 Sense):
+3.3V <-> 3.3V
+GND <-> GND
+MISO <-> MISO (D9)
+MOSI <-> MOSI (D10)
+SCK <-> SCK (D8)
+NSS <-> D7 (GPIO44)
+RESET <-> D6 (GPIO43)
+DI0 <-> D5 (GPIO6)
+
+NSS, RESET, and DI0 can be changed in the code using the correspondent GPIO
+*/
 
 
 
@@ -8,11 +26,11 @@
 #include <LoRa.h>
 
 // Define the GPIO pins used by the LoRa transceiver module
-#define ss 6
+#define ss 44
 #define rst 43
-#define dio0 44
+#define dio0 6
 
-#define NODE_ID 1 // Edit for each node
+#define NODE_ID 1 // EDIT for each node
 
 
 
@@ -23,13 +41,13 @@ void setup() {
 
   // Setup LoRa transceiver module
   LoRa.setPins(ss, rst, dio0);
-  // Start LoRa for frequency 866 MHz (default in Europe)
+  // Start LoRa for frequency 868 MHz (default in Europe)
   while (!LoRa.begin(868E6)) {
     Serial.print(". ");
     delay(500);
   }
-  // Define the sync word (0xF1) to match the receiver. Ranges from 0-0xFF
-  LoRa.setSyncWord(0xF1);
+  // Define the sync word (0x01) to match the receiver. Ranges from 0-0xFF
+  LoRa.setSyncWord(0x01);
   Serial.println("LoRa initialization successful!");
 }
 
@@ -39,7 +57,7 @@ void setup() {
 /**
  * @brief Sends a message via LoRa (up to 3 attempts) and waits for an acknowledgment (ACK).
  * 
- * @param message The message to be sent. Format is "NODE <node_id>: <message>"
+ * @param message The message to be sent. Message is formatted as "NODE <node_id>: <message>"
  * @return int Returns 1 if an ACK is received, otherwise returns 0.
  */
 int sendDataLora(String message) {
@@ -92,6 +110,6 @@ void loop() {
   // Periodic sensor data collection ...
 
 
-  sendDataLora(message); // To edit
+  sendDataLora(message); // TO EDIT
   delay(4000);
 }
