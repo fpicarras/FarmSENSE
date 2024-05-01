@@ -29,7 +29,7 @@ def login_user():
             session["user"]=user_id
             return redirect(url_for("user"))
         else:
-            flash ("Login error")
+            flash ("Login Error")
             return redirect(url_for("login_user"))
 
     else:
@@ -76,7 +76,7 @@ def register_u():
             session["user"]=user_id
             return redirect(url_for("user"))
         else:
-            flash ("Registing error")
+            flash ("Registration Error")
             return redirect(url_for("register_u"))
 
     else:
