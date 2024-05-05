@@ -1,4 +1,3 @@
-
 import time
 import math
 from ucollections import namedtuple
@@ -173,7 +172,10 @@ class LoRa(object):
             self._spi_write(REG_4D_PA_DAC, PA_DAC_DISABLE)
 
         self._spi_write(REG_09_PA_CONFIG, PA_SELECT | (self._tx_power - 5))
-        
+    
+    def new_addr(self, new_address):
+        self._this_address = new_address    
+    
     def on_recv(self, message):
         # This should be overridden by the user
         pass
@@ -379,3 +381,4 @@ class LoRa(object):
 
     def close(self):
         self.spi.deinit()
+
