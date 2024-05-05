@@ -170,6 +170,14 @@
               <div style="text-align:justify; margin-bottom: 50px;">
                   <p>During our meeting with the Torriba representative, we delved into the intricacies of integrating sensor data into our web application. The focus was on harnessing this data for predictive analytics, enabling us to forecast planting cycles and pinpoint optimal harvest times with precision. Beyond mere predictions, we explored how these insights could revolutionize agricultural practices by allowing farmers to make informed decisions in real time. A key aspect discussed was utilizing sensor data to promptly alert farmers of critical conditions, empowering them to take proactive measures to protect their crops. Moreover, integrating a weather forecast feature into our app emerged as a valuable addition, providing users with up-to-date information for strategic planning. Overall, the meeting underscored the transformative potential of sensor data in optimizing agricultural efficiency and resilience to environmental factors.</p>
                   <p style="text-align: right;"><em>(Francisco Apolinário, Matilde Sardinha)</em></p>
+                  <p>This week, we also made excellent progress on the Central <-> Nodes communication interface. We successfully established a duplex communication via LoRa, allowing us to extract sensor data from the nodes with ease. However, we encountered a challenge where the central sometimes fails to decode received messages. To address this, we implemented a double ACK method. This means that in addition to the ACKs provided by the LoRa libraries, we also introduced ACKs via the application layer. In this approach, the central sends an OK message only when it comprehends the message sent by the node.
+
+                    Moreover, we added support for handling multiple unknown nodes entering the network. We implemented a DHCP-like method where each node requests a network ID before sending data. The central responds to these requests by assigning a network ID dynamically. This approach allows for the seamless integration of multiple nodes into the network, enabling them to enter, leave, or go to sleep simultaneously without exhausting the limited IDs provided by a LoRa network.
+                    
+                    Finally, we incorporated support for future commands that can be sent to each node via the central.
+                    
+                    In summary, the ESP32 <-> Raspberry Pi LoRa communication is now functional and viable.</p>
+                    <p style="text-align: right;"><em>(Filipe Piçarra)</em></p>
               <button onclick="goBack()" class="btn-box"
                   style="background-color: #455a1b; color: white; border: none; padding: 8px 16px; cursor: pointer; font-size: 14px; margin-top: -5%;">
                   Read Less
