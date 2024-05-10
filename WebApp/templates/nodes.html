@@ -6,24 +6,174 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        {% block styles %}
-            <!-- Bootstrap CSS -->
-            {{ bootstrap.load_css() }}
-        {% endblock %}
+        <!-- fonts style -->
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+        <!--owl slider stylesheet -->
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+        <!-- <link rel="shortcut icon" href="{{ url_for('static', filename='images/SECA.png') }}"> Não estou a conseguir meter a imagem ver porque depois -->
         <title>SECA</title>
         {% endblock %}
 
+        {% block styles %}
+            <!-- Bootstrap CSS -->
+            {{ bootstrap.load_css() }}
+            <style>
+                /* Toolbar */
+                .toolbar {
+                    background-color: #455a1b;
+                    color: #f0f0f0;
+                    padding: 15px;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                    z-index: 9999;
+                    font-size: 20px;
+                }
+
+                .toolbar ul {
+                    list-style-type: none;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .toolbar li {
+                    display: inline;
+                    margin-right: 15px;
+                }
+
+                .toolbar a {
+                    color: #f0f0f0;
+                    text-decoration: none;
+                    transition: transform 0.3s;
+                    
+                }
+
+                .toolbar a:hover {
+                    transform: scale(1.1);
+                }
+
+                .toolbar i {
+                    font-size: 20px;
+                }
+
+                /* Page container (to maintain margins) */
+                .container {
+                    margin: 0 auto;
+                    padding: 0 20px;
+                    width: 80%;
+                }
+
+                /* Nodes buttons */
+                .button-container {
+                    display: flex;
+                    flex-wrap: wrap;
+                }
+
+                .box {
+                    width: calc(33.33% - 30px);
+                    margin-right: 30px;
+                    margin-bottom: 30px;
+                }
+
+                .button-form {
+                    width: 100%;
+                }
+
+                .btn {
+                    width: 100%;
+                    background-color: #455a1b; 
+                    color: #f0f0f0;
+                    border: none; 
+                    padding: 10px; 
+                    border-radius: 5px;
+                    transition: transform 0.3s;
+                }
+
+                .btn:hover {
+                    transform: scale(1.1);
+                    color: #f0f0f0;
+                }
+
+                /* Body (Para não estar subreposto à toolbar)*/
+                body {
+                    margin-top: 80px;
+                }
+
+                /* Várias secções */
+                .section {
+                    padding: 50px 0; 
+                }
+
+                .gray-background {
+                    background-color: #f5f5f5;
+                }
+
+                .white-background {
+                    background-color: #ffffff;
+                }
+
+                .container {
+                    margin: 0 auto;
+                    padding: 0 20px;
+                    width: 80%;
+                    text-align: center;
+                }
+
+                .container h2 {
+                    margin-bottom: 50px;
+                    color: #455a1b;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                }
+            </style>
+        {% endblock %}
     </head>
     <body>
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <ul style="list-style-type: none; padding: 0; margin: 0; display: flex; justify-content: space-between; align-items: center;">
+                <li style="margin-right: auto;"><i class="fas fa-user" style="margin-left: 10px;"></i><span style="margin-left: 20px;"><b>{{ username }}</b></span></li>
+                <li><a onclick="window.location.href = '/user';" class="fas fa-home" style="cursor: pointer; margin-right: 20px;"></a></li>
+                <li><a onclick="window.location.href = '/logout';" class="fas fa-power-off" style="cursor: pointer;"></a></li>
+            </ul>
+        </div>
+
         <!-- Your page content -->
-        {% block content %}
-        <form action="" method="post">
-            <button type="submit"  name ="sub_button" value="node1" class="btn btn-primary btn-lg btn-block">Node 1</button>
-            <button type="submit"  name ="sub_button" value="node2" class="btn btn-secondary btn-lg btn-block">Node 2</button>
-            <button type="submit"  name ="sub_button" value="node3" class="btn btn-success btn-lg btn-block">Node 3</button>
-            <button type="submit"  name ="sub_button" value="tomato" class="btn btn-danger btn-lg btn-block">Tomato</button>
-        </form>
-        {% endblock %}
+        <!-- Meteorology -->
+        <div class="section white-background">
+            <div class="container">
+                <h2>Meteorology</h2>
+                Coming soon...
+            </div>
+        </div>
+
+        <!-- Nodes List -->
+        <div class="section gray-background">
+            <div class="container">
+                <h2>nodes list</h2>
+                <div class="button-container">
+                    <form action="" method="post" class="button-form">
+                        {% if node_list %}
+                            <div class="row">
+                                {% for node in node_list %}
+                                    <div class="box">
+                                        <button type="submit" name="sub_button" value="{{ node }}" class="btn btn-lg"><b>{{ node }}</b></button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p style="font-size: larger;">No nodes available!</p>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>        
 
         {% block scripts %}
             <!-- Optional JavaScript -->

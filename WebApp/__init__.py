@@ -27,6 +27,7 @@ def login_user():
         user_id= client.login(user, password)
         if user_id:
             session["user"]=user_id
+            session["username"]=user
             return redirect(url_for("user"))
         else:
             flash ("Login Error")
@@ -44,7 +45,7 @@ def user():
         if request.method == "POST":
             node = request.form["sub_button"]   
 
-            vbat=client.plot_sensor_data(client.get_sensor_data(session["user"], node, 7))
+            vbat = client.plot_sensor_data(client.get_sensor_data(session["user"], node, 7))
 
             buffer = io.BytesIO()
             plt.savefig(buffer, format='png')
@@ -53,16 +54,26 @@ def user():
             buffer.close()
 
             plot_encoded = base64.b64encode(image_png).decode('utf-8')
-            return render_template("graphics.html", plot_encoded=plot_encoded, value=vbat)
+            username = session["username"] 
+
+            # Get node list
+            node_list = client.get_node_list(session["user"])
+
+            return render_template("graphics.html", plot_encoded=plot_encoded, value=vbat, username=username, node_list=node_list)
         else: 
-            return render_template("nodes.html")
+            username = session["username"] 
+
+            # Get node list
+            node_list = client.get_node_list(session["user"])
+
+            return render_template("nodes.html", username=username, node_list=node_list)
     else:
         return redirect(url_for("login_user"))
 
 @app.route("/logout")
 def logout():
 	session.pop("user", None)
-	return redirect(url_for("login"))
+	return redirect(url_for("login_user"))
 
 @app.route("/register", methods=["POST", "GET"])
 def register_u():
@@ -74,6 +85,7 @@ def register_u():
         user_id= client.register_user(user, password)
         if user_id:
             session["user"]=user_id
+            session["username"]=user
             return redirect(url_for("user"))
         else:
             flash ("Registration Error")

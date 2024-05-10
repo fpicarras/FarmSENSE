@@ -101,10 +101,14 @@ def get_node_list(user_id):
             print("List of nodes:")
             for node in node_list:
                 print(node)
+            return node_list  # Return the node list
         else:
             print("Failed to get node list. Status code:", response.status_code)
+            return []  # Return an empty list if request fails
     except Exception as e:
         print("Exception occurred while getting node list:", e)
+        return []  # Return an empty list if exception occurs
+
 
 # Function to get sensor data from the server
 def get_sensor_data(user_id, node_id, days):
