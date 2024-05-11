@@ -371,7 +371,7 @@
                     document.getElementById("wrapper-bg").style.backgroundPosition = "center";
                     break;
                     case ("Clear"):
-                    document.getElementById("wrapper-bg").style.backgroundImage="url({{url_for('static', filename='cloudy.gif')}})";
+                    document.getElementById("wrapper-bg").style.backgroundImage="url({{url_for('static', filename='clear.gif')}})";
                     document.getElementById("wrapper-bg").style.backgroundRepeat = "no-repeat";
                     document.getElementById("wrapper-bg").style.backgroundSize = "cover";
                     document.getElementById("wrapper-bg").style.backgroundPosition = "center"; 
@@ -405,12 +405,18 @@
 
             // Weather next hours
             let timeNow = new Date().getHours();
-            let adjust = timeNow % 3;
-            let time1 = (timeNow + (3 - adjust)) % 24;
+            let retime = timeNow % 3;
+            let time1 = (timeNow + (3 - retime)) % 24;
             let time2 = (time1 + 3) % 24;
             let time3 = (time2 + 3) % 24;
             let time4 = (time3 + 3) % 24;
             let time5 = (time4 + 3) % 24;
+            let adjust;
+            if (retime == 0){
+                adjust = 0;
+            } else {
+                adjust = 1;
+            }
 
             document.getElementById("wrapper-time1").innerHTML = time1 + "h";
             document.getElementById("wrapper-time2").innerHTML = time2 + "h";
@@ -442,7 +448,7 @@
             iconDay = data.list[adjust+4].weather[0].icon;
             document.getElementById("wrapper-icon-hour5").src = iconBaseUrl + iconDay + iconFormat;
 
-            let aux = (24 - time1)/3;
+            let aux = (24 - time1)/3 + adjust;
             let iconCounts = {};
             let iconPrefix;
 
