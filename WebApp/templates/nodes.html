@@ -62,15 +62,8 @@
                     font-size: 20px;
                 }
 
-                /* Page container (to maintain margins) */
-                .container {
-                    margin: 0 auto;
-                    padding: 0 20px;
-                    width: 80%;
-                }
-
                 /* Nodes buttons */
-                .button-container {
+                .button-containerr {
                     display: flex;
                     flex-wrap: wrap;
                 }
@@ -118,18 +111,22 @@
                     background-color: #ffffff;
                 }
 
-                .container {
+                .containerr {
                     margin: 0 auto;
                     padding: 0 20px;
                     width: 80%;
                     text-align: center;
                 }
 
-                .container h2 {
+                .containerr h2 {
                     margin-bottom: 50px;
                     color: #455a1b;
                     font-weight: bold;
                     text-transform: uppercase;
+                }
+
+                .move-left {
+                    margin-left: -60px;
                 }
             </style>
         {% endblock %}
@@ -147,17 +144,120 @@
         <!-- Your page content -->
         <!-- Meteorology -->
         <div class="section white-background">
-            <div class="container">
+            <div class="containerr">
                 <h2>Meteorology</h2>
-                Coming soon...
+                <div class="container my-5">
+                    <div class="row d-flex justify-content-center">
+                      <div class="col-md-9">
+                        <div id="wrapper-bg" class="card bg-image" style="background-image:">
+                          <!-- Main current data -->
+                          <div class="card-body text-center">
+                            <p class="h2 mb-1" id="wrapper-name" style="color: white"></p>
+                            <p class="mb-1" id="wrapper-description" style="color: white"></p>
+                            <p class="display-1 mb-1" id="wrapper-temp" style="color: white"></p>
+                            <span style="color: white">Pressure: <span id="wrapper-pressure" style="color: white"></span></span>
+                            <span class="mx-2" style="color: white">|</span>
+                            <span style="color: white">Humidity: <span id="wrapper-humidity" style="color: white"></span></span>
+                          </div>
+                
+                          <!-- Current day hourly data -->
+                          <div class="card-body border-top border-bottom">
+                            <div class="row">
+                              <div class="col-2">
+                                <strong class="d-block mb-2" style="color: white"> Now</strong>
+                                <img id="wrapper-icon-hour-now" src="" alt="" style="margin-left: -7px;">
+                                <strong class="d-block" id="wrapper-hour-now" style="color: white"></strong>
+                              </div>
+                              <div class="col-2">
+                                <strong id="wrapper-time1" class="d-block mb-2" style="color: white"></strong>
+                                <img id="wrapper-icon-hour1" src="" alt="" style="margin-left: -7px;">
+                                <strong class="d-block" id="wrapper-hour1" style="color: white"></strong>
+                              </div>
+                              <div class="col-2">
+                                <strong id="wrapper-time2" class="d-block mb-2" style="color: white"></strong>
+                                <img id="wrapper-icon-hour2" src="" alt="" style="margin-left: -7px;">
+                                <strong class="d-block" id="wrapper-hour2" style="color: white"></strong>
+                              </div>
+                              <div class="col-2">
+                                <strong id="wrapper-time3" class="d-block mb-2" style="color: white"> </strong>
+                                <img id="wrapper-icon-hour3" src="" alt="" style="margin-left: -7px;">
+                                <strong class="d-block" id="wrapper-hour3" style="color: white"></strong>
+                              </div>
+                              <div class="col-2">
+                                <strong id="wrapper-time4" class="d-block mb-2" style="color: white"> </strong>
+                                <img id="wrapper-icon-hour4" src="" alt="" style="margin-left: -7px;">
+                                <strong class="d-block" id="wrapper-hour4" style="color: white"></strong>
+                              </div>
+                              <div class="col-2">
+                                <strong id="wrapper-time5" class="d-block mb-2" style="color: white"> </strong>
+                                <img id="wrapper-icon-hour5" src="" alt="" style="margin-left: -7px;">
+                                <strong class="d-block" id="wrapper-hour5" style="color: white"></strong>
+                              </div>
+                            </div>
+                          </div>
+                
+                          <div class="card-body text-align-left">
+                            <div class="row align-items-center move-left">
+                              <div class="col-md-6">
+                                  <strong style="color: white;"></strong>
+                              </div>
+                              <div class="col-md-2">
+                                  <img id="wrapper-icon-day1" src="" alt="" >
+                              </div>
+                              <div class="col-md-4" style="display: inline-block;">
+                                <span id="wrapper-forecast-tempmax-day1" style="color: white";></span>
+                                <span id="wrapper-forecast-tempmin-day1" style="color: rgb(197, 197, 197); margin-left: 10px;"></span>
+                              </div>
+                            </div>          
+                            <div class="row align-items-center move-left">
+                              <div class="col-md-6">
+                                  <strong style="color: white"></strong>
+                              </div>
+                              <div class="col-md-2">
+                                  <img id="wrapper-icon-day2" src="" alt="">
+                              </div>
+                              <div class="col-md-4" style="display: inline-block; ">
+                                <span id="wrapper-forecast-tempmax-day2" style="color: white"></span>
+                                <span id="wrapper-forecast-tempmin-day2" style="color: rgb(197, 197, 197); margin-left: 10px;"></span>
+                              </div>
+                            </div>
+                            <div class="row align-items-center move-left">
+                              <div class="col-md-6">
+                                  <strong style="color: white"></strong>
+                              </div>
+                              <div class="col-md-2">
+                                  <img id="wrapper-icon-day3" src="" alt="" >
+                              </div>
+                              <div class="col-md-4" style="display: inline-block;">
+                                <span id="wrapper-forecast-tempmax-day3" style="color: white"></span>
+                                <span id="wrapper-forecast-tempmin-day3" style="color: rgb(197, 197, 197); margin-left: 10px;"></span>
+                              </div>
+                            </div>
+                            <div class="row align-items-center move-left">
+                              <div class="col-md-6">
+                                  <strong style="color: white"></strong>
+                              </div>
+                              <div class="col-md-2">
+                                  <img id="wrapper-icon-day4" src="" alt="" >
+                              </div>
+                              <div class="col-md-4" style="display: inline-block;">
+                                <span id="wrapper-forecast-tempmax-day4" style="color: white"></span>
+                                <span id="wrapper-forecast-tempmin-day4" style="color: rgb(197, 197, 197); margin-left: 10px;"></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>  
+                  </div>
             </div>
         </div>
 
         <!-- Nodes List -->
         <div class="section gray-background">
-            <div class="container">
+            <div class="containerr">
                 <h2>nodes list</h2>
-                <div class="button-container">
+                <div class="button-containerr">
                     <form action="" method="post" class="button-form">
                         {% if node_list %}
                             <div class="row">
@@ -179,6 +279,279 @@
             <!-- Optional JavaScript -->
             {{ bootstrap.load_js() }}
         {% endblock %}
+
+        <!-- MDB -->
+        <script type="text/javascript" src="js/mdb.umd.min.js"></script>
+        <!-- Custom scripts -->
+    <script type="text/javascript">
+        window.onload = function() {
+            var dataAtual = new Date();
+            var diasDaSemana = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+            // Elementos HTML para os dias da semana
+            var strongElements = document.querySelectorAll('.col-md-6 strong');
+
+            // Atualizando os elementos strong com os dias da semana a partir do próximo dia
+            for (var i = 0; i < strongElements.length; i++) {
+            var diaDaSemana = diasDaSemana[(dataAtual.getDay() + 1 + i) % 7];
+            strongElements[i].innerHTML = diaDaSemana;
+            }
+        };
+
+            /* API call for current weather */
+            let currentWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?"
+            // Usuário pode escolher a localização - automatizar
+            let lat = "lat=39.2599";
+            let long = "lon=-8.58447";
+            let apiOptions = "units=metric";
+            let apiKey = "appid=42dc50634c6d25cc7b6e1cb07c3d466f"; // Se este ID não estiver a funcionar digam-me que tenho 3 de reserva 
+            let currentWeatherFile = currentWeatherUrl + lat + "&" + long + "&" + apiOptions + "&" + apiKey;
+
+            // Icons
+            let iconBaseUrl = "http://openweathermap.org/img/wn/";
+            let iconFormat = ".png";
+
+            let iconDay;
+            let iconFullUrlDay;
+
+            fetch(currentWeatherFile)
+            .then((response) => response.json())
+            .then((data) => {
+            // Dados do clima atual
+            let main = data.weather[0].main;
+            let description = data.weather[0].description;
+            let temp = Math.round(data.main.temp);
+            let pressure = data.main.pressure;
+            let humidity = data.main.humidity;
+            let name = data.name;
+
+            document.getElementById("wrapper-description").innerHTML = description;
+            document.getElementById("wrapper-temp").innerHTML = temp + "°C";
+            document.getElementById("wrapper-pressure").innerHTML = pressure + " hPa";
+            document.getElementById("wrapper-humidity").innerHTML = humidity + "%";
+            document.getElementById("wrapper-name").innerHTML = name;
+            document.getElementById("wrapper-hour-now").innerHTML = temp + "°C";
+
+            iconDay = data.weather[0].icon;
+            document.getElementById("wrapper-icon-hour-now").src = iconBaseUrl + iconDay + iconFormat;
+
+            let day_stage = iconDay.substring(iconDay.length - 1);
+
+            switch(day_stage){
+                case ("n"):
+                document.getElementById("wrapper-bg").style.backgroundImage="url({{url_for('static', filename='night.gif')}})";
+                document.getElementById("wrapper-bg").style.backgroundRepeat = "no-repeat";
+                document.getElementById("wrapper-bg").style.backgroundSize = "cover";
+                document.getElementById("wrapper-bg").style.backgroundPosition = "center";
+                break;
+                default:
+                switch (main){
+                    case ("Snow"):
+                    document.getElementById("wrapper-bg").style.backgroundImage="url({{url_for('static', filename='Snow.gif')}})";
+                    document.getElementById("wrapper-bg").style.backgroundRepeat = "no-repeat";
+                    document.getElementById("wrapper-bg").style.backgroundSize = "cover";
+                    document.getElementById("wrapper-bg").style.backgroundPosition = "center";
+                    break;
+                    case ("Clouds"):
+                    document.getElementById("wrapper-bg").style.backgroundImage="url({{url_for('static', filename='cloudy.gif')}})";
+                    document.getElementById("wrapper-bg").style.backgroundRepeat = "no-repeat";
+                    document.getElementById("wrapper-bg").style.backgroundSize = "cover";
+                    document.getElementById("wrapper-bg").style.backgroundPosition = "center";
+                    break;
+                    case ("Fog"):
+                    document.getElementById("wrapper-bg").style.backgroundImage="url({{url_for('static', filename='fog.gif')}})";
+                    document.getElementById("wrapper-bg").style.backgroundRepeat = "no-repeat";
+                    document.getElementById("wrapper-bg").style.backgroundSize = "cover";
+                    document.getElementById("wrapper-bg").style.backgroundPosition = "center";
+                    break;
+                    case ("Rain"):
+                    document.getElementById("wrapper-bg").style.backgroundImage="url({{url_for('static', filename='rain.gif')}})";
+                    document.getElementById("wrapper-bg").style.backgroundRepeat = "no-repeat";
+                    document.getElementById("wrapper-bg").style.backgroundSize = "cover";
+                    document.getElementById("wrapper-bg").style.backgroundPosition = "center";
+                    break;
+                    case ("Clear"):
+                    document.getElementById("wrapper-bg").style.backgroundImage="url({{url_for('static', filename='cloudy.gif')}})";
+                    document.getElementById("wrapper-bg").style.backgroundRepeat = "no-repeat";
+                    document.getElementById("wrapper-bg").style.backgroundSize = "cover";
+                    document.getElementById("wrapper-bg").style.backgroundPosition = "center"; 
+                    break;
+                    case ("Thunderstorm"):
+                    document.getElementById("wrapper-bg").style.backgroundImage="url({{url_for('static', filename='storm.gif')}})";
+                    document.getElementById("wrapper-bg").style.backgroundRepeat = "no-repeat";
+                    document.getElementById("wrapper-bg").style.backgroundSize = "cover";
+                    document.getElementById("wrapper-bg").style.backgroundPosition = "center";                   
+                    break;
+                    default:
+                    document.getElementById("wrapper-bg").style.backgroundImage="url({{url_for('static', filename='cloudy.gif')}})";
+                    document.getElementById("wrapper-bg").style.backgroundRepeat = "no-repeat";
+                    document.getElementById("wrapper-bg").style.backgroundSize = "cover";
+                    document.getElementById("wrapper-bg").style.backgroundPosition = "center";                  
+                    break;
+                }
+                break;
+            }
+            })
+
+            
+
+            /* API call for hourly forecast */
+            let hourlyForecastUrl = "https://api.openweathermap.org/data/2.5/forecast?";
+            let hourlyForecastFile = hourlyForecastUrl + lat + "&" + long + "&" + apiOptions + "&" + apiKey;
+
+            fetch(hourlyForecastFile)
+            .then((response) => response.json())
+            .then((data) => {
+
+            // Weather next hours
+            let timeNow = new Date().getHours();
+            let adjust = timeNow % 3;
+            let time1 = (timeNow + (3 - adjust)) % 24;
+            let time2 = (time1 + 3) % 24;
+            let time3 = (time2 + 3) % 24;
+            let time4 = (time3 + 3) % 24;
+            let time5 = (time4 + 3) % 24;
+
+            document.getElementById("wrapper-time1").innerHTML = time1 + "h";
+            document.getElementById("wrapper-time2").innerHTML = time2 + "h";
+            document.getElementById("wrapper-time3").innerHTML = time3 + "h";
+            document.getElementById("wrapper-time4").innerHTML = time4 + "h";
+            document.getElementById("wrapper-time5").innerHTML = time5 + "h";
+
+            // Next hours temperatures
+            let hour1 = Math.round(data.list[adjust].main.temp);
+            let hour2 = Math.round(data.list[adjust+1].main.temp);
+            let hour3 = Math.round(data.list[adjust+2].main.temp);
+            let hour4 = Math.round(data.list[adjust+3].main.temp);
+            let hour5 = Math.round(data.list[adjust+4].main.temp);
+
+            document.getElementById("wrapper-hour1").innerHTML = hour1 + "°C";
+            document.getElementById("wrapper-hour2").innerHTML = hour2 + "°C";
+            document.getElementById("wrapper-hour3").innerHTML = hour3 + "°C";
+            document.getElementById("wrapper-hour4").innerHTML = hour4 + "°C";
+            document.getElementById("wrapper-hour5").innerHTML = hour5 + "°C";
+
+            iconDay = data.list[adjust].weather[0].icon;
+            document.getElementById("wrapper-icon-hour1").src = iconBaseUrl + iconDay + iconFormat;
+            iconDay = data.list[adjust+1].weather[0].icon;
+            document.getElementById("wrapper-icon-hour2").src = iconBaseUrl + iconDay + iconFormat;
+            iconDay = data.list[adjust+2].weather[0].icon;
+            document.getElementById("wrapper-icon-hour3").src = iconBaseUrl + iconDay + iconFormat;
+            iconDay = data.list[adjust+3].weather[0].icon;
+            document.getElementById("wrapper-icon-hour4").src = iconBaseUrl + iconDay + iconFormat;
+            iconDay = data.list[adjust+4].weather[0].icon;
+            document.getElementById("wrapper-icon-hour5").src = iconBaseUrl + iconDay + iconFormat;
+
+            let aux = (24 - time1)/3;
+            let iconCounts = {};
+            let iconPrefix;
+
+            // Next days temperatur max & min 
+            let i = 0;
+            let maxTemp = -100;
+            let minTemp = 100;
+            // 1 Day Icon
+            for (i = aux; i < 8 + aux; i++) {
+                iconDay = data.list[i].weather[0].icon;
+                iconPrefix = iconDay.substring(0, 2);
+                iconFullUrlDay = iconBaseUrl + iconDay + iconFormat;
+                if (iconCounts[iconPrefix]) {
+                    iconCounts[iconPrefix]++;
+                } else {
+                    iconCounts[iconPrefix] = 1;
+                }
+                if (maxTemp < data.list[i].main.temp_max){
+                    maxTemp = data.list[i].main.temp_max;
+                }
+                if (minTemp > data.list[i].main.temp_min){
+                    minTemp = data.list[i].main.temp_min;
+                }
+            }
+            let mostCommonIcon = Object.keys(iconCounts).reduce((a, b) => iconCounts[a] > iconCounts[b] ? a : b);
+            document.getElementById("wrapper-icon-day1").src = iconBaseUrl + mostCommonIcon + "d" + iconFormat;
+            aux = i;
+            document.getElementById("wrapper-forecast-tempmax-day1").innerHTML = Math.round(maxTemp) + "°C";
+            document.getElementById("wrapper-forecast-tempmin-day1").innerHTML = Math.round(minTemp) + "°C";
+
+            maxTemp = -100;
+            minTemp = 100;
+            iconCounts = {};
+            // 2 Day Icon
+            for (i = aux; i < 8 + aux; i++) {
+                iconDay = data.list[i].weather[0].icon;
+                iconPrefix = iconDay.substring(0, 2);
+                iconFullUrlDay = iconBaseUrl + iconDay + iconFormat;
+                if (iconCounts[iconPrefix]) {
+                    iconCounts[iconPrefix]++;
+                } else {
+                    iconCounts[iconPrefix] = 1;
+                }
+                if (maxTemp < data.list[i].main.temp_max){
+                    maxTemp = data.list[i].main.temp_max;
+                }
+                if (minTemp > data.list[i].main.temp_min){
+                    minTemp = data.list[i].main.temp_min;
+                }
+            }
+            mostCommonIcon = Object.keys(iconCounts).reduce((a, b) => iconCounts[a] > iconCounts[b] ? a : b);
+            document.getElementById("wrapper-icon-day2").src = iconBaseUrl + mostCommonIcon + "d" + iconFormat;
+            aux = i;
+            document.getElementById("wrapper-forecast-tempmax-day2").innerHTML = Math.round(maxTemp) + "°C";
+            document.getElementById("wrapper-forecast-tempmin-day2").innerHTML = Math.round(minTemp) + "°C";
+            
+            maxTemp = -100;
+            minTemp = 100;
+            iconCounts = {};
+            // 3 Day Icon
+            for (i = aux; i < 8 + aux; i++) {
+                iconDay = data.list[i].weather[0].icon;
+                iconPrefix = iconDay.substring(0, 2);
+                iconFullUrlDay = iconBaseUrl + iconDay + iconFormat;
+                if (iconCounts[iconPrefix]) {
+                    iconCounts[iconPrefix]++;
+                } else {
+                    iconCounts[iconPrefix] = 1;
+                }
+                if (maxTemp < data.list[i].main.temp_max){
+                    maxTemp = data.list[i].main.temp_max;
+                }
+                if (minTemp > data.list[i].main.temp_min){
+                    minTemp = data.list[i].main.temp_min;
+                }
+            }
+            mostCommonIcon = Object.keys(iconCounts).reduce((a, b) => iconCounts[a] > iconCounts[b] ? a : b);
+            document.getElementById("wrapper-icon-day3").src = iconBaseUrl + mostCommonIcon + "d" + iconFormat;
+            aux = i;
+            document.getElementById("wrapper-forecast-tempmax-day3").innerHTML = Math.round(maxTemp) + "°C";
+            document.getElementById("wrapper-forecast-tempmin-day3").innerHTML = Math.round(minTemp) + "°C";
+            
+            maxTemp = -100;
+            minTemp = 100;
+            iconCounts = {};
+            // 4 Day Icon
+            for (i = aux; i < 8 + aux; i++) {
+                iconDay = data.list[i].weather[0].icon;
+                iconPrefix = iconDay.substring(0, 2);
+                iconFullUrlDay = iconBaseUrl + iconDay + iconFormat;
+                if (iconCounts[iconPrefix]) {
+                    iconCounts[iconPrefix]++;
+                } else {
+                    iconCounts[iconPrefix] = 1;
+                }
+                if (maxTemp < data.list[i].main.temp_max){
+                    maxTemp = data.list[i].main.temp_max;
+                }
+                if (minTemp > data.list[i].main.temp_min){
+                    minTemp = data.list[i].main.temp_min;
+                }
+            }
+            mostCommonIcon = Object.keys(iconCounts).reduce((a, b) => iconCounts[a] > iconCounts[b] ? a : b);
+            document.getElementById("wrapper-icon-day4").src = iconBaseUrl + mostCommonIcon + "d"  + iconFormat;
+            aux = i;
+            document.getElementById("wrapper-forecast-tempmax-day4").innerHTML = Math.round(maxTemp) + "°C";
+            document.getElementById("wrapper-forecast-tempmin-day4").innerHTML = Math.round(minTemp) + "°C";
+            })
+        </script>
     </body>
 </html>
 
