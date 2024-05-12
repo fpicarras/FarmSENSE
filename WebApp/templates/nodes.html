@@ -442,9 +442,9 @@
             let time5 = (time4 + 3) % 24;
             let adjust;
             if (retime == 0){
-                adjust = 0;
-            } else {
                 adjust = 1;
+            } else {
+                adjust = 0;
             }
 
             document.getElementById("wrapper-time1").innerHTML = time1 + "h";
