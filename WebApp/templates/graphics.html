@@ -125,9 +125,54 @@
                 font-weight: bold;
                 text-transform: uppercase;
             }
-        </style>
-    {% endblock %}
-</head>
+
+            .highcharts-figure,
+            .highcharts-data-table table {
+                min-width: 360px;
+                max-width: 800px;
+                margin: 1em auto;
+            }
+
+            .highcharts-data-table table {
+                font-family: Verdana, sans-serif;
+                border-collapse: collapse;
+                border: 1px solid #ebebeb;
+                margin: 10px auto;
+                text-align: center;
+                width: 100%;
+                max-width: 500px;
+            }
+
+            .highcharts-data-table caption {
+                padding: 1em 0;
+                font-size: 1.2em;
+                color: #555;
+            }
+
+            .highcharts-data-table th {
+                font-weight: 600;
+                padding: 0.5em;
+            }
+
+            .highcharts-data-table td,
+            .highcharts-data-table th,
+            .highcharts-data-table caption {
+                padding: 0.5em;
+            }
+
+            .highcharts-data-table thead tr,
+            .highcharts-data-table tr:nth-child(even) {
+                background: #f8f8f8;
+            }
+
+            .highcharts-data-table tr:hover {
+                background: #f1f7ff;
+            }
+
+                    </style>
+                {% endblock %}
+            </head>
+
 <body>
     <div class="toolbar">
         <ul style="list-style-type: none; padding: 0; margin: 0; display: flex; justify-content: space-between; align-items: center;">
@@ -137,8 +182,220 @@
         </ul>
     </div>
 
+    
     <h1>Last vbat value: {{ value }} V<h1>
     <h1>Graph Display</h1>
-    <img src="data:image/png;base64,{{ plot_encoded }}" alt="Plot">
+    <!--<img src="data:image/png;base64,{{ plot_encoded }}" alt="Plot">-->
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+    <figure class="highcharts-figure">
+        <div id="container1"></div>
+        <div id="container2"></div>
+        <div id="container3"></div>
+    </figure>
+    <script type="text/javascript">
+
+    var timestamps = JSON.parse('{{ timestamps | safe }}').map(function(dt) { return new Date(dt); });
+    var air_humidity = JSON.parse('{{ air_humidity | safe }}');
+    var soil_humidity = JSON.parse('{{ soil_humidity | safe }}');
+  
+
+    Highcharts.chart('container1', {
+
+    title: {
+        text: 'Air and Soil Humidity',
+        align: 'left'
+    },
+
+    subtitle: {
+        text: 'Source: SECA',
+        align: 'left'
+    },
+
+    yAxis: {
+        title: {
+            text: 'Humidity %'
+        }
+    },
+
+    xAxis: {
+        accessibility: {
+            rangeDescription: 'Range: 2010 to 2020'
+        }
+    },
+
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: 0,
+        }
+    },
+
+    series: [{
+        name: 'Air Humidity',
+        data: air_humidity
+    }, {
+        name: 'Soil Humidity',
+        data: soil_humidity
+    }],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+    
+        });
+
+
+    var air_temperature = JSON.parse('{{ air_temperature | safe }}');
+    
+    Highcharts.chart('container2', {
+    title: {
+        text: 'Air Temperature',
+        align: 'left'
+    },
+
+    subtitle: {
+        text: 'Source: SECA',
+        align: 'left'
+    },
+
+    yAxis: {
+        title: {
+            text: 'Degrees ºC'
+        }
+    },
+
+    xAxis: {
+        accessibility: {
+            rangeDescription: 'Range: 2010 to 2020'
+        }
+    },
+
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: 0,
+            color: '#FDB108'
+        }
+    },
+
+    series: [{
+        name: 'Air Temperature',
+        data: air_temperature
+    }],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+    });
+
+    var luminosity = JSON.parse('{{ luminosity | safe }}');
+    
+    Highcharts.chart('container3', {
+    title: {
+        text: 'Luminosity',
+        align: 'left'
+    },
+
+    subtitle: {
+        text: 'Source: SECA',
+        align: 'left'
+    },
+
+    yAxis: {
+        title: {
+            text: 'Lux'
+        }
+    },
+
+    xAxis: {
+        accessibility: {
+            rangeDescription: 'Range: 2010 to 2020'
+        }
+    },
+
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: 0,
+            color: '#d0077d'
+        }
+    },
+
+    series: [{
+        name: 'Luminosity',
+        data: luminosity
+    }],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+    });
+    </script> 
+ 
 </body>
 </html>

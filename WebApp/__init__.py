@@ -2,6 +2,8 @@ import io, base64
 import matplotlib.pyplot as plt
 from flask_bootstrap import Bootstrap4
 from flask import Flask, render_template,redirect, url_for, request, session, flash
+import datetime
+import json
 
 from datetime import timedelta
 import client
@@ -59,7 +61,24 @@ def user():
             # Get node list
             node_list = client.get_node_list(session["user"])
 
-            return render_template("graphics.html", plot_encoded=plot_encoded, value=vbat, username=username, node_list=node_list)
+            # Data to be plotted
+            data = client.get_sensor_data(session["user"], node, 7)
+
+            timestamps = [datetime.datetime.strptime(measurement[4], '%Y-%m-%d %H:%M:%S') for measurement in data]
+            air_temp = [measurement[0] for measurement in data]
+            air_humidity = [measurement[1] for measurement in data]
+            soil_humidity = [measurement[2] for measurement in data]
+            luminosity = [measurement[3] for measurement in data]
+
+            timestamps_iso = [dt.isoformat() for dt in timestamps]
+
+            timestamps_json = json.dumps(timestamps_iso)
+            air_humidity_json = json.dumps(air_humidity)
+            soil_humidity_json = json.dumps(soil_humidity)
+            air_temperature_json= json.dumps(air_temp)
+            luminosity_json = json.dumps(luminosity)
+
+            return render_template("graphics.html",value=vbat, username=username, node_list=node_list, timestamps=timestamps_json, air_humidity=air_humidity_json, soil_humidity=soil_humidity_json,air_temperature=air_temperature_json,luminosity=luminosity_json, plot_encoded=plot_encoded)
         else: 
             username = session["username"] 
 
