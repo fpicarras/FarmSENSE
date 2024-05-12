@@ -128,6 +128,31 @@
                 .move-left {
                     margin-left: -60px;
                 }
+
+                /* Push to Top Button Styles */
+                #pushToTopBtn {
+                    display: none;
+                    position: fixed;
+                    bottom: 40px;
+                    right: 40px;
+                    background-color: #455a1b;
+                    color: #ffffff;
+                    border: none;
+                    border-radius: 50%; /* Torna o botão redondo */
+                    width: 60px; /* Ajuste a largura conforme necessário */
+                    height: 60px; /* Ajuste a altura conforme necessário */
+                    padding: 0; /* Remova o preenchimento interno */
+                    font-size: 24px;
+                    line-height: 60px; /* Centraliza o texto verticalmente */
+                    text-align: center; /* Centraliza o texto horizontalmente */
+                    cursor: pointer;
+                    z-index: 9999;
+                    transition: transform 0.5s;
+                }
+
+                #pushToTopBtn:hover {
+                    transform: scale(1.1);
+                }
             </style>
         {% endblock %}
     </head>
@@ -140,6 +165,10 @@
                 <li><a onclick="window.location.href = '/logout';" class="fas fa-power-off" style="cursor: pointer;"></a></li>
             </ul>
         </div>
+
+        <!-- Push to Top Button -->
+        <button onclick="topFunction()" id="pushToTopBtn" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+
 
         <!-- Your page content -->
         <!-- Meteorology -->
@@ -413,9 +442,9 @@
             let time5 = (time4 + 3) % 24;
             let adjust;
             if (retime == 0){
-                adjust = 0;
-            } else {
                 adjust = 1;
+            } else {
+                adjust = 0;
             }
 
             document.getElementById("wrapper-time1").innerHTML = time1 + "h";
@@ -557,6 +586,28 @@
             document.getElementById("wrapper-forecast-tempmax-day4").innerHTML = Math.round(maxTemp) + "°C";
             document.getElementById("wrapper-forecast-tempmin-day4").innerHTML = Math.round(minTemp) + "°C";
             })
+
+            window.onscroll = function() {scrollFunction()};
+
+            function scrollFunction() {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    document.getElementById("pushToTopBtn").style.display = "block";
+                } else {
+                    document.getElementById("pushToTopBtn").style.display = "none";
+                }
+            }
+
+            function topFunction() {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
+            function topFunction() {
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth' // Adiciona o efeito suave
+                });
+            }
         </script>
     </body>
 </html>
