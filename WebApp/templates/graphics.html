@@ -63,11 +63,18 @@
                 font-size: 20px;
             }
 
-            /* Page container (to maintain margins) */
-            .container {
+            .containerr {
                 margin: 0 auto;
                 padding: 0 20px;
                 width: 80%;
+                text-align: center;
+            }
+
+            .containerr h2 {
+                margin-bottom: 50px;
+                color: #455a1b;
+                font-weight: bold;
+                text-transform: uppercase;
             }
 
             /* Nodes buttons */
@@ -169,8 +176,48 @@
                 background: #f1f7ff;
             }
 
-                    </style>
-                {% endblock %}
+            /* Push to Top Button Styles */
+            #pushToTopBtn {
+                display: none;
+                position: fixed;
+                bottom: 40px;
+                right: 40px;
+                background-color: #455a1b;
+                color: #ffffff;
+                border: none;
+                border-radius: 50%; /* Torna o botão redondo */
+                width: 60px; /* Ajuste a largura conforme necessário */
+                height: 60px; /* Ajuste a altura conforme necessário */
+                padding: 0; /* Remova o preenchimento interno */
+                font-size: 24px;
+                line-height: 60px; /* Centraliza o texto verticalmente */
+                text-align: center; /* Centraliza o texto horizontalmente */
+                cursor: pointer;
+                z-index: 9999;
+                transition: transform 0.5s;
+            }
+
+                #pushToTopBtn:hover {
+                    transform: scale(1.1);
+                }
+
+            .submit-button {
+                margin-top: 10px;
+                margin-bottom: 30px;
+                padding: 6px 16px;
+                background-color: #455a1b;
+                color: #f0f0f0;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: transform 0.3s;
+            }
+            
+            .submit-button:hover {
+                transform: scale(1.1);
+            }
+            </style>
+        {% endblock %}
             </head>
 
 <body>
@@ -182,9 +229,27 @@
         </ul>
     </div>
 
+    <button onclick="topFunction()" id="pushToTopBtn" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+
+    <div class="section white-background">
+        <div class="containerr">
+            <h2>Battery</h2>
+            {{ value }} V
+        </div>
+    </div>
+
+    <form action="/user" method="POST" style="text-align: center;">
+        <label for="humi" style="display: block; margin-top: -20px;"></label>
+        <select name="humidity" id="humi" size="1" style="width: 140px; padding: 5px;">
+            <option value="today">Last 24 Hours</option>
+            <option value="week">Last 7 Days</option>
+            <option value="month">Last 4 Weeks</option>
+            <option value="year">Last 12 Months</option>
+        </select>
+        <br>
+        <input type="submit" name="submit_button" value="Submit" class="submit-button">
+    </form>    
     
-    <h1>Last vbat value: {{ value }} V<h1>
-    <h1>Graph Display</h1>
     <!--<img src="data:image/png;base64,{{ plot_encoded }}" alt="Plot">-->
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -193,11 +258,31 @@
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
-    <figure class="highcharts-figure">
-        <div id="container1"></div>
-        <div id="container2"></div>
-        <div id="container3"></div>
-    </figure>
+    <div class="section gray-background">
+        <div class="containerr">
+            <h2>Air & Soil Humidity</h2>                   
+            <figure class="highcharts-figure" style="border: 1px solid grey;">
+                <div id="container1"></div>
+            </figure>
+        </div>
+    </div>
+    <div class="section white-background">
+        <div class="containerr">
+            <h2>Air Temperature</h2>
+            <figure class="highcharts-figure" style="border: 1px solid grey;">
+                <div id="container2"></div>
+            </figure>
+        </div>
+    </div>
+    <div class="section gray-background">
+        <div class="containerr">
+            <h2>Luminosity</h2>
+            <figure class="highcharts-figure" style="border: 1px solid grey;">
+                <div id="container3"></div>
+            </figure>
+        </div>
+    </div>
+
     <script type="text/javascript">
 
     var timestamps = JSON.parse('{{ timestamps | safe }}').map(function(dt) { return new Date(dt); });
@@ -394,6 +479,39 @@
         }]
     }
 
+    });
+
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("pushToTopBtn").style.display = "block";
+        } else {
+            document.getElementById("pushToTopBtn").style.display = "none";
+        }
+    }
+
+    function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+    function topFunction() {
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Adiciona o efeito suave
+        });
+    }
+
+    var selectedOption = localStorage.getItem('selectedOption');
+    if (selectedOption) {
+        document.getElementById('humi').value = selectedOption;
+    }
+
+    // Adicionar um ouvinte de evento de mudança ao seletor
+    document.getElementById('humi').addEventListener('change', function() {
+        // Armazenar a opção selecionada no armazenamento local
+        localStorage.setItem('selectedOption', this.value);
     });
     </script> 
  

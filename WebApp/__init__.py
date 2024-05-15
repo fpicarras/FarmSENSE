@@ -45,9 +45,28 @@ def login_user():
 def user():
     if "user" in session:
         if request.method == "POST":
-            node = request.form["sub_button"]   
+            if "sub_button" in request.form:
+                node = request.form["sub_button"]
+                session["node"]=node
 
-            vbat = client.plot_sensor_data(client.get_sensor_data(session["user"], node, 7))
+            if "submit_button" in request.form:
+                batata = request.form["submit_button"]
+                node = session["node"]
+
+            selected_option = request.form.get("humidity")
+
+            if selected_option == "today":
+                days = 1
+            elif selected_option == "week":
+                days = 7
+            elif selected_option == "month":
+                days = 28 
+            elif selected_option == "year":
+                days = 365 
+            else:
+                days = 1
+
+            vbat = client.plot_sensor_data(client.get_sensor_data(session["user"], node, days))
 
             buffer = io.BytesIO()
             plt.savefig(buffer, format='png')
@@ -62,7 +81,7 @@ def user():
             node_list = client.get_node_list(session["user"])
 
             # Data to be plotted
-            data = client.get_sensor_data(session["user"], node, 7)
+            data = client.get_sensor_data(session["user"], node, days)
 
             timestamps = [datetime.datetime.strptime(measurement[4], '%Y-%m-%d %H:%M:%S') for measurement in data]
             air_temp = [measurement[0] for measurement in data]
@@ -78,7 +97,7 @@ def user():
             air_temperature_json= json.dumps(air_temp)
             luminosity_json = json.dumps(luminosity)
 
-            return render_template("graphics.html",value=vbat, username=username, node_list=node_list, timestamps=timestamps_json, air_humidity=air_humidity_json, soil_humidity=soil_humidity_json,air_temperature=air_temperature_json,luminosity=luminosity_json, plot_encoded=plot_encoded)
+            return render_template("graphics.html", value=vbat, username=username, node_list=node_list, timestamps=timestamps_json, air_humidity=air_humidity_json, soil_humidity=soil_humidity_json, air_temperature=air_temperature_json, luminosity=luminosity_json, plot_encoded=plot_encoded)
         else: 
             username = session["username"] 
 
