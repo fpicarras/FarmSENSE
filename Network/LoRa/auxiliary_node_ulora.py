@@ -22,15 +22,18 @@ DI0 <-> D5 (GPIO6)
 NSS, RESET, and DI0 can be changed in the code using the correspondent GPIO
 """
 
+
 from time import sleep
 from ulora import LoRa, ModemConfig, SPIConfig
+import dht
 
 import machine
 
-AUXILIARY_NODE_ADDRESS = 244  # Initial address for every node
-RECIEVED = 0 # Flag to signal if the message send was COMPREHENDED
-DEVICE_ID = "tomato" # Unique to each node -> must find a way to config
-
+# Sensor Pins
+POWER_PIN = 1
+DHT_PIN = 2
+LUM_PIN = 3
+SOIL_PIN = 4 
 
 # Lora Parameters
 RFM95_RST = 43
@@ -40,6 +43,10 @@ RFM95_INT = 6
 RF95_FREQ = 868.0 # MHz
 RF95_POW = 20 # dBm
 CENTRAL_NODE_ADDRESS = 1
+
+AUXILIARY_NODE_ADDRESS = 244  # Initial address for every node
+RECIEVED = 0 # Flag to signal if the message send was COMPREHENDED
+DEVICE_ID = "tomato" # Unique to each node -> must find a way to config
 
 # Initialize LoRa
 lora = LoRa(RFM95_SPIBUS, RFM95_INT, AUXILIARY_NODE_ADDRESS, RFM95_CS,
@@ -115,10 +122,41 @@ while True:
         print("\tFailing to get an ID, retrying in 1s...")
         sleep(1)
 
+
+d = dht.DHT11(machine.Pin(DHT_PIN))
+p = machine.Pin(POWER_PIN, machine.Pin.OUT)
+lum = machine.ADC(machine.Pin(LUM_PIN, machine.Pin.IN))
+lum.atten(machine.ADC.ATTN_11DB)
+soil = machine.ADC(machine.Pin(SOIL_PIN, machine.Pin.IN))
+soil.atten(machine.ADC.ATTN_11DB)
+
+# Calibration
+min_moisture = 3279
+max_moisture = 36682 # Possible error point
+
 # Loop and send data ----- FOR TESTING (to edit) -----
 while True:
-    message = "Test message " + str(counter)
+    p.on()
+    sleep(2)
+    d.measure()
+    temp = d.temperature()
+    hum = d.humidity()
+    moisture = round(100*float(max_moisture - soil.read_u16())/(max_moisture-min_moisture), 2)
+    if moisture > 100:
+        moisture = 100
+    elif moisture < 0:
+        moisture = 0
+    luminosity = round(100*float(65535-lum.read_u16())/65535, 2)
+    
+    # message = "Test message " + str(counter) + " : " + str(temp) + "C-"+str(hum)+"%-"+str(luminosity)+"%"
+    message = DEVICE_ID + "-" + str(temp) + "-"+str(hum)+"-"+str(luminosity)+"-"+str(moisture)
+    
+    print(str(moisture) + "% : " + str(soil.read_u16()))
     send_to(message, CENTRAL_NODE_ADDRESS)
     counter +=1
-    sleep(5)
+    p.off()
+    sleep(1)
     #machine.deepsleep(10000)
+
+
+

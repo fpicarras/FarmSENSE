@@ -18,8 +18,6 @@ RESET <-> !!!!! DON'T CONNECT, CAUSES FAILURE !!!!
 DIO0 <-> GPIO5 (can be changed in the code)
 """
 
-
-
 from raspi_lora import LoRa, ModemConfig
 import time, re
 
@@ -98,10 +96,15 @@ def on_recv(payload):
         else:
             send_to("OK", payload.header_from)
             device_manager.reset_timer(payload.header_from)
-    elif "LOG" in message:
+    else:
+        arr = message.split("-")
+        print("\tFrom: " + arr[0])
+        print("\t  * Temp: " + arr[1] + "ºC")
+        print("\t  * Hum: " + arr[2] + "%")
+        print("\t  * Lumisity: " + arr[3] + "%")
+        print("\t  * Soil: " + arr[4] + "%")
         send_to("OK", payload.header_from)
         device_manager.reset_timer(payload.header_from)
-        print(message)
 
 # Use chip select 0 (CE0). GPIO pin 5 will be used for interrupts
 # The address of this device is CENTRAL_NODE_ADDRESS
@@ -119,4 +122,3 @@ except KeyboardInterrupt:
 
 # Deactivate the module
 lora.close()
-
