@@ -412,7 +412,10 @@
 
                 switch(day_stage){
                     case ("n"):
-                        document.getElementById("wrapper-bg").style.backgroundImage="url('night.gif')";
+                        document.getElementById("wrapper-bg").style.backgroundImage="url({{url_for('static', filename='night.gif')}})";
+                        document.getElementById("wrapper-bg").style.backgroundRepeat = "no-repeat";
+                        document.getElementById("wrapper-bg").style.backgroundSize = "cover";
+                        document.getElementById("wrapper-bg").style.backgroundPosition = "center";
                         break;
                     default:
                     switch (main){
