@@ -48,23 +48,23 @@ def user():
             if "sub_button" in request.form:
                 node = request.form["sub_button"]
                 session["node"]=node
+                days = 1
 
             if "submit_button" in request.form:
                 batata = request.form["submit_button"]
                 node = session["node"]
 
-            selected_option = request.form.get("humidity")
+                selected_option = request.form.get("humidity")
 
-            if selected_option == "today":
-                days = 1
-            elif selected_option == "week":
-                days = 7
-            elif selected_option == "month":
-                days = 28 
-            elif selected_option == "year":
-                days = 365 
-            else:
-                days = 1
+                if selected_option == "today":
+                    days = 1
+                elif selected_option == "week":
+                    days = 7
+                elif selected_option == "month":
+                    days = 28 
+                elif selected_option == "year":
+                    days = 365 
+
 
             vbat = client.plot_sensor_data(client.get_sensor_data(session["user"], node, days))
 

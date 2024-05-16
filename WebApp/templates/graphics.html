@@ -250,7 +250,6 @@
         <input type="submit" name="submit_button" value="Submit" class="submit-button">
     </form>    
     
-    <!--<img src="data:image/png;base64,{{ plot_encoded }}" alt="Plot">-->
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
@@ -508,11 +507,14 @@
         document.getElementById('humi').value = selectedOption;
     }
 
-    // Adicionar um ouvinte de evento de mudança ao seletor
     document.getElementById('humi').addEventListener('change', function() {
-        // Armazenar a opção selecionada no armazenamento local
         localStorage.setItem('selectedOption', this.value);
     });
+
+    window.addEventListener('unload', function() {
+    document.getElementById('humi').value = "today";
+    localStorage.removeItem('selectedOption');
+});
     </script> 
  
 </body>
