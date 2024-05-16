@@ -1,20 +1,32 @@
 from ultralytics import YOLO
 
+from PIL import Image
 import cv2
+import sys
 
 def is_tomato(image_path, model_path):
 
     model = YOLO(model_path)
 
-    results = model.predict(image_path, imgsz = 640, conf = 0.5, show = True, save = True)
-    cv2.waitKey(0)
-    for i, r in enumerate(results):
+    results = model(image_path)
+    # Read the input image
+    image = cv2.imread(image_path)
+    # Annotate the detected objects on the image
+    for result in results:
+        print(result)
+#        print(result.boxes)
+#        print(result.masks)
+        im
+#        print(im)
+        cv2.imshow('YOLO', im)
         cv2.waitKey(0)
-    print(results)
+        cv2.destroyAllWindows()
+
+    return image
 
 if __name__ == "__main__" :
-    model_path = '/home/wonebone/Documents/PIC/laboro_tomato/image-segmentation-yolov8/runs/segment/train4/weights/last.pt'
-    image_path = '/home/wonebone/Pictures/tomatoes.jpg'
+    model_path = './tomato.pt'
+    image_path = sys.argv[1]
     is_tomato(image_path, model_path)
 
 
