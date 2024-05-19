@@ -154,6 +154,46 @@ def get_sensor_data(user_id, node_id, days):
     except Exception as e:
         print("Exception occurred while getting data:", e)
 
+def check_node_status(node):
+    messages = []
+    id = node["node_id"]
+    if node["vbat"] < 3.55:
+        messages.append("Low battery on node " + id)
+    if node["soil_humidity"] >= 90:
+        messages.append("Flooded soil on node " + id)
+    elif node["soil_humidity"] < 10:
+        messages.append("Dry soil on node " + id)
+    if node["air_humidity"] >= 90:
+        messages.append("High humidity on node " + id)
+    elif node["air_humidity"] < 10:
+        messages.append("Low humidity on node " + id)
+    if node["air_temp"] >= 40:
+        messages.append("High temperatures on node " + id)
+    elif node["air_temp"] < 7:
+        messages.append("Low temperatures on node " + id)
+    return messages
+
+# Returns a list of strings with all the notifications from the nodes
+def get_status(user_id):
+    messages = []
+    try:
+        # Construct URL for the endpoint to retrieve measurements for a specific node for the last N days
+        url = f'{SERVER_URL}/status'
+        # Set Authorization header with user ID
+        headers = {'Authorization': user_id}
+        # Send GET request to server
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            data = response.json()
+            for node in data:
+                messages += check_node_status(node)
+            return messages
+        else:
+            print("Failed to get data. Status code:", response.status_code)
+    except Exception as e:
+        print("Exception occurred while getting data:", e)
+
+
 if __name__ == '__main__':
     # Register or login
     '''
