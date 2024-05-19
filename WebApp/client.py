@@ -110,6 +110,27 @@ def get_node_list(user_id):
         return []  # Return an empty list if exception occurs
 
 
+def compresion(data, level):
+    """
+    level:
+        1 -> no compression
+        2 -> two points per day
+        4 -> 4 points/day
+        6 -> 6 points/day
+        ...
+        24 = 1
+    """
+    new_data = []
+    spaces = 24/level
+    i = 0
+    for entry in data:
+        hour = float(entry[4][11:13])+float(entry[4][14:16])/60
+        if hour > i and hour <= i + spaces:
+            new_data.append(entry)
+            i += spaces
+            i %= 24
+    return new_data
+
 # Function to get sensor data from the server
 def get_sensor_data(user_id, node_id, days):
     try:
@@ -121,7 +142,12 @@ def get_sensor_data(user_id, node_id, days):
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
             data = response.json()
-            print(f"Data for node '{node_id}' for the last {days} days:")
+            if days >= 365:
+                data = compresion(data, 2)
+            elif days >= 28:
+                data = compresion(data, 4)
+            elif days >= 7:
+                data = compresion(data, 8)
             return data
         else:
             print("Failed to get data. Status code:", response.status_code)
@@ -130,6 +156,7 @@ def get_sensor_data(user_id, node_id, days):
 
 if __name__ == '__main__':
     # Register or login
+    '''
     choice = input("Register (R) or Login (L): ").lower()
     if choice == 'r':
         name = input("Enter your name: ")
@@ -139,6 +166,8 @@ if __name__ == '__main__':
         name = input("Enter your name: ")
         password = input("Enter your password: ")
         user_id = login(name, password)
+    '''
+    user_id = login('filipe', 'pass')
 
     if user_id:
         # Proceed with your application using the obtained user_id
