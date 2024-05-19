@@ -287,7 +287,18 @@
     var timestamps = JSON.parse('{{ timestamps | safe }}').map(function(dt) { return new Date(dt); });
     var air_humidity = JSON.parse('{{ air_humidity | safe }}');
     var soil_humidity = JSON.parse('{{ soil_humidity | safe }}');
-  
+
+    // Pair timestamps with corresponding humidity values
+    var airHumidityData = timestamps.map(function(timestamp, index) {
+        return [timestamp, air_humidity[index]];
+    });
+ 
+    var soilHumidityData = timestamps.map(function(timestamp, index) {
+        return [timestamp, soil_humidity[index]];
+    });
+
+    const t_length = Math.ceil(timestamps.length/10);
+    console.log('Length of timestamps array divided by 10, rounded up:', t_length);
 
     Highcharts.chart('container1', {
 
@@ -308,10 +319,21 @@
     },
 
     xAxis: {
-        accessibility: {
-            rangeDescription: 'Range: 2010 to 2020'
-        }
-    },
+        categories: timestamps,
+        dateTimeLabelFormats: {
+                hour: '%H:%M',    // Format for hours
+                day: '%e. %b'     // Format for days
+            },
+            labels: {
+                formatter: function() {
+                    return Highcharts.dateFormat('%H:%M', this.value) + '<br/>' + Highcharts.dateFormat('%e. %b', this.value);
+                }
+            },
+            accessibility: {
+                rangeDescription: 'Range: Last 24 hours'
+            },
+            tickInterval: t_length,
+        },
 
     legend: {
         layout: 'vertical',
@@ -330,10 +352,10 @@
 
     series: [{
         name: 'Air Humidity',
-        data: air_humidity
+        data: airHumidityData
     }, {
         name: 'Soil Humidity',
-        data: soil_humidity
+        data: soilHumidityData
     }],
 
     responsive: {
