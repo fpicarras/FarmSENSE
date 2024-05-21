@@ -298,7 +298,6 @@
     });
 
     const t_length = Math.ceil(timestamps.length/10);
-    console.log('Length of timestamps array divided by 10, rounded up:', t_length);
 
     Highcharts.chart('container1', {
 
@@ -377,7 +376,12 @@
 
 
     var air_temperature = JSON.parse('{{ air_temperature | safe }}');
-    
+    // Pair timestamps with corresponding humidity values
+    var airTemperatureData = timestamps.map(function(timestamp, index) {
+        return [timestamp, air_temperature[index]];
+    });
+ 
+   
     Highcharts.chart('container2', {
     title: {
         text: 'Air Temperature',
@@ -396,9 +400,20 @@
     },
 
     xAxis: {
-        accessibility: {
-            rangeDescription: 'Range: 2010 to 2020'
-        }
+        categories: timestamps,
+        dateTimeLabelFormats: {
+                hour: '%H:%M',    // Format for hours
+                day: '%e. %b'     // Format for days
+            },
+            labels: {
+                formatter: function() {
+                    return Highcharts.dateFormat('%H:%M', this.value) + '<br/>' + Highcharts.dateFormat('%e. %b', this.value);
+                }
+            },
+            accessibility: {
+                rangeDescription: 'Range: Last 24 hours'
+            },
+            tickInterval: t_length,
     },
 
     legend: {
@@ -419,7 +434,7 @@
 
     series: [{
         name: 'Air Temperature',
-        data: air_temperature
+        data: airTemperatureData
     }],
 
     responsive: {
@@ -440,6 +455,10 @@
     });
 
     var luminosity = JSON.parse('{{ luminosity | safe }}');
+    // Pair timestamps with corresponding humidity values
+    var luminosityData = timestamps.map(function(timestamp, index) {
+        return [timestamp, luminosity[index]];
+    });
     
     Highcharts.chart('container3', {
     title: {
@@ -459,9 +478,20 @@
     },
 
     xAxis: {
-        accessibility: {
-            rangeDescription: 'Range: 2010 to 2020'
-        }
+        categories: timestamps,
+        dateTimeLabelFormats: {
+                hour: '%H:%M',    // Format for hours
+                day: '%e. %b'     // Format for days
+            },
+            labels: {
+                formatter: function() {
+                    return Highcharts.dateFormat('%H:%M', this.value) + '<br/>' + Highcharts.dateFormat('%e. %b', this.value);
+                }
+            },
+            accessibility: {
+                rangeDescription: 'Range: Last 24 hours'
+            },
+            tickInterval: t_length,
     },
 
     legend: {
@@ -482,7 +512,7 @@
 
     series: [{
         name: 'Luminosity',
-        data: luminosity
+        data: luminosityData
     }],
 
     responsive: {
