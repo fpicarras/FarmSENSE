@@ -4,6 +4,10 @@ from datetime import datetime, timedelta
 import threading
 import uuid
 import hashlib
+import numpy as np
+import cv2
+
+from cv_func import predict
 
 app = Flask(__name__)
 
@@ -185,6 +189,18 @@ def receive_measurements_route():
     data = request.json
     user_id = request.headers.get('Authorization')  # Get user ID from Authorization header
     threading.Thread(target=receive_measurements, args=(user_id, data)).start()
+    return 'Measurement received', 201
+
+@app.route('/image', methods = ['POST'])
+def recieve_image_route():
+    user_id = request.headers.get('Authorization')  # Get user ID from Authorization header
+    image = request.files['img']
+
+    in_memory_file = image.read()
+    np_img = np.frombuffer(in_memory_file, np.uint8)
+    img = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
+
+    predict.detect(img, user_id, 'cv_func/tomato.pt')
     return 'Measurement received', 201
 
 # Route to retrieve measurements for a specific node for the last N days

@@ -5,9 +5,9 @@ import time
 import datetime
 
 from client import login
-
 # URL of your Flask server
-SERVER_URL = 'http://84.90.102.75:59000'
+#SERVER_URL = 'http://84.90.102.75:59000' <- LEMBRAR DE DESCOMENTAR
+SERVER_URL = 'http://127.0.0.1:5000'
 
 # Function to generate sensor data
 def generate_sensor_data(node_id):
@@ -91,13 +91,27 @@ def send_sensor_data(user_id, data):
     except Exception as e:
         print("Exception occurred while sending data:", e)
 
+def send_img(user_id):
+    files = {'img': open("tomato.jpeg", 'rb')}
+    url = f'{SERVER_URL}/image'
+    headers = {'Authorization': user_id}
+
+    response = requests.post(url, files=files, headers=headers)
+    if response.status_code == 201:
+        print("Data sent successfully")
+    else:
+        print("Failed to send data. Status code:", response.status_code)
+
+
 if __name__ == '__main__':
     # List of node IDs
     NODES = ['node1', 'node2', 'node3', 'tomato']
 
     # Prompt user to input user ID
     user_id = login("filipe", "pass")
-
+    send_img(user_id)
+    while True:
+        pass
     try:
         while True:
             # Generate sensor data
