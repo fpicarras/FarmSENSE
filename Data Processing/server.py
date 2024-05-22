@@ -215,6 +215,45 @@ def get_node_list():
     nodes = get_nodes(user_id)
     return jsonify(nodes)
 
+@app.route('/status', methods=['GET'])
+def get_status():
+    user_id = request.headers.get('Authorization')  # Get user ID from Authorization header
+    if not user_id:
+        return 'Unauthorized', 401
+    
+    try:
+        conn = create_connection(f'{user_id}_measurements.db')
+        with conn:
+            cursor = conn.cursor()
+            select_sql = """
+                SELECT node_id, air_temp, air_humidity, soil_humidity, luminosity, timestamp, vbat
+                FROM measurements
+                WHERE (node_id, timestamp) IN (
+                    SELECT node_id, MAX(timestamp)
+                    FROM measurements
+                    GROUP BY node_id
+                )
+            """
+            cursor.execute(select_sql)
+            measurements = cursor.fetchall()
+
+            data = [
+                {
+                    'node_id': row[0],
+                    'air_temp': row[1],
+                    'air_humidity': row[2],
+                    'soil_humidity': row[3],
+                    'luminosity': row[4],
+                    'timestamp': row[5],
+                    'vbat': row[6]
+                } for row in measurements
+            ]
+
+            return jsonify(data), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 if __name__ == '__main__':
     from waitress import serve
     serve(app, host='0.0.0.0', port=5000)

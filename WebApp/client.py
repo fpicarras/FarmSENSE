@@ -110,6 +110,27 @@ def get_node_list(user_id):
         return []  # Return an empty list if exception occurs
 
 
+def compresion(data, level):
+    """
+    level:
+        1 -> no compression
+        2 -> two points per day
+        4 -> 4 points/day
+        6 -> 6 points/day
+        ...
+        24 = 1
+    """
+    new_data = []
+    spaces = 24/level
+    i = 0
+    for entry in data:
+        hour = float(entry[4][11:13])+float(entry[4][14:16])/60
+        if hour > i and hour <= i + spaces:
+            new_data.append(entry)
+            i += spaces
+            i %= 24
+    return new_data
+
 # Function to get sensor data from the server
 def get_sensor_data(user_id, node_id, days):
     try:
@@ -121,15 +142,66 @@ def get_sensor_data(user_id, node_id, days):
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
             data = response.json()
-            print(f"Data for node '{node_id}' for the last {days} days:")
+            if days >= 365:
+                data = compresion(data, 2)
+            elif days >= 28:
+                data = compresion(data, 4)
+            elif days >= 7:
+                data = compresion(data, 8)
             return data
         else:
             print("Failed to get data. Status code:", response.status_code)
     except Exception as e:
         print("Exception occurred while getting data:", e)
 
+def check_node_status(node):
+    messages = []
+    id = node["node_id"]
+
+    # Para já o broken não está a ser utilizado nas notificações
+    if id.lower() == "broken":
+        return messages
+
+    if node["vbat"] < 3.55:
+        messages.append(id + " Low battery! - " + str(node["vbat"]))
+    if node["soil_humidity"] >= 80:
+        messages.append(id + " Flooded soil! - " + str(node["soil_humidity"]) + "%")
+    elif node["soil_humidity"] < 60:
+        messages.append(id + " Dry soil! - " + str(node["soil_humidity"]) + "%")
+    if node["air_humidity"] >= 75:
+        messages.append(id + " High humidity! - " + str(node["air_humidity"]) + "%")
+    elif node["air_humidity"] < 50:
+        messages.append(id + " Low humidity! - " + str(node["air_humidity"]) + "%")
+    if node["air_temp"] >= 28:
+        messages.append(id + " High temperatures! - " + str(node["air_temp"]) + "ºC")
+    elif node["air_temp"] < 24:
+        messages.append(id + " Low temperatures! - " + str(node["air_temp"]) + "ºC")
+    return messages
+
+# Returns a list of strings with all the notifications from the nodes
+def get_status(user_id):
+    messages = []
+    try:
+        # Construct URL for the endpoint to retrieve measurements for a specific node for the last N days
+        url = f'{SERVER_URL}/status'
+        # Set Authorization header with user ID
+        headers = {'Authorization': user_id}
+        # Send GET request to server
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            data = response.json()
+            for node in data:
+                messages += check_node_status(node)
+            return messages
+        else:
+            print("Failed to get data. Status code:", response.status_code)
+    except Exception as e:
+        print("Exception occurred while getting data:", e)
+
+
 if __name__ == '__main__':
     # Register or login
+    '''
     choice = input("Register (R) or Login (L): ").lower()
     if choice == 'r':
         name = input("Enter your name: ")
@@ -139,6 +211,8 @@ if __name__ == '__main__':
         name = input("Enter your name: ")
         password = input("Enter your password: ")
         user_id = login(name, password)
+    '''
+    user_id = login('filipe', 'pass')
 
     if user_id:
         # Proceed with your application using the obtained user_id
