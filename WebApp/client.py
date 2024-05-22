@@ -157,20 +157,25 @@ def get_sensor_data(user_id, node_id, days):
 def check_node_status(node):
     messages = []
     id = node["node_id"]
+
+    # Para já o broken não está a ser utilizado nas notificações
+    if id.lower() == "broken":
+        return messages
+
     if node["vbat"] < 3.55:
-        messages.append("Low battery on node " + id)
-    if node["soil_humidity"] >= 90:
-        messages.append("Flooded soil on node " + id)
-    elif node["soil_humidity"] < 10:
-        messages.append("Dry soil on node " + id)
-    if node["air_humidity"] >= 90:
-        messages.append("High humidity on node " + id)
-    elif node["air_humidity"] < 10:
-        messages.append("Low humidity on node " + id)
-    if node["air_temp"] >= 40:
-        messages.append("High temperatures on node " + id)
-    elif node["air_temp"] < 7:
-        messages.append("Low temperatures on node " + id)
+        messages.append(id + " Low battery! - " + str(node["vbat"]))
+    if node["soil_humidity"] >= 80:
+        messages.append(id + " Flooded soil! - " + str(node["soil_humidity"]) + "%")
+    elif node["soil_humidity"] < 60:
+        messages.append(id + " Dry soil! - " + str(node["soil_humidity"]) + "%")
+    if node["air_humidity"] >= 75:
+        messages.append(id + " High humidity! - " + str(node["air_humidity"]) + "%")
+    elif node["air_humidity"] < 50:
+        messages.append(id + " Low humidity! - " + str(node["air_humidity"]) + "%")
+    if node["air_temp"] >= 28:
+        messages.append(id + " High temperatures! - " + str(node["air_temp"]) + "ºC")
+    elif node["air_temp"] < 24:
+        messages.append(id + " Low temperatures! - " + str(node["air_temp"]) + "ºC")
     return messages
 
 # Returns a list of strings with all the notifications from the nodes

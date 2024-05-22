@@ -41,13 +41,14 @@ def login_user():
 
         return render_template("login.html")
 
+
 @app.route("/user", methods=['GET', 'POST'])
 def user():
     if "user" in session:
         if request.method == "POST":
             if "sub_button" in request.form:
                 node = request.form["sub_button"]
-                session["node"]=node
+                session["node"] = node
                 days = 1
 
             if "submit_button" in request.form:
@@ -65,6 +66,8 @@ def user():
                 elif selected_option == "year":
                     days = 365 
 
+            # Get status messages
+            status_messages = client.get_status(session["user"])
 
             vbat = client.plot_sensor_data(client.get_sensor_data(session["user"], node, days))
 
@@ -104,7 +107,10 @@ def user():
             # Get node list
             node_list = client.get_node_list(session["user"])
 
-            return render_template("nodes.html", username=username, node_list=node_list)
+            # Get status messages
+            status_messages = client.get_status(session["user"])
+
+            return render_template("nodes.html", username=username, node_list=node_list, status_messages=status_messages)
     else:
         return redirect(url_for("login_user"))
 
