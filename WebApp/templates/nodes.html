@@ -197,23 +197,20 @@
                     cursor: pointer;
                     font-size: 24px;
                     z-index: 9999;
-                    transition: top 0.5s; /* Alterada para 'top' */
+                    transition: top 0.5s;
                 }
 
                 .semi-circle:hover {
-                    top: 60px; /* Ajuste para descer */
+                    top: 60px; 
+                }
+
+                .arrow {
+                    transition: transform 0.3s;
+                }
+                .rotate-arrow {
+                    transform: rotate(180deg); /* Rotação da seta */
                 }
                 
-                @keyframes slideDown {
-                    0% { transform: translateY(-100%); }
-                    100% { transform: translateY(0); }
-                }
-
-                @keyframes slideUp {
-                    0% { transform: translateY(0); }
-                    100% { transform: translateY(-100%); }
-                }
-
                 #notificationContainer {
                     position: fixed;
                     top: 50px;
@@ -225,13 +222,29 @@
                     justify-content: center;
                     align-items: center;
                     z-index: 9998;
-                    transition: transform 0.5s ease;
                     animation: slideDown 1s ease-out forwards;
                 }
 
                 #notificationContainer.hide {
-                    display: flex;
-                    animation: slideUp 1s ease-out forwards; 
+                    animation: slideUp 1s ease-out forwards;
+                }
+
+                @keyframes slideUp {
+                    from {
+                        transform: translateY(0%);
+                    }
+                    to {
+                        transform: translateY(-100%);
+                    }
+                }
+
+                @keyframes slideDown {
+                    from {
+                        transform: translateY(-100%);
+                    }
+                    to {
+                        transform: translateY(0%);
+                    }
                 }
 
                 .notifications-content {
@@ -261,7 +274,21 @@
                 .notification b {
                     color: #455a1b;
                 }
-            </style>
+
+                .invisible-button {
+                    border: none;
+                    background: none;
+                    padding: 0;
+                    font-size: inherit;
+                    color: inherit;
+                    cursor: pointer;
+                    transition: transform 0.3s;
+                }
+
+                .invisible-button:hover {
+                    transform: scale(1.1);
+                }
+            </style>                
         {% endblock %}
     </head>
     <body>
@@ -272,7 +299,9 @@
                 <li><a onclick="window.location.href = '/user';" class="fas fa-home" style="cursor: pointer; margin-right: 20px;"></a></li>
                 <li><a onclick="window.location.href = '/logout';" class="fas fa-power-off" style="cursor: pointer;"></a></li>
             </ul>
-            <div id="openNotifications" class="semi-circle" onclick="toggleNotifications()">&#11015;</div>
+            <div id="openNotifications" class="semi-circle" onclick="toggleNotifications()">
+                <div class="arrow">&#11015;</div>
+            </div>
         </div>
        
 
@@ -288,10 +317,10 @@
                     <form action="" method="post" class="">
                         {% for notif in status_messages %}
                             {% set words = notif.split() %}
-                            {% set first_word = words[0] %}
+                            {% set node = words[0] %}
                             {% set remaining_words = ' '.join(words[1:]) %}
                             <div class="notification">
-                                <a href="{{ first_word }}"><b style="font-size: 20px;">{{ first_word }}</b></a><br>
+                                <button class="invisible-button" name="sub_button" value="{{ node }}"><b style="font-size: 20px;">{{ node }}</b></button><br>
                                 {{ remaining_words }}
                             </div>
                         {% endfor %}
@@ -309,7 +338,7 @@
             <div class="containerr">
                 <h2>Meteorology</h2>
                 <label for="cityInput"></label>
-                <input type="text" id="cityInput" name="cityInput" placeholder="City">
+                <input type="text" id="cityInput" name="cityInput" placeholder="Location">
                 <button class="submit-button" id="getWeatherButton">Search</button>
                 <div class="container-lg my-5" id="meteorologySection" style="display: none;">
                     <div class="row d-flex justify-content-center">
@@ -773,7 +802,19 @@
 
         function toggleNotifications() {
             var notificationContainer = document.getElementById("notificationContainer");
-            notificationContainer.style.display = (notificationContainer.style.display === "none") ? "block" : "none";
+            var arrow = document.querySelector("#openNotifications .arrow");
+            
+            if (notificationContainer.style.display === "none") {
+                notificationContainer.style.display = "block";
+                arrow.classList.add("rotate-arrow");
+                document.getElementById("openNotifications").classList.add("up");
+                document.getElementById("openNotifications").classList.remove("down");
+            } else {
+                notificationContainer.style.display = "none";
+                arrow.classList.remove("rotate-arrow");
+                document.getElementById("openNotifications").classList.remove("up");
+                document.getElementById("openNotifications").classList.add("down");
+            }
         }
         </script>
     </body>
