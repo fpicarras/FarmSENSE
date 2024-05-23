@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 import sqlite3
 from datetime import datetime, timedelta
 import threading
@@ -6,8 +6,9 @@ import uuid
 import hashlib
 import numpy as np
 import cv2
+import json
 
-from cv_func import predict
+from img_funcs import predict, files
 
 app = Flask(__name__)
 
@@ -191,17 +192,35 @@ def receive_measurements_route():
     threading.Thread(target=receive_measurements, args=(user_id, data)).start()
     return 'Measurement received', 201
 
-@app.route('/image', methods = ['POST'])
+@app.route('/image', methods = ['POST', 'GET'])
 def recieve_image_route():
     user_id = request.headers.get('Authorization')  # Get user ID from Authorization header
-    image = request.files['img']
+    if not user_id:
+        return 'Unauthorized', 401
+    if request.method == 'POST':
+        
+        image = request.files['img']
 
-    in_memory_file = image.read()
-    np_img = np.frombuffer(in_memory_file, np.uint8)
-    img = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
+        in_memory_file = image.read()
+        np_img = np.frombuffer(in_memory_file, np.uint8)
+        img = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
 
-    predict.detect(img, user_id, 'cv_func/tomato.pt')
-    return 'Measurement received', 201
+        predict.detect(img, user_id, 'img_funcs/tomato.pt')
+        return 'Measurement received', 201
+    elif request.method == 'GET':
+        f = files.get_latest_files(user_id, 1)
+        if f[0] == [] or f[1] == []:
+            return "No images under given ID!", 404
+        img = f[1][0]
+        dict = f[0][0]
+        if request.headers.get('opt') == "img":
+            return send_file(user_id + "/" + img, mimetype='image/png')
+        elif request.headers.get('opt') == "data":
+            print(user_id + "/" + dict)
+            f = open(user_id + "/" + dict)
+            dict = f.read()
+            f.close()
+            return dict
 
 # Route to retrieve measurements for a specific node for the last N days
 @app.route('/measurements/<node_id>/<int:days>', methods=['GET'])

@@ -6,8 +6,7 @@ import datetime
 
 from client import login
 # URL of your Flask server
-#SERVER_URL = 'http://84.90.102.75:59000' <- LEMBRAR DE DESCOMENTAR
-SERVER_URL = 'http://127.0.0.1:5000'
+SERVER_URL = 'http://84.90.102.75:59000'
 
 # Function to generate sensor data
 def generate_sensor_data(node_id):
@@ -102,6 +101,31 @@ def send_img(user_id):
     else:
         print("Failed to send data. Status code:", response.status_code)
 
+def get_image(user_id, output_name):
+    try:
+        # Construct URL for the endpoint to retrieve measurements for a specific node for the last N days
+        url = f'{SERVER_URL}/image'
+        # Set Authorization header with user ID
+        headers = {'Authorization': user_id, 'opt': "img"}
+        # Attempt to get image
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            with open(output_name, 'wb') as f:
+                f.write(response.content)
+        else:
+            print("Failed to get data. Status code:", response.status_code)
+            return
+        # Attempt to get image data
+        headers = {'Authorization': user_id, 'opt': "data"}
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            return json.loads(response.content)
+        else:
+            print("Failed to get data. Status code:", response.status_code)
+            return
+    except Exception as e:
+        print("Exception occurred while getting data:", e)    
+
 
 if __name__ == '__main__':
     # List of node IDs
@@ -109,9 +133,14 @@ if __name__ == '__main__':
 
     # Prompt user to input user ID
     user_id = login("filipe", "pass")
-    send_img(user_id)
-    while True:
-        pass
+    #send_img(user_id)
+
+    # Construct URL for the endpoint to retrieve the list of nodes
+    #send_img(user_id)
+    print(get_image(user_id, "testi.jpg"))
+
+    exit
+    """
     try:
         while True:
             # Generate sensor data
@@ -123,3 +152,4 @@ if __name__ == '__main__':
             time.sleep(900)
     except KeyboardInterrupt:
         print("Simulation stopped by user.")
+    """

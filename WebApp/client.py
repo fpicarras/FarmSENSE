@@ -3,6 +3,7 @@ from matplotlib.dates import DateFormatter
 import datetime
 import requests
 import csv
+import json
 
 # URL of your Flask server
 SERVER_URL = 'http://84.90.102.75:59000'
@@ -197,6 +198,31 @@ def get_status(user_id):
             print("Failed to get data. Status code:", response.status_code)
     except Exception as e:
         print("Exception occurred while getting data:", e)
+
+def get_image(user_id, output_name):
+    try:
+        # Construct URL for the endpoint to retrieve measurements for a specific node for the last N days
+        url = f'{SERVER_URL}/image'
+        # Set Authorization header with user ID
+        headers = {'Authorization': user_id, 'opt': "img"}
+        # Attempt to get image
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            with open(output_name, 'wb') as f:
+                f.write(response.content)
+        else:
+            print("Failed to get data. Status code:", response.status_code)
+            return
+        # Attempt to get image data
+        headers = {'Authorization': user_id, 'opt': "data"}
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            return json.loads(response.content)
+        else:
+            print("Failed to get data. Status code:", response.status_code)
+            return
+    except Exception as e:
+        print("Exception occurred while getting data:", e)    
 
 
 if __name__ == '__main__':

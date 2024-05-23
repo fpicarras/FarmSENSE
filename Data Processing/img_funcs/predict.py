@@ -27,7 +27,7 @@ def tomato_thread(in_image, UID, model_path):
     out_image, detect = is_tomato(in_image, model_path)
     print(detect)
     date = datetime.now()
-    name = date.strftime("%d-%m-%Y_%H:%M:%S")
+    name = date.strftime("%d-%m-%Y_%H-%M-%S")
     if not os.path.exists(UID):
         os.mkdir(UID)
     cv2.imwrite(UID + '/' + name + ".png", out_image)
