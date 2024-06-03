@@ -10,7 +10,7 @@ def is_tomato(in_image, model_path):
 
     model = YOLO(model_path)
 
-    results = model(in_image)
+    results = model(in_image, conf = 0.65)
     detect = {}
     for result in results:
         im = result.plot()
