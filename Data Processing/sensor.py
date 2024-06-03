@@ -5,7 +5,6 @@ import time
 import datetime
 
 from client import login
-
 # URL of your Flask server
 SERVER_URL = 'http://84.90.102.75:59000'
 
@@ -91,13 +90,57 @@ def send_sensor_data(user_id, data):
     except Exception as e:
         print("Exception occurred while sending data:", e)
 
+def send_img(user_id):
+    files = {'img': open("tomato.jpeg", 'rb')}
+    url = f'{SERVER_URL}/image'
+    headers = {'Authorization': user_id}
+
+    response = requests.post(url, files=files, headers=headers)
+    if response.status_code == 201:
+        print("Data sent successfully")
+    else:
+        print("Failed to send data. Status code:", response.status_code)
+
+def get_image(user_id, output_name):
+    try:
+        # Construct URL for the endpoint to retrieve measurements for a specific node for the last N days
+        url = f'{SERVER_URL}/image'
+        # Set Authorization header with user ID
+        headers = {'Authorization': user_id, 'opt': "img"}
+        # Attempt to get image
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            with open(output_name, 'wb') as f:
+                f.write(response.content)
+        else:
+            print("Failed to get data. Status code:", response.status_code)
+            return
+        # Attempt to get image data
+        headers = {'Authorization': user_id, 'opt': "data"}
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            return json.loads(response.content)
+        else:
+            print("Failed to get data. Status code:", response.status_code)
+            return
+    except Exception as e:
+        print("Exception occurred while getting data:", e)    
+
+
 if __name__ == '__main__':
     # List of node IDs
     NODES = ['node1', 'node2', 'node3', 'tomato']
 
     # Prompt user to input user ID
     user_id = login("filipe", "pass")
+    #send_img(user_id)
 
+    # Construct URL for the endpoint to retrieve the list of nodes
+    #send_img(user_id)
+    print(get_image(user_id, "testi.jpg"))
+
+    exit
+    """
     try:
         while True:
             # Generate sensor data
@@ -109,3 +152,4 @@ if __name__ == '__main__':
             time.sleep(900)
     except KeyboardInterrupt:
         print("Simulation stopped by user.")
+    """

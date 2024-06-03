@@ -1,0 +1,4 @@
+ultralytics
+bootstrap_flask
+requests
+matplotlib
