@@ -38,7 +38,7 @@ def detect(in_image, UID, model_path):
     t.start()
 
 if __name__ == "__main__" :
-    model_path = './tomato.pt'
+    model_path = sys.argv[2]
     image_path = sys.argv[1]
     in_image = cv2.imread(image_path)
     if in_image is None:
