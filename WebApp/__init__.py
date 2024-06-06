@@ -70,7 +70,22 @@ def user():
             status_messages = client.get_status(session["user"])
 
             vbat = client.plot_sensor_data(client.get_sensor_data(session["user"], node, days))
+            bat_perc = 0.0
+            bat_max = 4.2
+            bat_min = 3.0
 
+            if vbat > 3.7:
+                bat_perc = 80.0 + (vbat - 3.7) / (bat_max - 3.7) * 20.0
+            elif 3.5 <= vbat <= 3.7:
+                bat_perc = 20.0 + (vbat - 3.5) / 0.2 * 60.0
+            else:
+                bat_perc = (vbat - bat_min) / (3.5 - bat_min) * 20.0
+
+            bat_perc = max(0.0, min(100.0, bat_perc))
+
+            bat_perc_rounded = round(bat_perc)
+
+                
             buffer = io.BytesIO()
             plt.savefig(buffer, format='png')
             buffer.seek(0)
@@ -100,7 +115,7 @@ def user():
             air_temperature_json= json.dumps(air_temp)
             luminosity_json = json.dumps(luminosity)
 
-            return render_template("graphics.html", value=vbat, username=username, node_list=node_list, timestamps=timestamps_json, air_humidity=air_humidity_json, soil_humidity=soil_humidity_json, air_temperature=air_temperature_json, luminosity=luminosity_json, plot_encoded=plot_encoded)
+            return render_template("graphics.html", value=bat_perc_rounded, username=username, node_list=node_list, timestamps=timestamps_json, air_humidity=air_humidity_json, soil_humidity=soil_humidity_json, air_temperature=air_temperature_json, luminosity=luminosity_json, plot_encoded=plot_encoded)
         else: 
             username = session["username"] 
 

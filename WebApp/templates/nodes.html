@@ -300,7 +300,7 @@
                 <li><a onclick="window.location.href = '/logout';" class="fas fa-power-off" style="cursor: pointer;"></a></li>
             </ul>
             <div id="openNotifications" class="semi-circle" onclick="toggleNotifications()">
-                <div class="arrow">&#11015;</div>
+                <div class="arrow"><i class="fas fa-arrow-down"></i></div>
             </div>
         </div>
        
@@ -325,8 +325,6 @@
                             </div>
                         {% endfor %}
                     </form>
-                {% else %}
-                    <p style="font-size: larger;">Não tem notificações!</p>
                 {% endif %}
             </div>
         </div>
@@ -459,17 +457,29 @@
                                     {% if node != "broken" %}
                                         <div class="box">
                                             <button type="submit" name="sub_button" value="{{ node }}" class="btn btn-lg"><b>{{ node }}</b></button>
+                                            <div><i class="fa fa-battery-full"></i> {{ value }} %</div>
+                                            <div><i class='fas fa-sun'></i>{{luminosity}} Lux</div>
+                                            <div><i class="fa fa-thermometer-half"></i> {{air_temperature}} ºC</div>
+                                            <div><i class="fa fa-tint"></i> {{soil_humidity}} %</div>
+                                            <div><i class="fa fa-wind"></i> {{air_humidity}} %</div> 
                                         </div>
                                     {% endif %}
                                 {% endfor %}
                             </div>
                         {% else %}
-                            <p style="font-size: larger;">You have no notifications!</p>
+                            <p style="font-size: larger;">No nodes avaliable!</p>
                         {% endif %}
                     </form>
                 </div>
             </div>
         </div>    
+        <!--
+            <i class="fa fa-battery-full"></i>
+            <i class='fas fa-sun'></i>
+            <i class="fa fa-thermometer-half"></i>
+            <i class="fa fa-tint"></i>
+            <i class="fa fa-wind"></i>
+        -->
 
         {% block scripts %}
             <!-- Optional JavaScript -->

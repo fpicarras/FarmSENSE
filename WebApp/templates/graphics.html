@@ -216,6 +216,26 @@
             .submit-button:hover {
                 transform: scale(1.1);
             }
+
+            .flex-container {
+                display: flex;
+                width: 100%;
+            }
+
+            .left-half, .right-half {
+                flex: 1;
+                padding: 20px;
+            }
+
+            .left-half {
+                text-align: center;
+                margin-left: 80px;
+            }
+
+            .right-half {
+                text-align: center;
+                margin-right: 80px;
+            }
             </style>
         {% endblock %}
             </head>
@@ -233,22 +253,29 @@
 
     <div class="section white-background">
         <div class="containerr">
-            <h2>Battery</h2>
-            {{ value }} V
+            <h2>Node Info</h2>
+            <div class="flex-container">
+                <div class="left-half" style="margin-left: 200px;">
+                    <h5>Battery</h5>
+                    <div  style="font-size: 18px; margin-top: 20px;"><i class="fa fa-battery-full battery-icon"></i> {{ value }} %</div>
+                </div>
+                <div class="right-half" style="margin-right: 200px;">
+                    <h5>Time Frame</h5>
+                    <form action="/user" method="POST" style="text-align: center;">
+                        <label for="humi" style="display: block; margin-top: 0px;"></label>
+                        <select name="humidity" id="humi" size="1" style="width: 140px; padding: 5px;">
+                            <option value="today">Last 24 Hours</option>
+                            <option value="week">Last 7 Days</option>
+                            <option value="month">Last 4 Weeks</option>
+                            <option value="year">Last 12 Months</option>
+                        </select>
+                        <br>
+                        <input type="submit" name="submit_button" value="Submit" class="submit-button">
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <form action="/user" method="POST" style="text-align: center;">
-        <label for="humi" style="display: block; margin-top: -20px;"></label>
-        <select name="humidity" id="humi" size="1" style="width: 140px; padding: 5px;">
-            <option value="today">Last 24 Hours</option>
-            <option value="week">Last 7 Days</option>
-            <option value="month">Last 4 Weeks</option>
-            <option value="year">Last 12 Months</option>
-        </select>
-        <br>
-        <input type="submit" name="submit_button" value="Submit" class="submit-button">
-    </form>    
+    </div>   
     
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
