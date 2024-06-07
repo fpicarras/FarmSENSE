@@ -34,6 +34,24 @@ def login(name, password):
         print("Failed to login. Status code:", response.status_code)
         return None
 
+# Batt percent
+def calculate_battery_percentage(vbat):
+    bat_perc = 0.0
+    bat_max = 4.2
+    bat_min = 3.0
+
+    if vbat > 3.7:
+        bat_perc = 80.0 + (vbat - 3.7) / (bat_max - 3.7) * 20.0
+    elif 3.5 <= vbat <= 3.7:
+        bat_perc = 20.0 + (vbat - 3.5) / 0.2 * 60.0
+    else:
+        bat_perc = (vbat - bat_min) / (3.5 - bat_min) * 20.0
+
+    bat_perc = max(0.0, min(100.0, bat_perc))
+    bat_perc_rounded = round(bat_perc)
+    
+    return bat_perc_rounded
+
 def plot_sensor_data(sensor_data):
     print(sensor_data)
     timestamps = [datetime.datetime.strptime(measurement[4], '%Y-%m-%d %H:%M:%S') for measurement in sensor_data]
@@ -71,9 +89,11 @@ def plot_sensor_data(sensor_data):
 
     # Print the last Battery Voltage value value
     last_vbat = sensor_data[-1][5]
-    print(f"Last vbat value: {last_vbat} V")
+    print(f"Last vbat value: {last_vbat} %")
 
-    return last_vbat
+    bat_perc = calculate_battery_percentage(last_vbat)
+
+    return bat_perc
 
 
 def save_sensor_data_to_csv(sensor_data, filename):
@@ -165,8 +185,8 @@ def check_node_status(node):
     if id.lower() == "broken":
         return messages
 
-    if node["vbat"] < 3.55:
-        messages.append(id + " Low battery! - " + str(node["vbat"]))
+    if node["vbat"] < 20:
+        messages.append(id + " Low battery! - " + str(node["vbat"]) + "%")
     if node["soil_humidity"] >= 80:
         messages.append(id + " Flooded soil! - " + str(node["soil_humidity"]) + "%")
     elif node["soil_humidity"] < 60:
@@ -212,6 +232,9 @@ def get_current_status(user_id):
         # Send GET request to server
         response = requests.get(url, headers=headers)
         data = response.json()
+        for item in data:
+            if 'vbat' in item:
+                item['vbat'] = calculate_battery_percentage(item['vbat'])
         return data
     except Exception as e:
         print("Exception occurred while getting data:", e)
