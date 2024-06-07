@@ -117,15 +117,18 @@ def user():
 
             return render_template("graphics.html", value=bat_perc_rounded, username=username, node_list=node_list, timestamps=timestamps_json, air_humidity=air_humidity_json, soil_humidity=soil_humidity_json, air_temperature=air_temperature_json, luminosity=luminosity_json, plot_encoded=plot_encoded)
         else: 
-            username = session["username"] 
 
-            # Get node list
-            node_list = client.get_node_list(session["user"])
+            username = session["username"] 
 
             # Get status messages
             status_messages = client.get_status(session["user"])
 
-            return render_template("nodes.html", username=username, node_list=node_list, status_messages=status_messages)
+            # Get image
+            status_image = client.get_image(session["user"], "static/image.png")
+
+            node_list = client.get_current_status(session["user"])
+
+            return render_template("nodes.html", username=username, node_list=node_list, status_messages=status_messages, status_image=status_image)
     else:
         return redirect(url_for("login_user"))
 

@@ -288,6 +288,26 @@
                 .invisible-button:hover {
                     transform: scale(1.1);
                 }
+
+                .flex-container {
+                    display: flex;
+                    width: 100%;
+                }
+
+                .left-half, .right-half {
+                    flex: 1;
+                    padding: 20px;
+                }
+
+                .left-half {
+                    text-align: center;
+                    margin-left: 80px;
+                }
+
+                .right-half {
+                    text-align: center;
+                    margin-right: 80px;
+                }
             </style>                
         {% endblock %}
     </head>
@@ -445,8 +465,19 @@
             </div>
         </div>
 
-        <!-- Nodes List -->
         <div class="section gray-background">
+            <div class="containerr">
+                <h2>Plantation state</h2>
+                {% if status_image %}
+                    <img src="static/image.png" style="width: 50%;" alt="Status Image">
+                {% else %}
+                    <p style="font-size: larger;">No image available!</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Nodes List -->
+        <div class="section white-background">
             <div class="containerr">
                 <h2>nodes list</h2>
                 <div class="button-containerr">
@@ -454,14 +485,20 @@
                         {% if node_list %}
                             <div class="row">
                                 {% for node in node_list %}
-                                    {% if node != "broken" %}
+                                    {% if node["node_id"] != "broken" %}
                                         <div class="box">
-                                            <button type="submit" name="sub_button" value="{{ node }}" class="btn btn-lg"><b>{{ node }}</b></button>
-                                            <div><i class="fa fa-battery-full"></i> {{ value }} %</div>
-                                            <div><i class='fas fa-sun'></i>{{luminosity}} Lux</div>
-                                            <div><i class="fa fa-thermometer-half"></i> {{air_temperature}} ºC</div>
-                                            <div><i class="fa fa-tint"></i> {{soil_humidity}} %</div>
-                                            <div><i class="fa fa-wind"></i> {{air_humidity}} %</div> 
+                                            <button type="submit" name="sub_button" value="{{ node["node_id"] }}" class="btn btn-lg" style="margin-bottom: 10px;"><b>{{ node["node_id"] }}</b></button>
+                                            <div><i class="fa fa-battery-full"></i> {{ node["vbat"] }} %</div>
+                                            <div class="flex-container" style="margin-top: -10px;">
+                                                <div class="left-half">
+                                                    <div><i class='fas fa-sun'></i> {{ node["luminosity"] }} Lux</div>
+                                                    <div><i class="fa fa-thermometer-half"></i> {{ node["air_temp"] }} ºC</div>
+                                                </div>
+                                                <div class="right-half">
+                                                    <div><i class="fa fa-tint"></i> {{ node["soil_humidity"] }} %</div>
+                                                    <div><i class="fa fa-wind"></i> {{ node["air_humidity"] }} %</div> 
+                                                </div>
+                                            </div>
                                         </div>
                                     {% endif %}
                                 {% endfor %}
@@ -473,13 +510,7 @@
                 </div>
             </div>
         </div>    
-        <!--
-            <i class="fa fa-battery-full"></i>
-            <i class='fas fa-sun'></i>
-            <i class="fa fa-thermometer-half"></i>
-            <i class="fa fa-tint"></i>
-            <i class="fa fa-wind"></i>
-        -->
+
 
         {% block scripts %}
             <!-- Optional JavaScript -->

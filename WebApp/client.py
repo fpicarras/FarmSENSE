@@ -35,6 +35,7 @@ def login(name, password):
         return None
 
 def plot_sensor_data(sensor_data):
+    print(sensor_data)
     timestamps = [datetime.datetime.strptime(measurement[4], '%Y-%m-%d %H:%M:%S') for measurement in sensor_data]
     air_temp = [measurement[0] for measurement in sensor_data]
     air_humidity = [measurement[1] for measurement in sensor_data]
@@ -134,6 +135,7 @@ def compresion(data, level):
 
 # Function to get sensor data from the server
 def get_sensor_data(user_id, node_id, days):
+    print(node_id)
     try:
         # Construct URL for the endpoint to retrieve measurements for a specific node for the last N days
         url = f'{SERVER_URL}/measurements/{node_id}/{days}'
@@ -196,6 +198,21 @@ def get_status(user_id):
             return messages
         else:
             print("Failed to get data. Status code:", response.status_code)
+    except Exception as e:
+        print("Exception occurred while getting data:", e)
+
+# Returns a list of strings with all the notifications from the nodes
+def get_current_status(user_id):
+    messages = []
+    try:
+        # Construct URL for the endpoint to retrieve measurements for a specific node for the last N days
+        url = f'{SERVER_URL}/status'
+        # Set Authorization header with user ID
+        headers = {'Authorization': user_id}
+        # Send GET request to server
+        response = requests.get(url, headers=headers)
+        data = response.json()
+        return data
     except Exception as e:
         print("Exception occurred while getting data:", e)
 
