@@ -165,11 +165,11 @@ def get_sensor_data(user_id, node_id, days):
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
             data = response.json()
-            if days >= 365:
+            if days == 365:
                 data = compresion(data, 2)
-            elif days >= 28:
+            elif days == 28:
                 data = compresion(data, 4)
-            elif days >= 7:
+            elif days == 7:
                 data = compresion(data, 8)
             return data
         else:
