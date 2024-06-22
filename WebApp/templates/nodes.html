@@ -482,7 +482,7 @@
                 <h2>nodes list</h2>
                 <div class="button-containerr">
                     <form action="" method="post" class="button-form">
-                        {% if node_list %}
+                        {% if node_list and node_list|length > 1 %}
                             <div class="row">
                                 {% for node in node_list %}
                                     {% if node["node_id"] != "broken" %}
