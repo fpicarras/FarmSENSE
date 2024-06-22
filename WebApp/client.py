@@ -185,8 +185,8 @@ def check_node_status(node):
     if id.lower() == "broken":
         return messages
 
-    if node["vbat"] < 20:
-        messages.append(id + " Low battery! - " + str(node["vbat"]) + "%")
+    if calculate_battery_percentage(node["vbat"]) < 20:
+        messages.append(id + " Low battery! - " + str(calculate_battery_percentage(node["vbat"])) + "%")
     if node["soil_humidity"] >= 80:
         messages.append(id + " Flooded soil! - " + str(node["soil_humidity"]) + "%")
     elif node["soil_humidity"] < 60:
