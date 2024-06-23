@@ -153,28 +153,48 @@
             <div class="row">
               <div class="col-md-6" style="margin-bottom: 30px;">
                 <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
-                  <img src="../images/VsCode.png" alt="" style="border-radius: 5px ">
+                  <img src="../images/hardware1.jpeg" alt="" style="border-radius: 5px ">
                 </div>
               </div>
               <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
-                <p>
-                  
+                <p> 
+                  For the desired measurements, we needed a compact yet robust system that could be easily placed in a plantation and start recording data immediately. To achieve this, we developed an ecosystem of sensors that were placed in the ground, performed measurements, and sent data via LoRa to a main system. This main system functioned as a "router," collecting data from various nodes and sending it to a database.
                 </p>
                 <p>
-                  
-              </p>                </div>
+                  The database served as the intermediary between the plantation and the farmer, receiving data, processing it (including image processing), and then transmitting it to the application. The peripheral nodes consisted of a set of three sensors for four parameters:
+              </p>    
+              <ul>
+                <li>DHT11: Air temperature and humidity.</li>
+                <li>Photoresistor: Relative luminosity.</li>
+                <li>Capacitive Humidity Sensor Grove: Soil moisture.</li>
+            </ul>
+            </div>
               <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
                 <p>
-                  
+                  Sensor readings were obtained using an ESP32-S3 microcontroller, powered by three Ni-MH batteries in series (nominal voltage of 1.2 V each). The data was then transmitted via the LoRa RFM95 module. The device's final design began once all materials and the communication system were operational, followed by sensor calibration, communication improvements, and energy optimizations.
               </p>
               <p>
-                  
+                Given the project's nature, it was crucial to have a system that could support multiple peripheral nodes sending data simultaneously. To achieve this, we incorporated a system similar to DHCP protocols for communication, allowing the central node to support an unlimited number of connected peripherals, noting that these have a very low duty cycle.
               </p>              </div>
               <div class="col-md-6" style="margin-bottom: 30px;">
                 <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
-                  <img src="../images/Site.png" alt="" style="border-radius: 5px;">
+                  <img src="../images/hardware2.jpeg" alt="" style="border-radius: 5px;">
                 </div>
               </div>
+
+              <div class="col-md-6" style="margin-bottom: 30px;">
+                <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
+                  <img src="../images/hardware3.jpeg" alt="" style="border-radius: 5px ">
+                </div>
+              </div>
+              <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
+                <p> 
+                  For energy optimizations, we used materials that support Deep-Sleep modes and incorporated an n-type MOSFET to power off the sensors, avoiding unnecessary consumption while the node is idle. This was achieved by using the MOSFET to separate the real ground from the sensors' ground, thus opening the circuit.
+                </p>
+                <p>
+                  The final step involved designing and printing the enclosure, followed by waterproofing it. This allowed us to have an outdoor prototype collecting data and providing the client with real-time information about their plantations without needing further intervention until the harvest period.
+              </p>                </div>
+
             </div>
             <div style="margin-top: 30px;">
             <button onclick="goBack()" class="btn-box"
