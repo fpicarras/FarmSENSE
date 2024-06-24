@@ -158,14 +158,14 @@
               </div>
               <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
                 <p>
-                    After evaluating different communication options, we opted for LoRa over BLE due to its compatibility with our project's needs: low energy consumption, minimal bandwidth requirements, and extended range capabilities.
+                  After several iterations of communication between nodes, starting with BLE, we chose LoRa due to its suitability for our project's requirements: low energy consumption, low bandwidth, and long range. For our LoRa implementation, after evaluating several libraries, we selected two open-source options: raspi-lora for the central node (Raspberry Pi 5) and u-lora for the auxiliary nodes (XIAO ESP32S3 Sense).
                 </p>
                 <p>
-                    For our implementation, we utilized the 868 MHz RFM95 LoRa transceiver, which is standard in Europe. Our central node runs on a Raspberry Pi 5, supported by the raspi-lora library. The auxiliary nodes, based on XIAO ESP32S3 Sense, are powered by the u-lora library.
+                  We opted to use the 868 MHz RFM95 LoRa transceiver, which is the standard LoRa frequency in Europe. This frequency choice ensures compliance with regional regulations and leverages the transceiver's capabilities for reliable long-range communication, even in urban or obstructed environments where direct line-of-sight communication may be challenging.
               </p>                </div>
               <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
                 <p>
-                    For our implementation, we utilized the 868 MHz RFM95 LoRa transceiver, which is standard in Europe. Our central node runs on a Raspberry Pi 5, supported by the raspi-lora library. The auxiliary nodes, based on XIAO ESP32S3 Sense, are powered by the u-lora library.
+                  Choosing open-source libraries like raspi-lora and u-lora provides us with flexibility and community support, essential for expedited development and troubleshooting. These libraries offer well-documented APIs and active developer communities, enabling us to efficiently implement and enhance our LoRa-based communication solution. Overall, our decision to embrace LoRa technology with these specific components aligns with our project's goals of maximizing energy efficiency, ensuring robust communication over extended distances, and adhering to regulatory standards in our deployment region.
               </p>
              </div>
               <style>

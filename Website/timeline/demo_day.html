@@ -141,64 +141,30 @@
             <div class="container ">
               <div class="heading_container">
                 <h2>
-                    Batteries 
+                    Demo Day
                 </h2>
               </div>
             </div>
           </div>
         </section>
       
-        <section class="about_section layout_padding-bottom" style="margin-top: 30px;">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-6" style="margin-bottom: 30px;">
-                <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
-                  <img src="../images/bat1.jpeg" alt="" style="border-radius: 5px ">
+        <section class="about_section layout_padding-bottom" >
+            <div class="container">
+              <div style="text-align:justify; margin-bottom: 50px;">
+                  <p>
+
+                  </p>
+              </div>
+              <div style="margin-bottom: 50px; display: flex; justify-content: center;">
+                <div class="img-box" style="height: 70%; width: 70%; text-align: center;">
+                    <img src="../images/week1.jpeg" alt="" style="border-radius: 5px; margin: auto; width: 96.5%;">
                 </div>
               </div>
-              <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
-                <p> 
-                  For energy management and battery sizing, we began by separating the sizing for the main node, with a Raspberry Pi 4 Model B, from the sizing for the secondary nodes, with an ESP32-S3. In a more initial analysis, the datasheets for the Raspberry Pi and ESP32 were carefully analysed in order to obtain an initial value for their consumption. At this stage, it was realised that for the main node, because it has a high consumption and needs to be powered at all times, but also because LoRa technology allows distances of up to around 10 km for communication between nodes, it could be powered by the grid.
-                </p>
-              </div>
-              <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
-                <p>
-                  As for powering the secondary nodes, an initial estimate of the current was made using datasheets, so as to get an idea of the values and be able to start looking for the batteries that would best suit the prototype under development. However, the group felt the need, with the initial prototype already assembled, with communication and sensor architecture in place, to do a real characterisation of the current's behaviour (using a period of 10s), in order to obtain more realistic values.
-                </p>
-              </div>
-              <div class="col-md-6" style="margin-bottom: 30px;">
-                <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
-                  <img src="../images/bat2.jpeg" alt="" style="border-radius: 5px; width: 105%;">
-                </div>
-              </div>
-              <div class="col-md-6" style="margin-bottom: 30px;">
-                <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
-                  <img src="../images/bat3.jpeg" alt="" style="border-radius: 5px ">
-                </div>
-              </div>
-              <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
-                <p> 
-                  So, using the current measured every millisecond, it was possible to calculate the average values of the processing current and time, as well as the sleep current and time (values to be taken into account for the actual cycle time of 1 hour). The average current in one hour was then calculated by averaging the processing and sleep currents with their respective times. Bearing in mind that the tomato harvest time is between 4 and 5 months, the amount of battery charge needed to power the circuit during this time was calculated.
-                </p>
-              </div>
-              <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
-                <p>
-                  Bearing in mind the estimated battery charge and that the nominal voltage of the circuit is 3.6 V, another search was made on the market to find the battery that best suited the characteristics of the prototype. The 2200 mAh Ni-MH batteries were chosen, as they have enough charge for the time required, have a good life cycle and energy density and have a low environmental impact, being rechargeable too. Three batteries were used in series for each node, in order to favour the circuit voltage.
-                </p>
-              </div>
-              <div class="col-md-6" style="margin-bottom: 30px;">
-                <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
-                  <img src="../images/bat4.jpeg" alt="" style="border-radius: 5px;">
-                </div>
-              </div>
+              <button onclick="goBack()" class="btn-box"
+                  style="background-color: #455a1b; color: white; border: none; padding: 8px 16px; cursor: pointer; font-size: 14px; margin-top: -5%;">
+                  See Less
+              </button>
             </div>
-            <div style="margin-top: 30px;">
-            <button onclick="goBack()" class="btn-box"
-                style="background-color: #455a1b; color: white; border: none; padding: 8px 16px; cursor: pointer; font-size: 14px;">
-                See Less
-            </button>
-          </div>
-          </div>
         </section>
 
 
