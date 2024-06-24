@@ -151,10 +151,24 @@
         <section class="about_section layout_padding-bottom" style="margin-top: 30px;">
           <div class="container">
             <div class="row">
+              <style>
+                video {
+                  position: relative; 
+                  z-index: 1;  
+                  transition: transform 0.3s ease;
+                }
+
+                video:hover {
+                    transform: scale(1.1);
+                }
+              </style>
+              
               <div class="col-md-6" style="margin-bottom: 30px;">
-                <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
-                  <img src="../images/webapp.png" alt="" style="border-radius: 5px ">
-                </div>
+                  <div class="img-box" style="width: 90%; height: 90%; margin-left: 5%;">
+                      <video width="100%" height="100%" alt="" controls loop autoplay muted style="border-radius: 5px; ">
+                          <source src="../videos/com1.mp4" type="video/mp4">
+                      </video>
+                  </div>
               </div>
               <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
                 <p>
@@ -183,7 +197,7 @@
             <div class="col-md-6" style="margin-bottom: 30px;">
                 <div class="img-box" style="width: 90%; height: 90%; margin-left: 5%;">
                     <video width="100%" height="100%" alt="" controls loop autoplay muted style="border-radius: 5px; ">
-                        <source src="../videos/webapp.webm" type="video/webm">
+                        <source src="../videos/com2.mp4" type="video/mp4">
                     </video>
                 </div>
             </div>                    
