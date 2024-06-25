@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BH7YE2D4B2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-BH7YE2D4B2');
+</script>
+
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Site Metas -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="shortcut icon" href="../images/SECA_Color-removebg-preview-removebg-preview.png" type="">
+
+    <title> SECA </title>
+
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+
+    <!-- fonts style -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <!--owl slider stylesheet -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+    <!-- font awesome style -->
+    <link href="../css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+    <link href="../css/style.css" rel="stylesheet" />
+    <link href="../css/timeline.css" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="../css/responsive.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <script>
+      function goBack() {
+          window.history.back();
+      }
+    </script>
+  
+
+</head>
+
+<body>
+
+    <div class="hero_area">
+        <!-- header section strats -->
+        <header class="header_section">
+            <div class="header_bottom">
+              <div class="container-fluid">
+                <nav class="navbar navbar-expand-lg navbar-light custom_nav-container">
+                  <a class="navbar-brand" href="../index.html">
+                    <img src="../images/image.png" alt="" width="400px">
+                  </a>
+          
+                  <!-- Botão de hamburguer para telas menores -->
+                  <button class="navbar-toggler ml-auto custom-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon custom-icon"></span>
+                  </button>          
+          
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                      <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Home</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="../service.html">Project</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="../blog.html">Blog</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="../about.html">About</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="../partners.html">Partners</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="../contact.html">Contact</a>
+                      </li>
+                    </ul>
+                  </div>
+                </nav>
+              </div>
+            </div>
+          </header>
+
+          <button onclick="topFunction()" id="myBtn" title="Go to top" style="display: none;">
+            <span class="vertical" style="font-size: 24px;"><i class="fas fa-arrow-up"></i></span>
+        </button>
+        
+        <script>
+            let mybutton = document.getElementById("myBtn");
+            let lastScrollTop = 0;
+        
+            window.addEventListener("scroll", function() {
+                let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        
+                if (currentScroll > lastScrollTop) {
+                    // Scroll para baixo
+                    mybutton.style.display = "block";
+                } else {
+                    // Scroll para cima
+                    if (currentScroll <= 20) { // Mostra o botão apenas se a rolagem for significativa
+                        mybutton.style.display = "none";
+                    }
+                }
+                lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Para casos de scroll para cima no topo da página
+            });
+        
+            function topFunction() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+                mybutton.style.display = "none"; // Oculta o botão após clicar
+            }
+        
+            // Exibir o botão quando a página é carregada
+            window.onload = function() {
+                mybutton.style.display = "none";
+            };
+        </script>
+
+        <section class="service_section layout_padding" style="margin-top: -35px; margin-bottom: -90px;">
+          <div class="service_container">
+            <div class="container ">
+              <div class="heading_container">
+                <h2>
+                    Batteries 
+                </h2>
+              </div>
+            </div>
+          </div>
+        </section>
+      
+        <section class="about_section layout_padding-bottom" style="margin-top: 30px;">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6" style="margin-bottom: 30px;">
+                <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
+                  <img src="../images/bat1.jpeg" alt="" style="border-radius: 5px ">
+                </div>
+              </div>
+              <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
+                <p> 
+                  For energy management and battery sizing, we began by separating the sizing for the main node, with a Raspberry Pi 4 Model B, from the sizing for the secondary nodes, with an ESP32-S3. In a more initial analysis, the datasheets for the Raspberry Pi and ESP32 were carefully analysed in order to obtain an initial value for their consumption. At this stage, it was realised that for the main node, because it has a high consumption and needs to be powered at all times, but also because LoRa technology allows distances of up to around 10 km for communication between nodes, it could be powered by the grid.
+                </p>
+              </div>
+              <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
+                <p>
+                  As for powering the secondary nodes, an initial estimate of the current was made using datasheets, so as to get an idea of the values and be able to start looking for the batteries that would best suit the prototype under development. However, the group felt the need, with the initial prototype already assembled, with communication and sensor architecture in place, to do a real characterisation of the current's behaviour (using a period of 10s), in order to obtain more realistic values.
+                </p>
+              </div>
+              <div class="col-md-6" style="margin-bottom: 30px;">
+                <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
+                  <img src="../images/bat2.jpeg" alt="" style="border-radius: 5px; width: 105%;">
+                </div>
+              </div>
+              <div class="col-md-6" style="margin-bottom: 30px;">
+                <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
+                  <img src="../images/bat3.jpeg" alt="" style="border-radius: 5px ">
+                </div>
+              </div>
+              <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
+                <p> 
+                  So, using the current measured every millisecond, it was possible to calculate the average values of the processing current and time, as well as the sleep current and time (values to be taken into account for the actual cycle time of 1 hour). The average current in one hour was then calculated by averaging the processing and sleep currents with their respective times. Bearing in mind that the tomato harvest time is between 4 and 5 months, the amount of battery charge needed to power the circuit during this time was calculated.
+                </p>
+              </div>
+              <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
+                <p>
+                  Bearing in mind the estimated battery charge and that the nominal voltage of the circuit is 3.6 V, another search was made on the market to find the battery that best suited the characteristics of the prototype. The 2200 mAh Ni-MH batteries were chosen, as they have enough charge for the time required, have a good life cycle and energy density and have a low environmental impact, being rechargeable too. Three batteries were used in series for each node, in order to favour the circuit voltage.
+                </p>
+              </div>
+              <div class="col-md-6" style="margin-bottom: 30px;">
+                <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
+                  <img src="../images/bat4.jpeg" alt="" style="border-radius: 5px;">
+                </div>
+              </div>
+            </div>
+            <div style="margin-top: 30px;">
+            <button onclick="goBack()" class="btn-box"
+                style="background-color: #455a1b; color: white; border: none; padding: 8px 16px; cursor: pointer; font-size: 14px;">
+                See Less
+            </button>
+          </div>
+          </div>
+        </section>
+
+
+        <!-- footer section -->
+        <section class="footer_section">
+            <div class="container">
+              <p>
+                &copy; <span id="displayYear"></span>
+                <a >SECA - Sensor Ecosystem for Controlling Agriculture</a>
+              </p>
+            </div>
+          </section>
+
+        <!-- footer section -->
+
+        <!-- jQery -->
+        <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+        <!-- popper js -->
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+            </script>
+        <!-- bootstrap js -->
+        <script type="text/javascript" src="js/bootstrap.js"></script>
+        <!-- owl slider -->
+        <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+            </script>
+        <!-- custom js -->
+        <script type="text/javascript" src="js/custom.js"></script>
+        <!-- Google Map -->
+        <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+            </script>
+        <!-- End Google Map -->
+</body>
+
+</html>

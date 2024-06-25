@@ -288,6 +288,26 @@
                 .invisible-button:hover {
                     transform: scale(1.1);
                 }
+
+                .flex-container {
+                    display: flex;
+                    width: 100%;
+                }
+
+                .left-half, .right-half {
+                    flex: 1;
+                    padding: 20px;
+                }
+
+                .left-half {
+                    text-align: center;
+                    margin-left: 80px;
+                }
+
+                .right-half {
+                    text-align: center;
+                    margin-right: 80px;
+                }
             </style>                
         {% endblock %}
     </head>
@@ -300,7 +320,7 @@
                 <li><a onclick="window.location.href = '/logout';" class="fas fa-power-off" style="cursor: pointer;"></a></li>
             </ul>
             <div id="openNotifications" class="semi-circle" onclick="toggleNotifications()">
-                <div class="arrow">&#11015;</div>
+                <div class="arrow"><i class="fas fa-arrow-down"></i></div>
             </div>
         </div>
        
@@ -325,8 +345,6 @@
                             </div>
                         {% endfor %}
                     </form>
-                {% else %}
-                    <p style="font-size: larger;">Não tem notificações!</p>
                 {% endif %}
             </div>
         </div>
@@ -447,29 +465,52 @@
             </div>
         </div>
 
-        <!-- Nodes List -->
         <div class="section gray-background">
+            <div class="containerr">
+                <h2>Plantation state</h2>
+                {% if status_image %}
+                    <img src="static/image.png" style="width: 50%;" alt="Status Image">
+                {% else %}
+                    <p style="font-size: larger;">No image available!</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Nodes List -->
+        <div class="section white-background">
             <div class="containerr">
                 <h2>nodes list</h2>
                 <div class="button-containerr">
                     <form action="" method="post" class="button-form">
-                        {% if node_list %}
+                        {% if node_list and node_list|length > 1 %}
                             <div class="row">
                                 {% for node in node_list %}
-                                    {% if node != "broken" %}
+                                    {% if node["node_id"] != "broken" %}
                                         <div class="box">
-                                            <button type="submit" name="sub_button" value="{{ node }}" class="btn btn-lg"><b>{{ node }}</b></button>
+                                            <button type="submit" name="sub_button" value="{{ node["node_id"] }}" class="btn btn-lg" style="margin-bottom: 10px;"><b>{{ node["node_id"] }}</b></button>
+                                            <div><i class="fa fa-battery-full"></i> {{ node["vbat"] }} %</div>
+                                            <div class="flex-container" style="margin-top: -10px;">
+                                                <div class="left-half">
+                                                    <div><i class='fas fa-sun'></i> {{ node["luminosity"] }} Lux</div>
+                                                    <div><i class="fa fa-thermometer-half"></i> {{ node["air_temp"] }} ºC</div>
+                                                </div>
+                                                <div class="right-half">
+                                                    <div><i class="fa fa-tint"></i> {{ node["soil_humidity"] }} %</div>
+                                                    <div><i class="fa fa-wind"></i> {{ node["air_humidity"] }} %</div> 
+                                                </div>
+                                            </div>
                                         </div>
                                     {% endif %}
                                 {% endfor %}
                             </div>
                         {% else %}
-                            <p style="font-size: larger;">You have no notifications!</p>
+                            <p style="font-size: larger;">No nodes avaliable!</p>
                         {% endif %}
                     </form>
                 </div>
             </div>
         </div>    
+
 
         {% block scripts %}
             <!-- Optional JavaScript -->
