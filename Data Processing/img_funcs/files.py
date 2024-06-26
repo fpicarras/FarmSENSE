@@ -3,23 +3,23 @@ import re
 from datetime import datetime
 
 # Regular expression pattern to match filenames and extract date and time
-pattern = re.compile(r'\d{2}-\d{2}-\d{4}_\d{2}-\d{2}-\d{2}\.(json|png)')
+pattern = re.compile(r'\d{2}-\d{2}-\d{4}_\d{2}-\d{2}-\d{2}\+(tomato|disease).(json|png)')
 
 def get_file_date(filename):
     match = pattern.match(filename)
     if match:
-        date_str = match.group().rsplit('.', 1)[0]
+        date_str = match.group().rsplit('+', 1)[0]
         return datetime.strptime(date_str, '%d-%m-%Y_%H-%M-%S')
     return None
 
-def get_latest_files(directory, n):
+def get_latest_files(directory, n, typ):
     try:
         files = os.listdir(directory)
     except FileNotFoundError:
         return ([], [])
-    json_files = [f for f in files if f.endswith('.json') and pattern.match(f)]
-    png_files = [f for f in files if f.endswith('.png') and pattern.match(f)]
-
+    json_files = [f for f in files if f.endswith(typ + '.json') and pattern.match(f)]
+    png_files = [f for f in files if f.endswith(typ + '.png') and pattern.match(f)]
+    
     # Sort files by date
     json_files.sort(key=get_file_date, reverse=True)
     png_files.sort(key=get_file_date, reverse=True)

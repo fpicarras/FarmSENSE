@@ -8,7 +8,7 @@ import numpy as np
 import cv2
 import json
 
-from img_funcs import predict, files
+from img_funcs import predict, files, lux_prevision
 
 app = Flask(__name__)
 
@@ -208,7 +208,8 @@ def recieve_image_route():
         predict.detect(img, user_id, 'img_funcs/tomato.pt')
         return 'Measurement received', 201
     elif request.method == 'GET':
-        f = files.get_latest_files(user_id, 1)
+        print(request.headers.get('typ'))
+        f = files.get_latest_files(user_id, 1, request.headers.get('typ'))
         if f[0] == [] or f[1] == []:
             return "No images under given ID!", 404
         img = f[1][0]
@@ -250,12 +251,8 @@ def get_node_list():
     nodes = get_nodes(user_id)
     return jsonify(nodes)
 
-@app.route('/status', methods=['GET'])
-def get_status():
-    user_id = request.headers.get('Authorization')  # Get user ID from Authorization header
-    if not user_id:
-        return 'Unauthorized', 401
-    
+# Get all the last measurements for each node
+def get_last_measurments(user_id):
     try:
         conn = create_connection(f'{user_id}_measurements.db')
         with conn:
@@ -284,11 +281,65 @@ def get_status():
                 } for row in measurements
             ]
 
-            return jsonify(data), 200
+            return data
 
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return null
+
+# Function to get all the luminosity measurements
+def get_luminosity(user_id, days, node):
+    ret = []
+    try:
+        conn = create_connection(f'{user_id}_measurements.db')
+        with conn:
+            cursor = conn.cursor()
+            select_sql = """
+                SELECT luminosity
+                FROM measurements
+                WHERE node_id = ? AND timestamp >= date('now', '-{} days')
+            """.format(days)
+            cursor.execute(select_sql, (node,))
+            measurements = cursor.fetchall()
+            for row in measurements:
+                ret.append(row[0])
+            return ret
+    except Exception as e:
+        return None
+    
+
+@app.route('/status', methods=['GET'])
+def get_status():
+    
+    user_id = request.headers.get('Authorization')  # Get user ID from Authorization header
+    if not user_id:
+        return 'Unauthorized', 401
+    data = get_last_measurments(user_id)
+    if data:
+        return jsonify(data), 200
+    else:
+        return 'No data found', 500
+
+@app.route('/prevision', methods=['GET'])
+def get_prevision():
+    user_id = request.headers.get('Authorization')
+    if not user_id:# Get all the measurments for each node
+        return 'Unauthorized', 401
+
+    data = get_luminosity(user_id, 10, 'node1')
+    if not data:
+        return 'No data found...', 500
+    
+    f = files.get_latest_files(user_id, 1, "tomato")
+    if f[0] == [] or f[1] == []:
+        return "No images under given ID!", 404
+    dict = f[0][0]
+
+    threshold = 2000000
+    acquisitions_day = 8
+    days_until_threshold, threshold_day = lux_prevision.calculate_acquisitions_until_threshold(data, threshold, acquisitions_day, user_id + "/" + dict, user_id)
+    
+    return send_file(user_id + "/plot_acumul.png", mimetype='image/png'), 200
 
 if __name__ == '__main__':
-    app.debug = True
+    debug = True
     app.run(host='0.0.0.0', port=5000)

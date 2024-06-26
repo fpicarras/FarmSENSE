@@ -5,8 +5,9 @@ import time
 import datetime
 
 from client import login
+
 # URL of your Flask server
-SERVER_URL = 'http://84.90.102.75:59000'
+SERVER_URL = 'http://127.0.0.1:5000'
 
 # Function to generate sensor data
 def generate_sensor_data(node_id):
@@ -91,7 +92,7 @@ def send_sensor_data(user_id, data):
         print("Exception occurred while sending data:", e)
 
 def send_img(user_id):
-    files = {'img': open("tomato.jpeg", 'rb')}
+    files = {'img': open("tomatos.jpg", 'rb')}
     url = f'{SERVER_URL}/image'
     headers = {'Authorization': user_id}
 
@@ -126,6 +127,32 @@ def get_image(user_id, output_name):
     except Exception as e:
         print("Exception occurred while getting data:", e)    
 
+def get_disease(user_id, output_name):
+    try:
+        # Construct URL for the endpoint to retrieve measurements for a specific node for the last N days
+        url = f'{SERVER_URL}/image'
+        # Set Authorization header with user ID
+        headers = {'Authorization': user_id, 'opt': "img", 'typ': "disease"}
+        # Attempt to get image
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            with open(output_name, 'wb') as f:
+                f.write(response.content)
+        else:
+            print("Failed to get data. Status code:", response.status_code)
+            return
+        # Attempt to get image data
+        headers = {'Authorization': user_id, 'opt': "data", 'typ': "disease"}
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            return json.loads(response.content)
+        else:
+            print("Failed to get data. Status code:", response.status_code)
+            return
+    except Exception as e:
+        print("Exception occurred while getting data:", e)
+
+
 
 if __name__ == '__main__':
     # List of node IDs
@@ -136,9 +163,14 @@ if __name__ == '__main__':
     #send_img(user_id)
 
     # Construct URL for the endpoint to retrieve the list of nodes
-    #send_img(user_id)
-    print(get_image(user_id, "testi.jpg"))
+    get_disease(user_id, 'teste.png')
 
+    # print(get_image(user_id, "testi.jpg"))
+    headers = {'Authorization': user_id}
+    response = requests.get('http://192.168.0.36:5000/prevision', headers=headers)
+    if response.status_code == 200:
+        with open("prevision.jpg", 'wb') as f:
+            f.write(response.content)
     exit
     """
     try:

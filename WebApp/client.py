@@ -265,6 +265,49 @@ def get_image(user_id, output_name):
         print("Exception occurred while getting data:", e)    
 
 
+# Get disease image
+def get_disease(user_id, output_name):
+    try:
+        # Construct URL for the endpoint to retrieve measurements for a specific node for the last N days
+        url = f'{SERVER_URL}/image'
+        # Set Authorization header with user ID
+        headers = {'Authorization': user_id, 'opt': "img", 'typ': "disease"}
+        # Attempt to get image
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            with open(output_name, 'wb') as f:
+                f.write(response.content)
+        else:
+            print("Failed to get data. Status code:", response.status_code)
+            return
+        # Attempt to get image data
+        headers = {'Authorization': user_id, 'opt': "data", 'typ': "disease"}
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            return json.loads(response.content)
+        else:
+            print("Failed to get data. Status code:", response.status_code)
+            return
+    except Exception as e:
+        print("Exception occurred while getting data:", e)
+
+# Function to get prevision of light accumulation
+def get_prevision(user_id):
+    try:
+        # Construct URL for the endpoint to retrieve measurements for a specific node for the last N days
+        url = f'{SERVER_URL}/prevision'
+        # Set Authorization header with user ID
+        headers = {'Authorization': user_id}
+        # Send GET request to server
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            with open("prevision.png", 'wb') as f:
+                f.write(response.content)
+        else:
+            print("Failed to get data. Status code:", response.status_code)
+    except Exception as e:
+        print("Exception occurred while getting data:", e)
+
 if __name__ == '__main__':
     # Register or login
     '''
