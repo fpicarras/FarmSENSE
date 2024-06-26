@@ -363,7 +363,7 @@ def initializa_planation(user_id):
     f.write(json.dumps(data))
     f.close()
 
-def setPlantationData(user_id, opt, newData)::
+def setPlantationData(user_id, opt, newData):
     try:
         f = open(user_id + "/plantationInfo.json")
     except Exception as e:
