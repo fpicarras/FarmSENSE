@@ -244,7 +244,7 @@ def get_image(user_id, output_name):
         # Construct URL for the endpoint to retrieve measurements for a specific node for the last N days
         url = f'{SERVER_URL}/image'
         # Set Authorization header with user ID
-        headers = {'Authorization': user_id, 'opt': "img"}
+        headers = {'Authorization': user_id, 'opt': "img", 'typ': "tomato"}
         # Attempt to get image
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
@@ -254,7 +254,7 @@ def get_image(user_id, output_name):
             print("Failed to get data. Status code:", response.status_code)
             return
         # Attempt to get image data
-        headers = {'Authorization': user_id, 'opt': "data"}
+        headers = {'Authorization': user_id, 'opt': "data", 'typ': "tomato"}
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
             return json.loads(response.content)

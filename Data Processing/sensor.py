@@ -7,7 +7,7 @@ import datetime
 from client import login
 
 # URL of your Flask server
-SERVER_URL = 'http://127.0.0.1:5000'
+SERVER_URL = 'http://84.90.102.75:59000'
 
 # Function to generate sensor data
 def generate_sensor_data(node_id):
@@ -160,17 +160,17 @@ if __name__ == '__main__':
 
     # Prompt user to input user ID
     user_id = login("filipe", "pass")
-    #send_img(user_id)
+    send_img(user_id)
 
     # Construct URL for the endpoint to retrieve the list of nodes
-    get_disease(user_id, 'teste.png')
+    # get_disease(user_id, 'teste.png')
 
     # print(get_image(user_id, "testi.jpg"))
-    headers = {'Authorization': user_id}
-    response = requests.get('http://192.168.0.36:5000/prevision', headers=headers)
-    if response.status_code == 200:
-        with open("prevision.jpg", 'wb') as f:
-            f.write(response.content)
+    #headers = {'Authorization': user_id}
+    #response = requests.get('http://192.168.0.36:5000/prevision', headers=headers)
+    #if response.status_code == 200:
+    #    with open("prevision.jpg", 'wb') as f:
+    #        f.write(response.content)
     exit
     """
     try:
