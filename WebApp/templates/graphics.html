@@ -256,24 +256,27 @@
             <h2>Node Info</h2>
             <div class="flex-container">
                 <div class="left-half" style="margin-left: 250px;">
-                    <h5>Battery</h5>
-                    <div style="font-size: 18px; margin-top: 20px;"><i class="fa fa-battery-full battery-icon"></i> {{ value }} %</div>
+                    <h5 style="font-size: 24px;">Battery</h5>
+                    <div style="font-size: 20px; margin-top: 20px;">
+                        <i class="fa fa-battery-full battery-icon"></i> {{ value }} %
+                    </div>
                 </div>
                 <div class="right-half" style="margin-right: 250px;">
-                    <h5>Time Frame</h5>
+                    <h5 style="font-size: 24px;">Time Frame</h5>
                     <form id="timeFrameForm" action="/user" method="POST" style="text-align: center;">
-                        <label for="humi" style="display: block; margin-top: 10px;"></label>
-                        <select name="humidity" id="humi" size="1" style="width: 140px; padding: 5px;">
+                        <label for="humi" style="display: block; margin-top: 10px; font-size: 18px;"></label>
+                        <select name="humidity" id="humi" size="1" style="width: 140px; padding: 5px; font-size: 18px;">
                             <option value="today">Last 24 Hours</option>
                             <option value="week">Last 7 Days</option>
                             <option value="month">Last 4 Weeks</option>
                             <option value="year">Last 12 Months</option>
                         </select>
                         <br>
-                        <input type="submit" name="submit_button" value="Submit" class="submit-button">
+                        <input type="submit" name="submit_button" value="Submit" class="submit-button" style="font-size: 18px;">
                     </form>
                 </div>
             </div>
+            
         </div>
     </div>   
 

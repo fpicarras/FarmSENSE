@@ -4,6 +4,7 @@ from flask_bootstrap import Bootstrap4
 from flask import Flask, render_template,redirect, url_for, request, session, flash
 import datetime
 import json
+from datetime import datetime, date
 
 from datetime import timedelta
 import client
@@ -65,43 +66,76 @@ def user():
                 elif selected_option == "year":
                     days = 365 
 
-            # Get status messages
-            status_messages = client.get_status(session["user"])
+            if "data_button" in request.form:
+                start_date = request.form["trip-start"]
+                client.setData(session["user"], "startDate", start_date)
 
-            vbat = client.plot_sensor_data(client.get_sensor_data(session["user"], node, days))
+                username = session["username"] 
 
-            #bat_perc_rounded = client.calculate_battery_percentage(vbat)
-                
-            buffer = io.BytesIO()
-            plt.savefig(buffer, format='png')
-            buffer.seek(0)
-            image_png = buffer.getvalue()
-            buffer.close()
+                # Get status messages
+                status_messages = client.get_status(session["user"])
 
-            plot_encoded = base64.b64encode(image_png).decode('utf-8')
-            username = session["username"] 
+                # Get images
+                disease_image = client.get_disease(session["user"], "static/disease_image.png")
+                status_image = client.get_image(session["user"], "static/image.png")
+                client.get_prevision(session["user"], "static/prevision.png")
 
-            # Get node list
-            node_list = client.get_node_list(session["user"])
+                # Get Dates
+                start_date = client.getData(session["user"], "startDate")
+                expected_harvest = client.getData(session["user"], "expectedHarvest")
+                today_date = date.today().isoformat()
 
-            # Data to be plotted
-            data = client.get_sensor_data(session["user"], node, days)
+                # Get number of days
+                start_date_obj = datetime.fromisoformat(start_date).date()
+                expected_harvest_obj = datetime.fromisoformat(expected_harvest).date()
+                today_date_obj = date.fromisoformat(today_date)
+                cycle_duration = (expected_harvest_obj - start_date_obj).days
+                days_left = (expected_harvest_obj - today_date_obj).days
+                date_obj = datetime.strptime(expected_harvest, '%Y-%m-%d')
+                formatted_date = date_obj.strftime('%d / %m / %Y')
 
-            timestamps = [datetime.datetime.strptime(measurement[4], '%Y-%m-%d %H:%M:%S') for measurement in data]
-            air_temp = [measurement[0] for measurement in data]
-            air_humidity = [measurement[1] for measurement in data]
-            soil_humidity = [measurement[2] for measurement in data]
-            luminosity = [measurement[3] for measurement in data]
+                # Get nodes
+                node_list = client.get_current_status(session["user"])
 
-            timestamps_iso = [dt.isoformat() for dt in timestamps]
+                return render_template("nodes.html", username=username, node_list=node_list, status_messages=status_messages, status_image=status_image, disease_image=disease_image, expected_harvest=formatted_date, start_date=start_date, cycle_duration=cycle_duration, days_left=days_left)
 
-            timestamps_json = json.dumps(timestamps_iso)
-            air_humidity_json = json.dumps(air_humidity)
-            soil_humidity_json = json.dumps(soil_humidity)
-            air_temperature_json= json.dumps(air_temp)
-            luminosity_json = json.dumps(luminosity)
+            else:
+                # Get status messages
+                status_messages = client.get_status(session["user"])
 
-            return render_template("graphics.html", value=vbat, username=username, node_list=node_list, timestamps=timestamps_json, air_humidity=air_humidity_json, soil_humidity=soil_humidity_json, air_temperature=air_temperature_json, luminosity=luminosity_json, plot_encoded=plot_encoded)
+                vbat = client.plot_sensor_data(client.get_sensor_data(session["user"], node, days))
+                    
+                buffer = io.BytesIO()
+                plt.savefig(buffer, format='png')
+                buffer.seek(0)
+                image_png = buffer.getvalue()
+                buffer.close()
+
+                plot_encoded = base64.b64encode(image_png).decode('utf-8')
+                username = session["username"] 
+
+                # Get node list
+                node_list = client.get_node_list(session["user"])
+
+                # Data to be plotted
+                data = client.get_sensor_data(session["user"], node, days)
+
+                timestamps = [datetime.strptime(measurement[4], '%Y-%m-%d %H:%M:%S') for measurement in data]
+                air_temp = [measurement[0] for measurement in data]
+                air_humidity = [measurement[1] for measurement in data]
+                soil_humidity = [measurement[2] for measurement in data]
+                luminosity = [measurement[3] for measurement in data]
+
+                timestamps_iso = [dt.isoformat() for dt in timestamps]
+
+                timestamps_json = json.dumps(timestamps_iso)
+                air_humidity_json = json.dumps(air_humidity)
+                soil_humidity_json = json.dumps(soil_humidity)
+                air_temperature_json= json.dumps(air_temp)
+                luminosity_json = json.dumps(luminosity)
+
+                return render_template("graphics.html", value=vbat, username=username, node_list=node_list, timestamps=timestamps_json, air_humidity=air_humidity_json, soil_humidity=soil_humidity_json, air_temperature=air_temperature_json, luminosity=luminosity_json, plot_encoded=plot_encoded)
+            
         else: 
 
             username = session["username"] 
@@ -109,12 +143,29 @@ def user():
             # Get status messages
             status_messages = client.get_status(session["user"])
 
-            # Get image
+            # Get images
+            disease_image = client.get_disease(session["user"], "static/disease_image.png")
             status_image = client.get_image(session["user"], "static/image.png")
+            client.get_prevision(session["user"], "static/prevision.png")
 
+            # Get Dates
+            start_date = client.getData(session["user"], "startDate")
+            expected_harvest = client.getData(session["user"], "expectedHarvest")
+            today_date = date.today().isoformat()
+
+            # Get number of days
+            start_date_obj = datetime.fromisoformat(start_date).date()
+            expected_harvest_obj = datetime.fromisoformat(expected_harvest).date()
+            today_date_obj = date.fromisoformat(today_date)
+            cycle_duration = (expected_harvest_obj - start_date_obj).days
+            days_left = (expected_harvest_obj - today_date_obj).days
+            date_obj = datetime.strptime(expected_harvest, '%Y-%m-%d')
+            formatted_date = date_obj.strftime('%d / %m / %Y')
+
+            # Get nodes
             node_list = client.get_current_status(session["user"])
 
-            return render_template("nodes.html", username=username, node_list=node_list, status_messages=status_messages, status_image=status_image)
+            return render_template("nodes.html", username=username, node_list=node_list, status_messages=status_messages, status_image=status_image, disease_image=disease_image, expected_harvest=formatted_date, start_date=start_date, cycle_duration=cycle_duration, days_left=days_left)
     else:
         return redirect(url_for("login_user"))
 
