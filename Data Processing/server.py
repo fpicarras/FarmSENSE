@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, send_file
 import sqlite3
 from datetime import datetime, timedelta
-import threading
+import threading, os
 import uuid
 import hashlib
 import numpy as np
@@ -324,8 +324,11 @@ def get_prevision():
     user_id = request.headers.get('Authorization')
     if not user_id:# Get all the measurments for each node
         return 'Unauthorized', 401
+    
+    startDate = getPlantationData(user_id, "startDate")
+    daysPassed = (datetime.now() - datetime.strptime(startDate, "%Y-%m-%d")).days
 
-    data = get_luminosity(user_id, 10, 'node1')
+    data = get_luminosity(user_id, daysPassed, 'node1')
     if not data:
         return 'No data found...', 500
     
@@ -334,11 +337,74 @@ def get_prevision():
         return "No images under given ID!", 404
     dict = f[0][0]
 
-    threshold = 2000000
+    threshold = 10000 * 120
     acquisitions_day = 8
     days_until_threshold, threshold_day = lux_prevision.calculate_acquisitions_until_threshold(data, threshold, acquisitions_day, user_id + "/" + dict, user_id)
     
+    expected_harvest = (datetime.now() + timedelta(days=days_until_threshold)).strftime("%Y-%m-%d")
+    setPlantationData(user_id, "expectedHarvest", expected_harvest)
+
     return send_file(user_id + "/plot_acumul.png", mimetype='image/png'), 200
+
+###################### Plantation data ######################
+
+def initializa_planation(user_id):
+    print("Initializing plantation data for user: " + user_id)
+    #Creates user id directory
+    if not os.path.exists(user_id):
+        os.mkdir(user_id)
+    # Create a file with the plantation info
+    f = open(user_id + "/plantationInfo.json", "w")
+    data = {
+        "startDate": datetime.now().strftime("%Y-%m-%d"),
+        "plant": "tomato",
+        "expectedHarvest": "2021-07-01"
+    }
+    f.write(json.dumps(data))
+    f.close()
+
+def setPlantationData(user_id, opt, newData)::
+    try:
+        f = open(user_id + "/plantationInfo.json")
+    except Exception as e:
+        initializa_planation(user_id)
+        f = open(user_id + "/plantationInfo.json")
+    data = f.read()
+    data = json.loads(data)
+    f.close()
+    data[opt] = newData
+    f = open(user_id + "/plantationInfo.json", "w")
+    f.write(json.dumps(data))
+    f.close()
+
+def getPlantationData(user_id, opt):
+    try:
+        f = open(user_id + "/plantationInfo.json")
+    except Exception as e:
+        initializa_planation(user_id)
+        f = open(user_id + "/plantationInfo.json")
+    data = f.read()
+    data = json.loads(data)
+    f.close()
+    return data[opt]
+
+# Method to get or set the plantation start date
+# It stores it in a file with the name [user_id] in a platationInfo.json file
+@app.route('/plantation', methods=['GET', 'POST'])
+def plantationDate():
+    user_id = request.headers.get('Authorization')
+    opt = request.headers.get('opt')
+
+    if not user_id:
+        return 'Unauthorized', 401
+    if request.method == 'GET':
+        return getPlantationData(user_id, opt), 200
+    elif request.method == 'POST':
+        data = request.json
+        setPlantationData(user_id, opt, data)
+        return "Plantation info set", 201
+
+###################### // ######################
 
 if __name__ == '__main__':
     debug = True

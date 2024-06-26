@@ -34,7 +34,26 @@ def login(name, password):
         print("Failed to login. Status code:", response.status_code)
         return None
 
+# Batt percent
+def calculate_battery_percentage(vbat):
+    bat_perc = 0.0
+    bat_max = 4.2
+    bat_min = 3.0
+
+    if vbat > 3.7:
+        bat_perc = 80.0 + (vbat - 3.7) / (bat_max - 3.7) * 20.0
+    elif 3.5 <= vbat <= 3.7:
+        bat_perc = 20.0 + (vbat - 3.5) / 0.2 * 60.0
+    else:
+        bat_perc = (vbat - bat_min) / (3.5 - bat_min) * 20.0
+
+    bat_perc = max(0.0, min(100.0, bat_perc))
+    bat_perc_rounded = round(bat_perc)
+    
+    return bat_perc_rounded
+
 def plot_sensor_data(sensor_data):
+    print(sensor_data)
     timestamps = [datetime.datetime.strptime(measurement[4], '%Y-%m-%d %H:%M:%S') for measurement in sensor_data]
     air_temp = [measurement[0] for measurement in sensor_data]
     air_humidity = [measurement[1] for measurement in sensor_data]
@@ -70,9 +89,11 @@ def plot_sensor_data(sensor_data):
 
     # Print the last Battery Voltage value value
     last_vbat = sensor_data[-1][5]
-    print(f"Last vbat value: {last_vbat} V")
+    print(f"Last vbat value: {last_vbat} %")
 
-    return last_vbat
+    bat_perc = calculate_battery_percentage(last_vbat)
+
+    return bat_perc
 
 
 def save_sensor_data_to_csv(sensor_data, filename):
@@ -134,6 +155,7 @@ def compresion(data, level):
 
 # Function to get sensor data from the server
 def get_sensor_data(user_id, node_id, days):
+    print(node_id)
     try:
         # Construct URL for the endpoint to retrieve measurements for a specific node for the last N days
         url = f'{SERVER_URL}/measurements/{node_id}/{days}'
@@ -143,11 +165,11 @@ def get_sensor_data(user_id, node_id, days):
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
             data = response.json()
-            if days >= 365:
+            if days == 365:
                 data = compresion(data, 2)
-            elif days >= 28:
+            elif days == 28:
                 data = compresion(data, 4)
-            elif days >= 7:
+            elif days == 7:
                 data = compresion(data, 8)
             return data
         else:
@@ -163,8 +185,8 @@ def check_node_status(node):
     if id.lower() == "broken":
         return messages
 
-    if node["vbat"] < 3.55:
-        messages.append(id + " Low battery! - " + str(node["vbat"]))
+    if calculate_battery_percentage(node["vbat"]) < 20:
+        messages.append(id + " Low battery! - " + str(calculate_battery_percentage(node["vbat"])) + "%")
     if node["soil_humidity"] >= 80:
         messages.append(id + " Flooded soil! - " + str(node["soil_humidity"]) + "%")
     elif node["soil_humidity"] < 60:
@@ -199,6 +221,24 @@ def get_status(user_id):
     except Exception as e:
         print("Exception occurred while getting data:", e)
 
+# Returns a list of strings with all the notifications from the nodes
+def get_current_status(user_id):
+    messages = []
+    try:
+        # Construct URL for the endpoint to retrieve measurements for a specific node for the last N days
+        url = f'{SERVER_URL}/status'
+        # Set Authorization header with user ID
+        headers = {'Authorization': user_id}
+        # Send GET request to server
+        response = requests.get(url, headers=headers)
+        data = response.json()
+        for item in data:
+            if 'vbat' in item:
+                item['vbat'] = calculate_battery_percentage(item['vbat'])
+        return data
+    except Exception as e:
+        print("Exception occurred while getting data:", e)
+
 def get_image(user_id, output_name):
     try:
         # Construct URL for the endpoint to retrieve measurements for a specific node for the last N days
@@ -223,6 +263,7 @@ def get_image(user_id, output_name):
             return
     except Exception as e:
         print("Exception occurred while getting data:", e)    
+
 
 # Get disease image
 def get_disease(user_id, output_name):
@@ -251,7 +292,7 @@ def get_disease(user_id, output_name):
         print("Exception occurred while getting data:", e)
 
 # Function to get prevision of light accumulation
-def get_prevision(user_id):
+def get_prevision(user_id, output_name):
     try:
         # Construct URL for the endpoint to retrieve measurements for a specific node for the last N days
         url = f'{SERVER_URL}/prevision'
@@ -260,12 +301,45 @@ def get_prevision(user_id):
         # Send GET request to server
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
-            with open("prevision.png", 'wb') as f:
+            with open(output_name, 'wb') as f:
                 f.write(response.content)
         else:
             print("Failed to get data. Status code:", response.status_code)
     except Exception as e:
         print("Exception occurred while getting data:", e)
+
+# Function to get plantation data
+# Recieves as an argument an opt that accesses said data
+def getData(user_id, opt):
+    try:
+        # Construct URL for the endpoint to retrieve measurements for a specific node for the last N days
+        url = f'{SERVER_URL}/plantation'
+        # Set Authorization header with user ID
+        headers = {'Authorization': user_id, 'opt': opt}
+        # Send GET request to server
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            return response.content.decode('utf-8')
+        else:
+            print("Failed to get data. Status code:", response.status_code)
+    except Exception as e:
+        print("Exception occurred while getting data:", e)
+
+# Function to set plantation data to the server
+def setData(user_id, opt, data):
+    try:
+        # Construct URL for the endpoint to retrieve measurements for a specific node for the last N days
+        url = f'{SERVER_URL}/plantation'
+        # Set Authorization header with user ID
+        headers = {'Authorization': user_id, 'opt': opt}
+        # Send POST request to server
+        response = requests.post(url, json=data, headers=headers)
+        if response.status_code == 201:
+            print("Data sent successfully")
+        else:
+            print("Failed to send data. Status code:", response.status_code)
+    except Exception as e:
+        print("Exception occurred while sending data:", e)
 
 if __name__ == '__main__':
     # Register or login
