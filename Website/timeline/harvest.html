@@ -41,26 +41,16 @@
 
     <!-- Custom styles for this template -->
     <link href="../css/style.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="../css/timeline.css" rel="stylesheet" />
     <!-- responsive style -->
     <link href="../css/responsive.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <script>
       function goBack() {
           window.history.back();
       }
     </script>
-
-    <style>
-        /* Define hover effect */
-        .video-container {
-            transition: transform 0.3s ease; /* Smooth transition */
-        }
-
-        .video-container:hover {
-            transform: scale(1.1); /* Increase scale on hover */
-        }
-    </style>
   
 
 </head>
@@ -146,63 +136,51 @@
             };
         </script>
 
-        <section class="service_section layout_padding" style="margin-top: -30px;">
-            <div class="service_container">
-                <div class="container ">
-                    <div class="heading_container" style="margin-bottom: 1%;">
-                        <h2>
-                          Progress Update 
-                        </h2>
-                    </div>
-                    <div class="heading_container" style="margin-bottom: -5%;">
-                      <h5>16<sup>th</sup> Jun. - 22<sup>nd</sup> Jun.</h5>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="about_section layout_padding-bottom" >
-            <div class="container">
-              <div style="margin-bottom: 50px; display: flex; justify-content: center;">
-                <div class="img-box" style="height: 70%; width: 70%; text-align: center;">
-                    <img src="../images/week19.jpg" alt="" style="border-radius: 5px; margin: auto; width: 96.5%;">
-                </div>
+        <section class="service_section layout_padding" style="margin-top: -35px; margin-bottom: -90px;">
+          <div class="service_container">
+            <div class="container ">
+              <div class="heading_container">
+                <h2>
+                    Harvest Date Prediction Model
+                </h2>
               </div>
-              <div style="text-align:justify; margin-bottom: 50px;">
-
-                <p>During the past week, we completed the final adjustments to our website. We also started and finished the harvest date prediction algorithm. This algorithm is based on accumulated light and a computer vision model. Using accumulated light, we performed a linear regression, and with the computer vision model, we adjusted the accumulated light threshold value to achieve the desired maturation level (90% to 95%). The computer vision model proved to be quite important, as it allows us to correct potential deviations since maturation is not completely linear with accumulated light. Finally, this model was integrated into the web app.</p>
-                <div style="display: flex; justify-content: center;">
-                  <figure>
-                      <img src="../images/prevision.png" alt="Image depicting Alternaria disease" style="width:800px; border-radius: 5px;">
-                      <figcaption style="text-align: center; font-style: italic; margin-top: 10px; margin-bottom: 10px;">Results from the Harvest Date Prediction Model</figcaption>
-                  </figure>
-                </div>
-                <p style="text-align: right;"><em>(Francisco Apolinário)</em></p>
-
-                <p>We also finished the modifications to the 3D models of the boxes that will house the hardware, making them more compact and efficient.</p>
-                <p style="text-align: right;"><em>(Hugo Dezerto)</em></p>
-
-                <p>During the week, we also made adjustments to the server and the backend of the web app to integrate the harvest date prediction model. Concurrently, we printed the designed boxes and added stands to ensure the nodes are positioned above the level of the tomato plant leaves. This setup allows for accurate light measurements.</p>
-                <p style="text-align: right;"><em>(Filipe Piçarra)</em></p>
-              
-                <p>Lastly, we finalized the computer vision model for identifying diseases on tomato leaves.</p>
-                <p style="text-align: right;"><em>(Nuno Abreu)</em></p>
-
-                <!--
-                <p></p>
-                <p style="text-align: right;"><em>(Guilherme Barros)</em></p>
-
-                <p></p>
-                <p style="text-align: right;"><em>(Matilde Sardinha)</em></p>
-                -->
-
-                </div>
-                <button onclick="goBack()" class="btn-box"
-                  style="background-color: #455a1b; color: white; border: none; padding: 8px 16px; cursor: pointer; font-size: 14px; margin-top: -5%;">
-                  Read Less
-              </button>
             </div>
+          </div>
         </section>
+      
+        <section class="about_section layout_padding-bottom" style="margin-top: 30px;">
+          <div class="container">
+            <div class="row">
+                <div class="col-md-6" style="margin-bottom: 30px;">
+                    <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
+                      <img src="../images/prev.png" alt="" style="border-radius: 5px ">
+                    </div>
+                  </div>
+                  <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
+                    <p> 
+                        In discussions with agricultural engineers, a significant opportunity emerged in the realm of predicting harvest schedules and understanding crop cycles more accurately. They pointed out that existing methods could be enhanced by leveraging luminosity data collected via sensors. To explore this potential, we developed a Python-based model that utilizes linear regression. This model analyzes the accumulation of luminosity over time to predict the precise day when a predefined luminosity threshold will be met, signaling optimal harvest conditions.
+                    </p>
+                  </div>
+                  <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
+                    <p>
+                        Recognizing the inherent variability among different crops and the potential for errors in setting fixed thresholds, we incorporated insights from computer vision technology. This complementary model monitors the maturity levels of crops visually, allowing for dynamic adjustments to the luminosity threshold. By integrating these two approaches, our solution becomes versatile and adaptable, catering effectively to diverse agricultural environments and responding flexibly to the unique growth behaviors of various crops. This combined methodology not only enhances the accuracy of harvest predictions but also improves overall crop management strategies.
+                    </p>
+                  </div>
+                  <div class="col-md-6" style="margin-bottom: 30px;">
+                    <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
+                      <img src="../images/previsi.png" alt="" style="border-radius: 5px; width: 105%;">
+                    </div>
+                  </div>
+            </div>
+            <div style="margin-top: 30px;">
+            <button onclick="goBack()" class="btn-box"
+                style="background-color: #455a1b; color: white; border: none; padding: 8px 16px; cursor: pointer; font-size: 14px;">
+                See Less
+            </button>
+          </div>
+          </div>
+        </section>
+
 
         <!-- footer section -->
         <section class="footer_section">
