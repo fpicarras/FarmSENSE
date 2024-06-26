@@ -12,6 +12,8 @@ def calculate_percentages(json_file, threshold, accumul_light):
 
     total_tomato = 0
 
+    light_percentage = accumul_light/threshold
+
     total_tomato = (data['b_fully_ripened'] + data['l_fully_ripened'] + data['b_half_ripened'] + data['l_half_ripened'] + data['l_green'] + data['b_green'])
 
     if total_tomato > 0:
@@ -23,8 +25,7 @@ def calculate_percentages(json_file, threshold, accumul_light):
         if ((fully_ripened_percentage >= 0.9) and (fully_half_ripened_percentage >= 0.95)) or (fully_ripened_percentage >= 0.95):
             return accumul_light
 
-        # Regra de 3 simples
-        threshold *= (fully_half_ripened_percentage/0.95)
+        threshold *= (1+light_percentage-fully_half_ripened_percentage)
 
     return threshold
 
