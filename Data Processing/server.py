@@ -205,7 +205,10 @@ def recieve_image_route():
         np_img = np.frombuffer(in_memory_file, np.uint8)
         img = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
 
+        # Computer Vision predictions
         predict.detect(img, user_id, 'img_funcs/tomato.pt')
+        predict.detect(img, user_id, 'img_funcs/disease.pt')
+
         return 'Measurement received', 201
     elif request.method == 'GET':
         print(request.headers.get('typ'))
