@@ -517,7 +517,11 @@
                             <button name="data_button" class="data-button" id="getdataButton" style="margin-left: 15px; font-size: 18px; padding: 10px 20px;">Submit</button>
                         </form>
                         <p style="margin-bottom: 15px;"><strong>Cycle Duration:</strong> {{ cycle_duration }} days</p>
-                        <p style="margin-bottom: 15px;"><strong>Days to the Harvest:</strong> {{ days_left }} days</p>
+                        {% if days_left >= 0  %}
+                            <p style="margin-bottom: 15px;"><strong>Days to the Harvest:</strong> {{ days_left }} days</p>
+                        {% else %} 
+                            <p style="margin-bottom: 15px;"><strong>Days to the Harvest:</strong> Overdue </p>
+                        {% endif %}
                         <p style="margin-bottom: 15px;"><strong>Harvest Prevision Day:</strong> {{ expected_harvest }}</p>
                     </div>                    
                 </div>
