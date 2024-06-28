@@ -13,7 +13,7 @@ app = Flask(__name__)
 bootstrap = Bootstrap4(app)
 app.secret_key = "hello"
 
-app.permanent_session_lifetime = timedelta(minutes=5)
+app.permanent_session_lifetime = timedelta(minutes=60)
 
 
 @app.route('/')
