@@ -206,12 +206,19 @@ def recieve_image_route():
         img = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
 
         # Computer Vision predictions
-        predict.detect(img, user_id, 'img_funcs/tomato.pt')
-        predict.detect(img, user_id, 'img_funcs/disease.pt')
+        if request.headers.get('typ') == "tomato":   
+            predict.detect(img, user_id, 'img_funcs/tomato.pt')
+            return 'Image recieved!', 201
+        elif request.headers.get('typ') == "disease":
+            predict.detect(img, user_id, 'img_funcs/disease.pt')
+            return 'Image received', 201
+        return 'Unknown type!', 400
 
-        return 'Measurement received', 201
+        # predict.detect(img, user_id, 'img_funcs/tomato.pt')
+        # predict.detect(img, user_id, 'img_funcs/disease.pt')
+        # return 'Image received', 201
+
     elif request.method == 'GET':
-        print(request.headers.get('typ'))
         f = files.get_latest_files(user_id, 1, request.headers.get('typ'))
         if f[0] == [] or f[1] == []:
             return "No images under given ID!", 404
