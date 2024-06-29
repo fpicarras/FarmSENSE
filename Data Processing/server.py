@@ -1,14 +1,14 @@
 from flask import Flask, request, jsonify, send_file
 import sqlite3
 from datetime import datetime, timedelta
-import threading
+import threading, os
 import uuid
 import hashlib
 import numpy as np
 import cv2
 import json
 
-from img_funcs import predict, files
+from img_funcs import predict, files, lux_prevision
 
 app = Flask(__name__)
 
@@ -205,10 +205,21 @@ def recieve_image_route():
         np_img = np.frombuffer(in_memory_file, np.uint8)
         img = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
 
-        predict.detect(img, user_id, 'img_funcs/tomato.pt')
-        return 'Measurement received', 201
+        # Computer Vision predictions
+        if request.headers.get('typ') == "tomato":   
+            predict.detect(img, user_id, 'img_funcs/tomato.pt')
+            return 'Image recieved!', 201
+        elif request.headers.get('typ') == "disease":
+            predict.detect(img, user_id, 'img_funcs/disease.pt')
+            return 'Image received', 201
+        return 'Unknown type!', 400
+
+        # predict.detect(img, user_id, 'img_funcs/tomato.pt')
+        # predict.detect(img, user_id, 'img_funcs/disease.pt')
+        # return 'Image received', 201
+
     elif request.method == 'GET':
-        f = files.get_latest_files(user_id, 1)
+        f = files.get_latest_files(user_id, 1, request.headers.get('typ'))
         if f[0] == [] or f[1] == []:
             return "No images under given ID!", 404
         img = f[1][0]
@@ -250,12 +261,8 @@ def get_node_list():
     nodes = get_nodes(user_id)
     return jsonify(nodes)
 
-@app.route('/status', methods=['GET'])
-def get_status():
-    user_id = request.headers.get('Authorization')  # Get user ID from Authorization header
-    if not user_id:
-        return 'Unauthorized', 401
-    
+# Get all the last measurements for each node
+def get_last_measurments(user_id):
     try:
         conn = create_connection(f'{user_id}_measurements.db')
         with conn:
@@ -284,11 +291,131 @@ def get_status():
                 } for row in measurements
             ]
 
-            return jsonify(data), 200
+            return data
 
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return null
+
+# Function to get all the luminosity measurements
+def get_luminosity(user_id, days, node):
+    ret = []
+    try:
+        conn = create_connection(f'{user_id}_measurements.db')
+        with conn:
+            cursor = conn.cursor()
+            select_sql = """
+                SELECT luminosity
+                FROM measurements
+                WHERE node_id = ? AND timestamp >= date('now', '-{} days')
+            """.format(days)
+            cursor.execute(select_sql, (node,))
+            measurements = cursor.fetchall()
+            for row in measurements:
+                ret.append(row[0])
+            return ret
+    except Exception as e:
+        return None
+    
+
+@app.route('/status', methods=['GET'])
+def get_status():
+    
+    user_id = request.headers.get('Authorization')  # Get user ID from Authorization header
+    if not user_id:
+        return 'Unauthorized', 401
+    data = get_last_measurments(user_id)
+    if data:
+        return jsonify(data), 200
+    else:
+        return 'No data found', 500
+
+@app.route('/prevision', methods=['GET'])
+def get_prevision():
+    user_id = request.headers.get('Authorization')
+    if not user_id:# Get all the measurments for each node
+        return 'Unauthorized', 401
+    
+    startDate = getPlantationData(user_id, "startDate")
+    daysPassed = (datetime.now() - datetime.strptime(startDate, "%Y-%m-%d")).days
+
+    data = get_luminosity(user_id, daysPassed, 'node1')
+    if not data:
+        return 'No data found...', 500
+    
+    f = files.get_latest_files(user_id, 1, "tomato")
+    if f[0] == [] or f[1] == []:
+        return "No images under given ID!", 404
+    dict = f[0][0]
+
+    threshold = 10000 * 120
+    acquisitions_day = 8
+    days_until_threshold, threshold_day = lux_prevision.calculate_acquisitions_until_threshold(data, threshold, acquisitions_day, user_id + "/" + dict, user_id)
+    
+    expected_harvest = (datetime.now() + timedelta(days=days_until_threshold)).strftime("%Y-%m-%d")
+    setPlantationData(user_id, "expectedHarvest", expected_harvest)
+
+    return send_file(user_id + "/plot_acumul.png", mimetype='image/png'), 200
+
+###################### Plantation data ######################
+
+def initializa_planation(user_id):
+    print("Initializing plantation data for user: " + user_id)
+    #Creates user id directory
+    if not os.path.exists(user_id):
+        os.mkdir(user_id)
+    # Create a file with the plantation info
+    f = open(user_id + "/plantationInfo.json", "w")
+    data = {
+        "startDate": datetime.now().strftime("%Y-%m-%d"),
+        "plant": "tomato",
+        "expectedHarvest": "2021-07-01"
+    }
+    f.write(json.dumps(data))
+    f.close()
+
+def setPlantationData(user_id, opt, newData):
+    try:
+        f = open(user_id + "/plantationInfo.json")
+    except Exception as e:
+        initializa_planation(user_id)
+        f = open(user_id + "/plantationInfo.json")
+    data = f.read()
+    data = json.loads(data)
+    f.close()
+    data[opt] = newData
+    f = open(user_id + "/plantationInfo.json", "w")
+    f.write(json.dumps(data))
+    f.close()
+
+def getPlantationData(user_id, opt):
+    try:
+        f = open(user_id + "/plantationInfo.json")
+    except Exception as e:
+        initializa_planation(user_id)
+        f = open(user_id + "/plantationInfo.json")
+    data = f.read()
+    data = json.loads(data)
+    f.close()
+    return data[opt]
+
+# Method to get or set the plantation start date
+# It stores it in a file with the name [user_id] in a platationInfo.json file
+@app.route('/plantation', methods=['GET', 'POST'])
+def plantationDate():
+    user_id = request.headers.get('Authorization')
+    opt = request.headers.get('opt')
+
+    if not user_id:
+        return 'Unauthorized', 401
+    if request.method == 'GET':
+        return getPlantationData(user_id, opt), 200
+    elif request.method == 'POST':
+        data = request.json
+        setPlantationData(user_id, opt, data)
+        return "Plantation info set", 201
+
+###################### // ######################
 
 if __name__ == '__main__':
-    app.debug = True
+    debug = True
     app.run(host='0.0.0.0', port=5000)

@@ -52,7 +52,6 @@
       }
     </script>
   
-
 </head>
 
 <body>
@@ -153,40 +152,54 @@
             <div class="row">
               <div class="col-md-6" style="margin-bottom: 30px;">
                 <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
-                  <img src="../images/database.png" alt="" style="border-radius: 5px ">
+                  <img src="../images/cv4.jpeg" alt="" style="border-radius: 5px ">
                 </div>
               </div>
               <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
-                <p>
-                  
+                <p> 
+                  Due to the nature of machine learning, we knew that developing our own models without a good dataset would be a challenge. As such, we initially aimed to develop a Python program capable of running detections with any computer vision model. This approach would allow us to spend time finding adequate models to deploy once the program was complete.
                 </p>
               </div>
               <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
                 <p>
-                  
-              </p>
-              <p>
-                
-            </p>              </div>
-                <style>
-                  video {
-                    position: relative; 
-                    z-index: 1;  
-                    transition: transform 0.3s ease;
-                  }
-
-                  video:hover {
-                      transform: scale(1.1);
-                  }
-              </style>
-              
+                  The application proved difficult to develop due to the various frameworks and formats of CV models. Pursuing it further no longer made sense. However, we discovered two datasets: one for identifying tomatoes and their ripeness level, and one for identifying diseases in tomato leaves. This discovery solved the problem of requiring a good dataset for model development. The new objective became creating these two models using YOLOv8 and developing a program to run detections using any YOLOv8 model.
+                </p>
+              </div>
               <div class="col-md-6" style="margin-bottom: 30px;">
-                  <div class="img-box" style="width: 90%; height: 90%; margin-left: 5%;">
-                      <video width="100%" height="100%" alt="" controls loop autoplay muted style="border-radius: 5px; ">
-                          <source src="../videos/week7.webm" type="video/webm">
-                      </video>
-                  </div>
-              </div>                          
+                <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
+                  <img src="../images/cv5.jpeg" alt="" style="border-radius: 5px; width: 105%;">
+                </div>
+              </div>
+              <div class="col-md-6" style="margin-bottom: 30px;">
+                <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
+                  <img src="../images/cv1.jpeg" alt="" style="border-radius: 5px;">
+                </div>
+              </div>
+              <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
+                <p> 
+                  To create the tomato image segmentation model, we first parsed the dataset into a format suitable for training. After this, we used the parsed dataset to train an image segmentation model. Lastly, we developed a Python script to run this model on a given image. This script could also be imported and used as a detection function. Multiple iterations of this script were developed, which we will explore further later.
+                </p>
+              </div>
+              <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
+                <p>
+                  Developing the leaf disease object detection model posed several challenges. Parsing the data was difficult due to its lack of normalization and the sheer volume of data points. Additionally, the dataset quality was lower than expected, with many grainy or out-of-focus images. Identifying slightly different leaves in a field of leaves is a more complex task than identifying red balls in a green field. To address these issues, we created a more complex model with a larger matrix, which was harder to train but more effective at achieving our goal.
+                </p>
+              </div>
+              <div class="col-md-6" style="margin-bottom: 30px;">
+                <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
+                  <img src="../images/cv2.jpeg" alt="" style="border-radius: 5px;">
+                </div>
+              </div>
+              <div class="col-md-6" style="margin-bottom: 30px;">
+                <div class="img-box" style="height: 90%; width: 90%; margin-left: 5%;">
+                  <img src="../images/cv3.jpeg" alt="" style="border-radius: 5px ">
+                </div>
+              </div>
+              <div class="col-md-6" style="text-align: justify; margin-bottom: 30px;">
+                <p> 
+                  The Python program was developed alongside the models to meet evolving demands. Initially, we allowed for different models to be used. We then altered how images were saved. Subsequently, we made it so that a .json file was created with the detections. Later, we implemented threading to make the process non-blocking and compatible with the database in use. The final change included adding the model name in the .json file.
+                </p>
+              </div>
             </div>
             <div style="margin-top: 30px;">
             <button onclick="goBack()" class="btn-box"

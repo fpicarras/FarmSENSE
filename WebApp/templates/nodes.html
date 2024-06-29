@@ -292,22 +292,40 @@
                 .flex-container {
                     display: flex;
                     width: 100%;
+                    text-align: center;
                 }
 
                 .left-half, .right-half {
                     flex: 1;
-                    padding: 20px;
+                    margin-top: 10px;
                 }
 
                 .left-half {
                     text-align: center;
-                    margin-left: 80px;
+                    margin-left: 5%;
                 }
 
                 .right-half {
                     text-align: center;
-                    margin-right: 80px;
+                    margin-right: 5%;
                 }
+
+                .data-button {
+                    margin-top: -5px;
+                    padding: 6px 16px;
+                    background-color: #455a1b;
+                    color: #f9f9f9;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: transform 0.3s;
+                }
+                
+                .data-button:hover {
+                    transform: scale(1.1);
+                }
+
+
             </style>                
         {% endblock %}
     </head>
@@ -356,8 +374,8 @@
             <div class="containerr">
                 <h2>Meteorology</h2>
                 <label for="cityInput"></label>
-                <input type="text" id="cityInput" name="cityInput" placeholder="Location">
-                <button class="submit-button" id="getWeatherButton">Search</button>
+                <input type="text" id="cityInput" name="cityInput" placeholder="Location" style="font-size: 20px;">
+                <button class="submit-button" id="getWeatherButton" style="font-size: 18px;">Search</button>
                 <div class="container-lg my-5" id="meteorologySection" style="display: none;">
                     <div class="row d-flex justify-content-center">
                       <div class="col-md-9">
@@ -467,17 +485,53 @@
 
         <div class="section gray-background">
             <div class="containerr">
-                <h2>Plantation state</h2>
-                {% if status_image %}
-                    <img src="static/image.png" style="width: 50%;" alt="Status Image">
+                <h2>Plantation State</h2>
+                {% if status_image and disease_image %}
+                    <div class="image-container" style="display: flex; justify-content: space-around;">
+                        <div class="image-wrapper" style="text-align: center; margin-right: 2%; display: flex; flex-direction: column; justify-content: center;">
+                            <img src="static/image.png" style="width: 80%; margin-bottom: 10px; align-self: center;" alt="Status Image">
+                            <p style="font-size: larger;">Plantation Status Identification</p>
+                        </div>
+                        <div class="image-wrapper" style="text-align: center; margin-left: 2%; display: flex; flex-direction: column; justify-content: center;">
+                            <img src="static/disease_image.png" style="width: 80%; margin-bottom: 10px; align-self: center;" alt="Disease Status Image">
+                            <p style="font-size: larger;">Disease Identification</p>
+                        </div>
+                    </div>
                 {% else %}
-                    <p style="font-size: larger;">No image available!</p>
+                    <p style="font-size: larger;">No images available!</p>
                 {% endif %}
             </div>
-        </div>
+        </div>        
+        
+        <div class="section white-background">
+            <div class="containerr">
+                <h2>Harvest Prevision</h2>
+                <div style="display: flex; flex-wrap: wrap; align-items: center; ">
+                    <div style="flex: 3;">
+                        <img src="static/prevision.png" style="width: 80%; margin-bottom: 10px;" alt="Prevision Image">
+                    </div>
+                    <div style="flex: 2; text-align: justify; font-size: 18px; padding: 20px; border: 2px solid #455a1b; border-radius: 10px;">
+                        <form action="/user" method="POST">
+                            <label for="trip-start" style="margin-bottom: 15px;"><strong>Plantation Day:</strong></label>
+                            <input type="date" id="trip-start" name="trip-start" style="font-size: inherit; padding: 5px;" value="{{ start_date }}">
+                            <button name="data_button" class="data-button" id="getdataButton" style="margin-left: 15px; font-size: 16px; padding: 10px 20px;">Submit</button>
+                        </form>
+                        <p style="margin-bottom: 15px;"><strong>Cycle Duration:</strong> {{ cycle_duration }} days</p>
+                        {% if days_left >= 0  %}
+                            <p style="margin-bottom: 15px;"><strong>Days to the Harvest:</strong> {{ days_left }} days</p>
+                        {% else %} 
+                            <p style="margin-bottom: 15px;"><strong>Days to the Harvest:</strong> Overdue </p>
+                        {% endif %}
+                        <p style="margin-bottom: 15px;"><strong>Harvest Prevision Day:</strong> {{ expected_harvest }}</p>
+                    </div>                    
+                </div>
+            </div>
+        </div>                    
+
+        <!-- Prevision -->
 
         <!-- Nodes List -->
-        <div class="section white-background">
+        <div class="section gray-background">
             <div class="containerr">
                 <h2>nodes list</h2>
                 <div class="button-containerr">

@@ -197,9 +197,9 @@
                 transition: transform 0.5s;
             }
 
-                #pushToTopBtn:hover {
-                    transform: scale(1.1);
-                }
+            #pushToTopBtn:hover {
+                transform: scale(1.1);
+            }
 
             .submit-button {
                 margin-top: 10px;
@@ -218,24 +218,28 @@
             }
 
             .flex-container {
-                display: flex;
-                width: 100%;
-            }
+                    display: flex;
+                    width: 100%;
+                    text-align: center;
+                }
 
-            .left-half, .right-half {
-                flex: 1;
-                padding: 20px;
-            }
+                .left-half, .right-half {
+                    flex: 1;
+                    padding: 20px;
+                    margin-top: 10px;
+                }
 
-            .left-half {
-                text-align: center;
-                margin-left: 80px;
-            }
+                .left-half {
+                    text-align: center;
+                    margin-left: 80px;
+                    margin-left: 5%;
+                }
 
-            .right-half {
-                text-align: center;
-                margin-right: 80px;
-            }
+                .right-half {
+                    text-align: center;
+                    margin-right: 80px;
+                    margin-right: 5%;
+                }
             </style>
         {% endblock %}
             </head>
@@ -256,26 +260,30 @@
             <h2>Node Info</h2>
             <div class="flex-container">
                 <div class="left-half" style="margin-left: 250px;">
-                    <h5>Battery</h5>
-                    <div style="font-size: 18px; margin-top: 20px;"><i class="fa fa-battery-full battery-icon"></i> {{ value }} %</div>
+                    <h5 style="font-size: 24px;">Battery</h5>
+                    <div style="font-size: 20px; margin-top: 20px;">
+                        <i class="fa fa-battery-full battery-icon"></i> {{ value }} %
+                    </div>
                 </div>
                 <div class="right-half" style="margin-right: 250px;">
-                    <h5>Time Frame</h5>
+                    <h5 style="font-size: 24px;">Time Frame</h5>
                     <form id="timeFrameForm" action="/user" method="POST" style="text-align: center;">
-                        <label for="humi" style="display: block; margin-top: 10px;"></label>
-                        <select name="humidity" id="humi" size="1" style="width: 140px; padding: 5px;">
+                        <label for="humi" style="display: block; margin-top: 10px; font-size: 18px;"></label>
+                        <select name="humidity" id="humi" size="1" style="width: 140px; padding: 5px; font-size: 18px;">
                             <option value="today">Last 24 Hours</option>
                             <option value="week">Last 7 Days</option>
                             <option value="month">Last 4 Weeks</option>
                             <option value="year">Last 12 Months</option>
                         </select>
                         <br>
-                        <input type="submit" name="submit_button" value="Submit" class="submit-button">
+                        <input type="submit" name="submit_button" value="Submit" class="submit-button" style="font-size: 18px;">
                     </form>
                 </div>
             </div>
+            
         </div>
-    </div>   
+    </div>  
+    
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
@@ -309,257 +317,293 @@
     </div>
 
     <script type="text/javascript">
-        var selectedOptionText = '';
 
-        function updateCharts() {
-            var timestamps = JSON.parse('{{ timestamps | safe }}').map(function(dt) { return new Date(dt); });
-            var air_humidity = JSON.parse('{{ air_humidity | safe }}');
-            var soil_humidity = JSON.parse('{{ soil_humidity | safe }}');
-            var air_temperature = JSON.parse('{{ air_temperature | safe }}');
-            var luminosity = JSON.parse('{{ luminosity | safe }}');
+    var selectedTimeFrame = '{{ timeframe }}';
 
-            var airHumidityData = timestamps.map(function(timestamp, index) {
-                return [timestamp, air_humidity[index]];
-            });
+    var timestamps = JSON.parse('{{ timestamps | safe }}').map(function(dt) { return new Date(dt); });
+    var air_humidity = JSON.parse('{{ air_humidity | safe }}');
+    var soil_humidity = JSON.parse('{{ soil_humidity | safe }}');
 
-            var soilHumidityData = timestamps.map(function(timestamp, index) {
-                return [timestamp, soil_humidity[index]];
-            });
+    // Pair timestamps with corresponding humidity values
+    var airHumidityData = timestamps.map(function(timestamp, index) {
+        return [timestamp, air_humidity[index]];
+    });
+ 
+    var soilHumidityData = timestamps.map(function(timestamp, index) {
+        return [timestamp, soil_humidity[index]];
+    });
 
-            var airTemperatureData = timestamps.map(function(timestamp, index) {
-                return [timestamp, air_temperature[index]];
-            });
+    const t_length = Math.ceil(timestamps.length/10);
 
-            var luminosityData = timestamps.map(function(timestamp, index) {
-                return [timestamp, luminosity[index]];
-            });
+    Highcharts.chart('container1', {
 
-            const t_length = Math.ceil(timestamps.length / 10);
+    title: {
+        text: 'Air and Soil Humidity - ' + selectedTimeFrame,
+        align: 'left'
+    },
 
-            Highcharts.chart('container1', {
-                title: {
-                    text: 'Air and Soil Humidity - ' + selectedOptionText,
-                    align: 'left'
-                },
-                subtitle: {
-                    text: 'Source: SECA',
-                    align: 'left'
-                },
-                yAxis: {
-                    title: {
-                        text: 'Humidity %'
-                    }
-                },
-                xAxis: {
-                    categories: timestamps,
-                    dateTimeLabelFormats: {
-                        hour: '%H:%M',
-                        day: '%e. %b'
-                    },
-                    labels: {
-                        formatter: function() {
-                            return Highcharts.dateFormat('%H:%M', this.value) + '<br/>' + Highcharts.dateFormat('%e. %b', this.value);
-                        }
-                    },
-                    accessibility: {
-                        rangeDescription: 'Range: ' + selectedOptionText
-                    },
-                    tickInterval: t_length,
-                },
-                legend: {
-                    layout: 'vertical',
-                    align: 'right',
-                    verticalAlign: 'middle'
-                },
-                plotOptions: {
-                    series: {
-                        label: {
-                            connectorAllowed: false
-                        },
-                        pointStart: 0,
-                    }
-                },
-                series: [{
-                    name: 'Air Humidity',
-                    data: airHumidityData
-                }, {
-                    name: 'Soil Humidity',
-                    data: soilHumidityData
-                }],
-                responsive: {
-                    rules: [{
-                        condition: {
-                            maxWidth: 500
-                        },
-                        chartOptions: {
-                            legend: {
-                                layout: 'horizontal',
-                                align: 'center',
-                                verticalAlign: 'bottom'
-                            }
-                        }
-                    }]
-                }
-            });
+    subtitle: {
+        text: 'Source: SECA',
+        align: 'left'
+    },
 
-            Highcharts.chart('container2', {
-                title: {
-                    text: 'Air Temperature - ' + selectedOptionText,
-                    align: 'left'
-                },
-                subtitle: {
-                    text: 'Source: SECA',
-                    align: 'left'
-                },
-                yAxis: {
-                    title: {
-                        text: 'Degrees ºC'
-                    }
-                },
-                xAxis: {
-                    categories: timestamps,
-                    dateTimeLabelFormats: {
-                        hour: '%H:%M',
-                        day: '%e. %b'
-                    },
-                    labels: {
-                        formatter: function() {
-                            return Highcharts.dateFormat('%H:%M', this.value) + '<br/>' + Highcharts.dateFormat('%e. %b', this.value);
-                        }
-                    },
-                    accessibility: {
-                        rangeDescription: 'Range: ' + selectedOptionText
-                    },
-                    tickInterval: t_length,
-                },
-                legend: {
-                    layout: 'vertical',
-                    align: 'right',
-                    verticalAlign: 'middle'
-                },
-                plotOptions: {
-                    series: {
-                        label: {
-                            connectorAllowed: false
-                        },
-                        pointStart: 0,
-                        color: '#FDB108'
-                    }
-                },
-                series: [{
-                    name: 'Air Temperature',
-                    data: airTemperatureData
-                }],
-                responsive: {
-                    rules: [{
-                        condition: {
-                            maxWidth: 500
-                        },
-                        chartOptions: {
-                            legend: {
-                                layout: 'horizontal',
-                                align: 'center',
-                                verticalAlign: 'bottom'
-                            }
-                        }
-                    }]
-                }
-            });
-
-            Highcharts.chart('container3', {
-                title: {
-                    text: 'Luminosity - ' + selectedOptionText,
-                    align: 'left'
-                },
-                subtitle: {
-                    text: 'Source: SECA',
-                    align: 'left'
-                },
-                yAxis: {
-                    title: {
-                        text: 'Lux'
-                    }
-                },
-                xAxis: {
-                    categories: timestamps,
-                    dateTimeLabelFormats: {
-                        hour: '%H:%M',
-                        day: '%e. %b'
-                    },
-                    labels: {
-                        formatter: function() {
-                            return Highcharts.dateFormat('%H:%M', this.value) + '<br/>' + Highcharts.dateFormat('%e. %b', this.value);
-                        }
-                    },
-                    accessibility: {
-                        rangeDescription: 'Range: ' + selectedOptionText
-                    },
-                    tickInterval: t_length,
-                },
-                legend: {
-                    layout: 'vertical',
-                    align: 'right',
-                    verticalAlign: 'middle'
-                },
-                plotOptions: {
-                    series: {
-                        label: {
-                            connectorAllowed: false
-                        },
-                        pointStart: 0,
-                        color: '#d0077d'
-                    }
-                },
-                series: [{
-                    name: 'Luminosity',
-                    data: luminosityData
-                }],
-                responsive: {
-                    rules: [{
-                        condition: {
-                            maxWidth: 500
-                        },
-                        chartOptions: {
-                            legend: {
-                                layout: 'horizontal',
-                                align: 'center',
-                                verticalAlign: 'bottom'
-                            }
-                        }
-                    }]
-                }
-            });
+    yAxis: {
+        title: {
+            text: 'Humidity %'
         }
+    },
 
-        document.getElementById('timeFrameForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            var selectElement = document.getElementById('humi');
-            selectedOptionText = selectElement.options[selectElement.selectedIndex].text;
-            
-            console.log(selectedOptionText);
-            updateCharts(); // Update the charts with the new selected option text
+    xAxis: {
+        categories: timestamps,
+        dateTimeLabelFormats: {
+                hour: '%H:%M',    // Format for hours
+                day: '%e. %b'     // Format for days
+            },
+            labels: {
+                formatter: function() {
+                    return Highcharts.dateFormat('%H:%M', this.value) + '<br/>' + Highcharts.dateFormat('%e. %b', this.value);
+                }
+            },
+            accessibility: {
+                rangeDescription: 'Range: ' + selectedTimeFrame
+            },
+            tickInterval: t_length,
+        },
+
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: 0,
+        }
+    },
+
+    series: [{
+        name: 'Air Humidity',
+        data: airHumidityData
+    }, {
+        name: 'Soil Humidity',
+        data: soilHumidityData
+    }],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+    
         });
 
-        var selectedOption = localStorage.getItem('selectedOption');
-        if (selectedOption) {
-            document.getElementById('humi').value = selectedOption;
-            selectedOptionText = document.getElementById('humi').options[document.getElementById('humi').selectedIndex].text;
+
+    var air_temperature = JSON.parse('{{ air_temperature | safe }}');
+    // Pair timestamps with corresponding humidity values
+    var airTemperatureData = timestamps.map(function(timestamp, index) {
+        return [timestamp, air_temperature[index]];
+    });
+ 
+   
+    Highcharts.chart('container2', {
+    title: {
+        text: 'Air Temperature - ' + selectedTimeFrame,
+        align: 'left'
+    },
+
+    subtitle: {
+        text: 'Source: SECA',
+        align: 'left'
+    },
+
+    yAxis: {
+        title: {
+            text: 'Degrees ºC'
+        }
+    },
+
+    xAxis: {
+        categories: timestamps,
+        dateTimeLabelFormats: {
+                hour: '%H:%M',    // Format for hours
+                day: '%e. %b'     // Format for days
+            },
+            labels: {
+                formatter: function() {
+                    return Highcharts.dateFormat('%H:%M', this.value) + '<br/>' + Highcharts.dateFormat('%e. %b', this.value);
+                }
+            },
+            accessibility: {
+                rangeDescription: 'Range: ' + selectedTimeFrame
+            },
+            tickInterval: t_length,
+    },
+
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: 0,
+            color: '#FDB108'
+        }
+    },
+
+    series: [{
+        name: 'Air Temperature',
+        data: airTemperatureData
+    }],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+    });
+
+    var luminosity = JSON.parse('{{ luminosity | safe }}');
+    // Pair timestamps with corresponding humidity values
+    var luminosityData = timestamps.map(function(timestamp, index) {
+        return [timestamp, luminosity[index]];
+    });
+    
+    Highcharts.chart('container3', {
+    title: {
+        text: 'Luminosity - ' + selectedTimeFrame,
+        align: 'left'
+    },
+
+    subtitle: {
+        text: 'Source: SECA',
+        align: 'left'
+    },
+
+    yAxis: {
+        title: {
+            text: 'Lux'
+        }
+    },
+
+    xAxis: {
+        categories: timestamps,
+        dateTimeLabelFormats: {
+                hour: '%H:%M',    // Format for hours
+                day: '%e. %b'     // Format for days
+            },
+            labels: {
+                formatter: function() {
+                    return Highcharts.dateFormat('%H:%M', this.value) + '<br/>' + Highcharts.dateFormat('%e. %b', this.value);
+                }
+            },
+            accessibility: {
+                rangeDescription: 'Range: ' + selectedTimeFrame
+            },
+            tickInterval: t_length,
+    },
+
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: 0,
+            color: '#d0077d'
+        }
+    },
+
+    series: [{
+        name: 'Luminosity',
+        data: luminosityData
+    }],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+    });
+
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("pushToTopBtn").style.display = "block";
         } else {
-            selectedOptionText = document.getElementById('humi').options[document.getElementById('humi').selectedIndex].text;
+            document.getElementById("pushToTopBtn").style.display = "none";
         }
+    }
 
-        document.getElementById('humi').addEventListener('change', function() {
-            localStorage.setItem('selectedOption', this.value);
+    function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+    function topFunction() {
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Adiciona o efeito suave
         });
+    }
 
-        window.addEventListener('unload', function() {
-            document.getElementById('humi').value = "today";
-            localStorage.removeItem('selectedOption');
-        });
+    var selectedOption = localStorage.getItem('selectedOption');
+    if (selectedOption) {
+        document.getElementById('humi').value = selectedOption;
+    }
 
-        // Initial load
-        updateCharts();
-    </script>
+    document.getElementById('humi').addEventListener('change', function() {
+        localStorage.setItem('selectedOption', this.value);
+    });
+
+    window.addEventListener('unload', function() {
+    document.getElementById('humi').value = "today";
+    localStorage.removeItem('selectedOption');
+});
+    </script> 
+ 
 </body>
 </html>
