@@ -197,9 +197,9 @@
                 transition: transform 0.5s;
             }
 
-                #pushToTopBtn:hover {
-                    transform: scale(1.1);
-                }
+            #pushToTopBtn:hover {
+                transform: scale(1.1);
+            }
 
             .submit-button {
                 margin-top: 10px;
@@ -216,6 +216,30 @@
             .submit-button:hover {
                 transform: scale(1.1);
             }
+
+            .flex-container {
+                    display: flex;
+                    width: 100%;
+                    text-align: center;
+                }
+
+                .left-half, .right-half {
+                    flex: 1;
+                    padding: 20px;
+                    margin-top: 10px;
+                }
+
+                .left-half {
+                    text-align: center;
+                    margin-left: 80px;
+                    margin-left: 5%;
+                }
+
+                .right-half {
+                    text-align: center;
+                    margin-right: 80px;
+                    margin-right: 5%;
+                }
             </style>
         {% endblock %}
             </head>
