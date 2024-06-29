@@ -506,15 +506,15 @@
         <div class="section white-background">
             <div class="containerr">
                 <h2>Harvest Prevision</h2>
-                <div style="display: flex; flex-wrap: wrap; align-items: center;">
-                    <div style="flex: 2;">
+                <div style="display: flex; flex-wrap: wrap; align-items: center; ">
+                    <div style="flex: 3;">
                         <img src="static/prevision.png" style="width: 80%; margin-bottom: 10px;" alt="Prevision Image">
                     </div>
-                    <div style="flex: 1; text-align: justify; margin-left: 10px; font-size: 20px; padding: 20px; border: 2px solid #455a1b; border-radius: 10px;">
+                    <div style="flex: 2; text-align: justify; font-size: 18px; padding: 20px; border: 2px solid #455a1b; border-radius: 10px;">
                         <form action="/user" method="POST">
                             <label for="trip-start" style="margin-bottom: 15px;"><strong>Plantation Day:</strong></label>
                             <input type="date" id="trip-start" name="trip-start" style="font-size: inherit; padding: 5px;" value="{{ start_date }}">
-                            <button name="data_button" class="data-button" id="getdataButton" style="margin-left: 15px; font-size: 18px; padding: 10px 20px;">Submit</button>
+                            <button name="data_button" class="data-button" id="getdataButton" style="margin-left: 15px; font-size: 16px; padding: 10px 20px;">Submit</button>
                         </form>
                         <p style="margin-bottom: 15px;"><strong>Cycle Duration:</strong> {{ cycle_duration }} days</p>
                         {% if days_left >= 0  %}

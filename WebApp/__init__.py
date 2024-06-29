@@ -50,6 +50,7 @@ def user():
                 node = request.form["sub_button"]
                 session["node"] = node
                 days = 1
+                timeframe = "Last 24 Hours"
 
             if "submit_button" in request.form:
                 batata = request.form["submit_button"]
@@ -58,12 +59,16 @@ def user():
                 selected_option = request.form.get("humidity")
 
                 if selected_option == "today":
+                    timeframe = "Last 24 Hours"
                     days = 1
                 elif selected_option == "week":
+                    timeframe = "Last 7 Days"
                     days = 7
                 elif selected_option == "month":
+                    timeframe = "Last 4 Weeks"
                     days = 28 
                 elif selected_option == "year":
+                    timeframe = "Last 12 Months"
                     days = 365 
 
             if "data_button" in request.form:
@@ -134,7 +139,7 @@ def user():
                 air_temperature_json= json.dumps(air_temp)
                 luminosity_json = json.dumps(luminosity)
 
-                return render_template("graphics.html", value=vbat, username=username, node_list=node_list, timestamps=timestamps_json, air_humidity=air_humidity_json, soil_humidity=soil_humidity_json, air_temperature=air_temperature_json, luminosity=luminosity_json, plot_encoded=plot_encoded)
+                return render_template("graphics.html", value=vbat, username=username, node_list=node_list, timestamps=timestamps_json, air_humidity=air_humidity_json, soil_humidity=soil_humidity_json, air_temperature=air_temperature_json, luminosity=luminosity_json, plot_encoded=plot_encoded, timeframe=timeframe)
             
         else: 
 
